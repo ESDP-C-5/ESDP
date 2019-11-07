@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dzhunushev3\\source\\repos\\CRM\\CRM.csproj": {}
+    "D:\\ESDP\\ESDP\\CRM.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dzhunushev3\\source\\repos\\CRM\\CRM.csproj": {
+    "D:\\ESDP\\ESDP\\CRM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dzhunushev3\\source\\repos\\CRM\\CRM.csproj",
+        "projectUniqueName": "D:\\ESDP\\ESDP\\CRM.csproj",
         "projectName": "CRM",
-        "projectPath": "C:\\Users\\dzhunushev3\\source\\repos\\CRM\\CRM.csproj",
-        "packagesPath": "C:\\Users\\dzhunushev3\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dzhunushev3\\source\\repos\\CRM\\obj\\",
+        "projectPath": "D:\\ESDP\\ESDP\\CRM.csproj",
+        "packagesPath": "C:\\Users\\М\\.nuget\\packages\\",
+        "outputPath": "D:\\ESDP\\ESDP\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\dzhunushev3\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\М\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
