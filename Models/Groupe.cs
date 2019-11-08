@@ -12,6 +12,7 @@ namespace CRM.Models
         public string Name { get; set; }
         public string Adress { get; set; }
         public string UserId { get; set; }
+        //4thyyyyyyh
         public  int BranchId { get; set; }
         public int LevelId { get; set; }
     }
