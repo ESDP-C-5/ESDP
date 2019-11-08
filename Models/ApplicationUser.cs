@@ -8,5 +8,14 @@ namespace CRM.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public string Name { get; set; } 
+
+        public string Surname {get;set;}
+
+        public int Phone { get; set;}
+
+        public int ParentId { get; set;}
+
+        public DateTime DateOfBirth { get; set;}
     }
 }
