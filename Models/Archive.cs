@@ -9,7 +9,7 @@ namespace CRM.Models
     {
         public int UserId { get; set; }
         public DateTime DataStart { get; set; }
-        public int GroupeId { get; set; }
+        public int GroupId { get; set; }
         public string Status { get; set; }
     }
 }
