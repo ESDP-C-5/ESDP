@@ -6,14 +6,15 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CRM.Models
 {
-    public class Groupe : BaseEntity
+    public class Group : BaseEntity
     {
         private ApplicationUser User { get; set; }
         public string Name { get; set; }
         public string Adress { get; set; }
         public string UserId { get; set; }
-        //4thyyyyyyh
-        public  int BranchId { get; set; }
+        public int BranchId { get; set; }
         public int LevelId { get; set; }
+        public int TimeTableId { get; set; }
+
     }
 }
