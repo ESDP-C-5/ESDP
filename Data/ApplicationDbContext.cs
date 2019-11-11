@@ -10,6 +10,10 @@ namespace CRM.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Level> Levels { get; set; }
+        public DbSet<Branch> Branches { get; set; }
+        public DbSet<Group> Groups { get; set; }
        
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
