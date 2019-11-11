@@ -12,9 +12,7 @@ namespace CRM.Models
 
         public string Surname {get;set;}
 
-        public int Phone { get; set;}
-
-        public int ParentId { get; set;}
+        public string Phone { get; set;}
 
         public DateTime DateOfBirth { get; set;}
     }
