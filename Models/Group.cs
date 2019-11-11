@@ -15,6 +15,8 @@ namespace CRM.Models
         public int BranchId { get; set; }
         public int LevelId { get; set; }
         public int TimeTableId { get; set; }
-
+        public Branch Branch { get; set; }
+        public Level Level { get; set; }
+        public TimeTable TimeTable { get; set; }
     }
 }
