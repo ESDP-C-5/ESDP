@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\C#\\ESDP\\ESDP\\CRM.csproj": {}
+    "D:\\ESDP\\CRM.csproj": {}
   },
   "projects": {
-    "D:\\C#\\ESDP\\ESDP\\CRM.csproj": {
+    "D:\\ESDP\\CRM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\C#\\ESDP\\ESDP\\CRM.csproj",
+        "projectUniqueName": "D:\\ESDP\\CRM.csproj",
         "projectName": "CRM",
-        "projectPath": "D:\\C#\\ESDP\\ESDP\\CRM.csproj",
-        "packagesPath": "C:\\Users\\Galaxy\\.nuget\\packages\\",
-        "outputPath": "D:\\C#\\ESDP\\ESDP\\obj\\",
+        "projectPath": "D:\\ESDP\\CRM.csproj",
+        "packagesPath": "C:\\Users\\dzhunushev3\\.nuget\\packages\\",
+        "outputPath": "D:\\ESDP\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Galaxy\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\dzhunushev3\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
