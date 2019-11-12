@@ -1,4 +1,7 @@
 /.vs/
-/bin/
-./obj/Debug/*
-/obj/
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
