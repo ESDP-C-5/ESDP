@@ -258,3 +258,7 @@ D:\ESDP\obj\Debug\netcoreapp2.2\CRM.Views.pdb
 D:\ESDP\obj\Debug\netcoreapp2.2\CRM.dll
 D:\ESDP\obj\Debug\netcoreapp2.2\CRM.pdb
 D:\ESDP\obj\Debug\netcoreapp2.2\CRM.csproj.CopyComplete
+D:\ESDP\obj\Debug\netcoreapp2.2\Razor\Views\Roles\Index.g.cshtml.cs
+D:\ESDP\obj\Debug\netcoreapp2.2\Razor\Views\Roles\Create.g.cshtml.cs
+D:\ESDP\obj\Debug\netcoreapp2.2\Razor\Views\Roles\UserList.g.cshtml.cs
+D:\ESDP\obj\Debug\netcoreapp2.2\Razor\Views\Roles\Edit.g.cshtml.cs
