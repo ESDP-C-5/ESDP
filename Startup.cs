@@ -40,6 +40,7 @@ namespace CRM
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>()
+                .AddRoles<IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -96,7 +97,7 @@ namespace CRM
                 Email = "admin@admin.admin"
             };
             ApplicationUser findUser = await UserManager.FindByEmailAsync(user.Email);
-            string userPassword = "admin";
+            string userPassword = "Server*123";
             if (findUser == null)
             {
                 var createUser = await UserManager.CreateAsync(user, userPassword);
