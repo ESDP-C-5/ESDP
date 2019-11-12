@@ -47,7 +47,7 @@ namespace CRM
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider service)
         {
             if (env.IsDevelopment())
             {
@@ -73,6 +73,41 @@ namespace CRM
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            CreateUserRoles(service).Wait();
+        }
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            IdentityResult roleResultAdmin;
+            //Adding Admin Role
+            var roleAdmin = await RoleManager.RoleExistsAsync("Admin");
+            if (!roleAdmin)
+            {
+                //create the roles and seed them to the database
+                roleResultAdmin = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+
+            }
+            //Assign Admin role to the main User here we have given our newly registered 
+            //login id for Admin management
+            ApplicationUser user = new ApplicationUser
+            {
+                UserName = "admin@admin.admin",
+                Email = "admin@admin.admin"
+            };
+            ApplicationUser findUser = await UserManager.FindByEmailAsync(user.Email);
+            string userPassword = "admin";
+            if (findUser == null)
+            {
+                var createUser = await UserManager.CreateAsync(user, userPassword);
+                if (createUser.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(user, "Admin");
+                }
+            }
+
+
+
         }
     }
 }

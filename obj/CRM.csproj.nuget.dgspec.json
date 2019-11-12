@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ESDP\\ESDP\\CRM.csproj": {}
+    "D:\\ESDP\\CRM.csproj": {}
   },
   "projects": {
-    "D:\\ESDP\\ESDP\\CRM.csproj": {
+    "D:\\ESDP\\CRM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ESDP\\ESDP\\CRM.csproj",
+        "projectUniqueName": "D:\\ESDP\\CRM.csproj",
         "projectName": "CRM",
-        "projectPath": "D:\\ESDP\\ESDP\\CRM.csproj",
-        "packagesPath": "C:\\Users\\М\\.nuget\\packages\\",
-        "outputPath": "D:\\ESDP\\ESDP\\obj\\",
+        "projectPath": "D:\\ESDP\\CRM.csproj",
+        "packagesPath": "C:\\Users\\dzhunushev3\\.nuget\\packages\\",
+        "outputPath": "D:\\ESDP\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\М\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dzhunushev3\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
