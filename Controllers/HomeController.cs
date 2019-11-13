@@ -12,7 +12,7 @@ namespace CRM.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Groups");
         }
 
         public IActionResult Privacy()
