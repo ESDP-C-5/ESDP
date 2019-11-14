@@ -13,30 +13,30 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Название</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Adress" class="control-label"></label>
+                <label asp-for="Adress" class="control-label">Адрес</label>
                 <input asp-for="Adress" class="form-control" />
                 <span asp-validation-for="Adress" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
+                <label asp-for="UserId" class="control-label">Пользователь</label>
                 <select asp-for="UserId" class="form-control" asp-items="@Model.Users"></select>
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="BranchId" class="control-label"></label>
+            <div class="form-group">
+                <label asp-for="BranchId" class="control-label">Филиал</label>
                 <select asp-for="BranchId" class="form-control" asp-items="@Model.Branches"></select>
                 <span asp-validation-for="BranchId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LevelId" class="control-label"></label>
+                <label asp-for="LevelId" class="control-label">Уровень</label>
                 <select asp-for="LevelId" class="form-control" asp-items="@Model.Levels"></select>
                 <span asp-validation-for="LevelId" class="text-danger"></span>
-            </div>*@
+            </div>
             @*<div class="form-group">
             <label asp-for="UserId" class="control-label"></label>
             <input asp-for="UserId" class="form-control" />

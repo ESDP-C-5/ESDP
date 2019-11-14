@@ -17,7 +17,7 @@ namespace CRM.Controllers
     public class GroupsController : Controller
     {
         private readonly UnitOfWork _unitOfWork;
-        UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public GroupsController(UnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
@@ -55,9 +55,9 @@ namespace CRM.Controllers
         {
             var createGroupViewModel = new CreateGroupViewModel
             {
-                Levels = new SelectList(_unitOfWork.Levels.GetAllAsync().ToString(), "Id", "Name"),
-                Branches = new SelectList(_unitOfWork.Branchs.GetAllAsync().ToString(), "Id", "Name"),
-                Users = new SelectList(_userManager.Users.ToList(), "Id", "Name", "Surname")
+                Levels = new SelectList(_unitOfWork.Levels.GetAll(), "Id", "Name"),
+                Branches = new SelectList(_unitOfWork.Branchs.GetAll(), "Id", "Name"),
+                Users = new SelectList(_userManager.Users.ToList(), "Id", "Email")
             };
             return View(createGroupViewModel);
 
@@ -76,10 +76,10 @@ namespace CRM.Controllers
         {
             if (ModelState.IsValid)
             {
-                var createdGroup =  Mapper.Map<Group>(model);
-                await _unitOfWork.Groups.CreateAsync(createdGroup);
+                var group =  Mapper.Map<Group>(model);
+                await _unitOfWork.Groups.CreateAsync(group);
                 await  _unitOfWork.CompleteAsync();
-                return RedirectToAction(nameof(Details), createdGroup);
+                return RedirectToAction(nameof(Details), group);
             }
             //ViewData["BranchId"] = new SelectList(_context.Branches, "Id", "Id", @group.BranchId);
             //ViewData["LevelId"] = new SelectList(_context.Levels, "Id", "Id", @group.LevelId);
@@ -103,9 +103,9 @@ namespace CRM.Controllers
             }
 
             var model = Mapper.Map<EditGroupViewModel>(group);
-            model.Branches = new SelectList(_unitOfWork.Branchs.GetAllAsync().ToString(), "Id", "Name", model.BranchId);
-            model.Levels = new SelectList(_unitOfWork.Levels.GetAllAsync().ToString(), "Id", "Name", model.LevelId);
-            model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Name", "Surname", model.UserId);
+            model.Branches = new SelectList(_unitOfWork.Branchs.GetAll(), "Id", "Name", model.BranchId);
+            model.Levels = new SelectList(_unitOfWork.Levels.GetAll(), "Id", "Name", model.LevelId);
+            model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
 
 
             //ViewData["BranchId"] = new SelectList(_context.Branches, "Id", "Id", @group.BranchId);
@@ -144,9 +144,9 @@ namespace CRM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            model.Branches = new SelectList(_unitOfWork.Branchs.GetAllAsync().ToString(), "Id", "Name", model.BranchId);
-            model.Levels = new SelectList(_unitOfWork.Levels.GetAllAsync().ToString(), "Id", "Name", model.LevelId);
-            model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Name", "Surname", model.UserId);
+            model.Branches = new SelectList(_unitOfWork.Branchs.GetAll(), "Id", "Name", model.BranchId);
+            model.Levels = new SelectList(_unitOfWork.Levels.GetAll(), "Id", "Name", model.LevelId);
+            model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
             return View(model);
         }
 
