@@ -18,6 +18,10 @@ namespace CRM.Repositories
             _context = context;
             DbSet = _context.Set<T>();
         }
+        public IEnumerable<T> GetAll()
+        {
+            return DbSet.ToList();
+        }
 
         public async Task CreateAsync(T entity)
         {
