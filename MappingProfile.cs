@@ -18,6 +18,7 @@ namespace CRM
         private void CreateGroupsMapping()
         {
             CreateMap<CreateGroupViewModel, Group>();
+            CreateMap<Group, CreateGroupViewModel>();
             CreateMap<Group, EditGroupViewModel>();
             CreateMap<EditGroupViewModel, Group>();
         }

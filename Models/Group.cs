@@ -8,7 +8,7 @@ namespace CRM.Models
 {
     public class Group : BaseEntity
     {
-        private ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; }
         public string Name { get; set; }
         public string Adress { get; set; }
         public string UserId { get; set; }

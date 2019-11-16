@@ -79,7 +79,7 @@ namespace CRM.Controllers
                 var group =  Mapper.Map<Group>(model);
                 await _unitOfWork.Groups.CreateAsync(group);
                 await  _unitOfWork.CompleteAsync();
-                return RedirectToAction(nameof(Details), group);
+                return RedirectToAction(nameof(Index));
             }
             //ViewData["BranchId"] = new SelectList(_context.Branches, "Id", "Id", @group.BranchId);
             //ViewData["LevelId"] = new SelectList(_context.Levels, "Id", "Id", @group.LevelId);
