@@ -13,6 +13,7 @@ namespace CRM.Models
         public int LevelId { get; set; }
         public DateTime DateOfBirthday { get; set; }
         public DateTime TrialDate { get; set; }
+        public DateTime DateOfRegistration { get; set; }
         public string ParentName { get; set; }
         public string ParentLastName { get; set; }
         public string ParentFatherName { get; set; }
@@ -21,5 +22,11 @@ namespace CRM.Models
         public int GroupId { get; set; }
         public Level Level { get; set; }
         public Group Group { get; set; }
+
+
+        public Student()
+        {
+            DateOfRegistration = DateTime.Now;
+        }
     }
 }
