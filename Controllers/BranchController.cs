@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CRM.Models;
+using CRM.Services;
 using CRM.UoW;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,18 +12,17 @@ namespace CRM.Controllers
 {
     public class BranchController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly BranchService _branchService;
 
-        public BranchController(UnitOfWork unitOfWork)
+        public BranchController(BranchService branchService)
         {
-            _unitOfWork = unitOfWork;
+            _branchService = branchService;
         }
 
         // GET: Leve
         public async Task<ActionResult> Index()
         {
-            var branchUow = _unitOfWork.Branchs;
-            var branchs = await branchUow.GetAllAsync();
+            var branchs = _branchService.GetAllBranch();
 
             return View(branchs);
         }
@@ -30,8 +30,7 @@ namespace CRM.Controllers
         // GET: Leve/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            var branchUow = _unitOfWork.Branchs;
-            var branch = await branchUow.GetByIdAsync(id);
+            var branch = _branchService.GetById(id);
             return View(branch);
         }
 
@@ -48,9 +47,7 @@ namespace CRM.Controllers
         {
             if (ModelState.IsValid)
             {
-                var branchUow = _unitOfWork.Branchs;
-                await branchUow.CreateAsync(branch);
-                await _unitOfWork.CompleteAsync();
+                await _branchService.CreateBranch(branch);
                 return RedirectToAction(nameof(Index));
             }
             return View(branch);
@@ -59,8 +56,7 @@ namespace CRM.Controllers
         // GET: Leve/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var branchUow = _unitOfWork.Branchs;
-            var branch = await branchUow.GetByIdAsync(id);
+            var branch = _branchService.GetById(id);
             return View(branch);
         }
 
@@ -71,9 +67,7 @@ namespace CRM.Controllers
         {
             try
             {
-                var branchUow = _unitOfWork.Branchs;
-                branchUow.UpdateAsync(branch);
-                await _unitOfWork.CompleteAsync();
+                await _branchService.EditBranch(branch);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -85,8 +79,7 @@ namespace CRM.Controllers
         // GET: Leve/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var branchUow = _unitOfWork.Branchs;
-            var branch = await branchUow.GetByIdAsync(id);
+           var branch = await _branchService.GetById(id);
             return View(branch);
         }
 
@@ -97,9 +90,7 @@ namespace CRM.Controllers
         {
             try
             {
-                var branchUow = _unitOfWork.Branchs;
-                branchUow.RemoveAsync(branch);
-                await _unitOfWork.CompleteAsync();
+                await _branchService.DeleteBranch(branch);
                 return RedirectToAction(nameof(Index));
             } 
             catch
