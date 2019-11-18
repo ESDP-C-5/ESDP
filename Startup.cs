@@ -14,6 +14,7 @@ using CRM.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CRM.Models;
+using CRM.Services;
 using CRM.UoW;
 
 namespace CRM
@@ -48,6 +49,7 @@ namespace CRM
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddTransient<UnitOfWork>();
+            services.AddTransient<LevelService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

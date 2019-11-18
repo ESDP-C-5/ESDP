@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CRM.Models;
+using CRM.Services;
 using CRM.UoW;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,18 +12,20 @@ namespace CRM.Controllers
 {
     public class LevelController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly LevelService _levelService;
 
-        public LevelController(UnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
+        
 
         // GET: Leve
+        public LevelController(LevelService levelService)
+        {
+            _levelService = levelService;
+        }
+
         public async Task<ActionResult> Index()
         {
-            var levelUoF = _unitOfWork.Levels;
-            var levels =await levelUoF.GetAllAsync();
+
+            var levels = await _levelService.GetAllLevel();
 
             return View(levels);
         }
@@ -30,8 +33,7 @@ namespace CRM.Controllers
         // GET: Leve/Details/5
         public async Task<ActionResult>  Details(int id)
         {
-            var levelUoF = _unitOfWork.Levels;
-            var level = await levelUoF.GetByIdAsync(id);
+            var level = await _levelService.GetLevelById(id);
             return View(level);
         }
 
@@ -48,10 +50,8 @@ namespace CRM.Controllers
         {
             if (ModelState.IsValid)
             {
-                var levelUoF = _unitOfWork.Levels;
-                await levelUoF.CreateAsync(level);
-                await _unitOfWork.CompleteAsync();
-                return RedirectToAction(nameof(Index));
+               await _levelService.CreateLevel(level);
+               return RedirectToAction(nameof(Index));
             }
             return View(level);
         }
@@ -59,8 +59,7 @@ namespace CRM.Controllers
         // GET: Leve/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var levelUoF = _unitOfWork.Levels;
-            var level = await levelUoF.GetByIdAsync(id);
+            var level = await _levelService.GetLevelById(id);
             return View(level);
         }
 
@@ -71,9 +70,7 @@ namespace CRM.Controllers
         {
             try
             {
-                var levelUoF = _unitOfWork.Levels;
-                levelUoF.UpdateAsync(level);
-                await _unitOfWork.CompleteAsync();
+                await _levelService.EditLevel(level);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -85,8 +82,7 @@ namespace CRM.Controllers
         // GET: Leve/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var levelUoF = _unitOfWork.Levels;
-            var level = await levelUoF.GetByIdAsync(id);
+            var level = await _levelService.GetLevelById(id);
             return View(level);
         }
 
@@ -97,9 +93,7 @@ namespace CRM.Controllers
         {
             try
             {
-                var levelUoF = _unitOfWork.Levels;
-                levelUoF.RemoveAsync(level);
-                await _unitOfWork.CompleteAsync();
+                await _levelService.DeleteLevel(level);
                 return RedirectToAction(nameof(Index));
             }
             catch
