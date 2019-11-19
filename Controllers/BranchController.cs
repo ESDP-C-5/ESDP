@@ -22,7 +22,7 @@ namespace CRM.Controllers
         // GET: Leve
         public async Task<ActionResult> Index()
         {
-            var branchs = _branchService.GetAllBranch();
+            var branchs = await _branchService.GetAllBranch();
 
             return View(branchs);
         }
@@ -30,7 +30,7 @@ namespace CRM.Controllers
         // GET: Leve/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            var branch = _branchService.GetById(id);
+            var branch = await _branchService.GetById(id);
             return View(branch);
         }
 
@@ -56,7 +56,7 @@ namespace CRM.Controllers
         // GET: Leve/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var branch = _branchService.GetById(id);
+            var branch = await _branchService.GetById(id);
             return View(branch);
         }
 
