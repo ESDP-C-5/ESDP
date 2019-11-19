@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CRM.Models;
+using CRM.Services;
 using CRM.UoW;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,18 +12,17 @@ namespace CRM.Controllers
 {
     public class StudentController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly StudentService _studentService;
 
-        public StudentController(UnitOfWork unitOfWork)
+        public StudentController(StudentService studentService)
         {
-            _unitOfWork = unitOfWork;
+            _studentService = studentService;
         }
 
         // GET: Leve
         public async Task<ActionResult> Index()
         {
-            var studentUow = _unitOfWork.Student; 
-            var student = await studentUow.GetAllAsync();
+            var student = await _studentService.GetAllStudents();
 
             return View(student);
         }
@@ -30,8 +30,7 @@ namespace CRM.Controllers
         // GET: Student/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            var studentUow = _unitOfWork.Student;
-            var students = await studentUow.GetByIdAsync(id);
+            var students = await _studentService.GetByIdAsync(id);
             return View(students);
         }
 
@@ -48,19 +47,16 @@ namespace CRM.Controllers
         {
             if (ModelState.IsValid)
             {
-                var studentUow = _unitOfWork.Student;
-                await studentUow.CreateAsync(student);
-                await _unitOfWork.CompleteAsync();
+                await _studentService.CreateAsync(student);
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
         }
 
         // GET: Student/Edit/5
-        public async Task< ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var studentUow = _unitOfWork.Student;
-            var student = await studentUow.GetByIdAsync(id);
+            var student = await _studentService.GetByIdAsync(id);
             return View(student);
         }
 
@@ -71,9 +67,7 @@ namespace CRM.Controllers
         {
             try
             {
-                var studentUow = _unitOfWork.Student;
-                studentUow.UpdateAsync(student);
-                await _unitOfWork.CompleteAsync();
+                await _studentService.EditAsync(student);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -85,8 +79,7 @@ namespace CRM.Controllers
         // GET: Student/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var studentUow = _unitOfWork.Student;
-            var student = await studentUow.GetByIdAsync(id);
+            var student = await _studentService.GetByIdAsync(id);
             return View(student);
         }
 
@@ -97,10 +90,7 @@ namespace CRM.Controllers
         {
             try
             {
-                var studentUow = _unitOfWork.Student;
-                studentUow.RemoveAsync(student);
-                await _unitOfWork.CompleteAsync();
-
+                await _studentService.DeleteAsync(student);
                 return RedirectToAction(nameof(Index));
             }
             catch
