@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CRM.Helpers;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +21,14 @@ namespace CRM.Models
         public string PhoneNumber { get; set; }
         public string Comment { get; set; }
         public int? GroupId { get; set; }
+ 
+        public StudentStatusEnum Status { get; set; }  
         public Level Level { get; set; }
         public Group Group { get; set; }
+
+        public Student()
+        {
+            TrialDate = DateTime.Now;
+        }
     }
 }
