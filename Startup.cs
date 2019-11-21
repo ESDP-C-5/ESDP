@@ -52,6 +52,7 @@ namespace CRM
             services.AddTransient<LevelService>();
             services.AddTransient<BranchService>();
             services.AddTransient<StudentService>();
+            services.AddTransient<GroupService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,7 +10,7 @@ namespace CRM.Models
     {
         public ApplicationUser User { get; set; }
         public string Name { get; set; }
-        public string Adress { get; set; }
+        //public string Adress { get; set; }
         public string UserId { get; set; }
         public int BranchId { get; set; }
         public int LevelId { get; set; }

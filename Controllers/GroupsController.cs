@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRM.Data;
 using CRM.Models;
+using CRM.Services;
 using CRM.UoW;
 using CRM.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -16,19 +17,19 @@ namespace CRM.Controllers
 {
     public class GroupsController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly GroupService _groupService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public GroupsController(UnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
+        public GroupsController(GroupService groupService, UserManager<ApplicationUser> userManager)
         {
-            _unitOfWork = unitOfWork;
+            _groupService = groupService;
             _userManager = userManager;
         }
 
         // GET: Groups
         public async Task<IActionResult> Index()
         {
-            var groupsList = await _unitOfWork.Groups.GetAllAsync();
+            var groupsList = await _groupService.GetAllAsync();
             return View(groupsList);
         }
 
@@ -40,7 +41,7 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var group = await _unitOfWork.Groups.GetByIdAsync(id.Value);
+            var group = await _groupService.GetByIdAsync(id.Value);
 
             if (group == null)
             {
@@ -55,8 +56,8 @@ namespace CRM.Controllers
         {
             var createGroupViewModel = new CreateGroupViewModel
             {
-                Levels = new SelectList(_unitOfWork.Levels.GetAll(), "Id", "Name"),
-                Branches = new SelectList(_unitOfWork.Branchs.GetAll(), "Id", "Name"),
+                Levels = new SelectList(_groupService.GetAllBranches(), "Id", "Name"),
+                Branches = new SelectList(_groupService.GetAllLevels(), "Id", "Name"),
                 Users = new SelectList(_userManager.Users.ToList(), "Id", "Email")
             };
             return View(createGroupViewModel);
@@ -72,19 +73,19 @@ namespace CRM.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateGroupViewModel model)
+        public async Task<IActionResult> Create(Group group)
         {
             if (ModelState.IsValid)
             {
-                var group =  Mapper.Map<Group>(model);
-                await _unitOfWork.Groups.CreateAsync(group);
-                await  _unitOfWork.CompleteAsync();
-                return RedirectToAction(nameof(Index));
+                
+                var createdGroup = await _groupService.CreateAsync(group);
+                return RedirectToAction(nameof(Index), createdGroup);
             }
+            
             //ViewData["BranchId"] = new SelectList(_context.Branches, "Id", "Id", @group.BranchId);
             //ViewData["LevelId"] = new SelectList(_context.Levels, "Id", "Id", @group.LevelId);
             //ViewData["TimeTableId"] = new SelectList(_context.Set<TimeTable>(), "Id", "Id", @group.TimeTableId);
-            return View(model);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Groups/Edit/5
@@ -95,7 +96,7 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var group = await _unitOfWork.Groups.GetByIdAsync(id.Value);
+            var group = await _groupService.GetByIdAsync(id.Value);
 
             if (group == null)
             {
@@ -103,8 +104,8 @@ namespace CRM.Controllers
             }
 
             var model = Mapper.Map<EditGroupViewModel>(group);
-            model.Branches = new SelectList(_unitOfWork.Branchs.GetAll(), "Id", "Name", model.BranchId);
-            model.Levels = new SelectList(_unitOfWork.Levels.GetAll(), "Id", "Name", model.LevelId);
+            model.Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name", model.BranchId);
+            model.Levels = new SelectList(_groupService.GetAllLevels(), "Id", "Name", model.LevelId);
             model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
 
 
@@ -126,8 +127,8 @@ namespace CRM.Controllers
                 try
                 {
                     var group = Mapper.Map<Group>(model);
-                    _unitOfWork.Groups.UpdateAsync(group);
-                    await _unitOfWork.CompleteAsync();
+                    await _groupService.EditAsync(group);
+                    
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
@@ -144,8 +145,8 @@ namespace CRM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            model.Branches = new SelectList(_unitOfWork.Branchs.GetAll(), "Id", "Name", model.BranchId);
-            model.Levels = new SelectList(_unitOfWork.Levels.GetAll(), "Id", "Name", model.LevelId);
+            model.Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name", model.BranchId);
+            model.Levels = new SelectList(_groupService.GetAllLevels(), "Id", "Name", model.LevelId);
             model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
             return View(model);
         }
@@ -158,7 +159,7 @@ namespace CRM.Controllers
                 return NotFound();
             }
 
-            var group = await _unitOfWork.Groups.GetByIdAsync(id.Value);
+            var group = await _groupService.GetByIdAsync(id.Value);
 
             if (group == null)
             {
@@ -171,17 +172,16 @@ namespace CRM.Controllers
         // POST: Groups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Group group)
         {
-            var group = await _unitOfWork.Groups.GetByIdAsync(id);
-            _unitOfWork.Groups.RemoveAsync(group);
-            await _unitOfWork.CompleteAsync();
+            await _groupService.DeleteAsync(group);
+            
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GroupExists(int id)
-        {
-            return _unitOfWork.Groups.GetByIdAsync(id) != null;
-        }
+        //private bool GroupExists(int id)
+        //{
+        //    return _unitOfWork.Groups.GetByIdAsync(id) != null;
+        //}
     }
 }
