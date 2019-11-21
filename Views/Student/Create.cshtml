@@ -1,4 +1,5 @@
 ﻿@model CRM.Models.Student
+@using CRM.Helpers;
 
 @{
     ViewData["Title"] = "Create";
@@ -28,50 +29,54 @@
                 <span asp-validation-for="FatherName" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="LevelId" class="control-label"></label>
-                <select asp-for="LevelId" class="form-control" asp-items="@Model.Level"></select>
-                <span asp-validation-for="LevelId" class="text-danger"></span>
-            </div>*@
+            <label asp-for="LevelId" class="control-label"></label>
+            <select asp-for="LevelId" class="form-control" asp-items="@Model.Level"></select>
+            <span asp-validation-for="LevelId" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label asp-for="DateOfBirthday" class="control-label"></label>
+                <input asp-for="DateOfBirthday" class="form-control" />
+                <span asp-validation-for="DateOfBirthday" class="text-danger"></span>
+            </div>
             @*<div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>*@
-         <div class="form-group">
             <label asp-for="TrialDate" class="control-label"></label>
             <input asp-for="TrialDate" class="form-control" />
             <span asp-validation-for="TrialDate" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="ParentName" class="control-label"></label>
-            <input asp-for="ParentName" class="form-control" />
-            <span asp-validation-for="ParentName" class="text-danger"></span>
-        </div>
-          <div class="form-group">
-            <label asp-for="ParentLastName" class="control-label"></label>
-            <input asp-for="ParentLastName" class="form-control" />
-            <span asp-validation-for="ParentLastName" class="text-danger"></span>
-        </div>
-         <div class="form-group">
-            <label asp-for="ParentFatherName" class="control-label"></label>
-            <input asp-for="ParentFatherName" class="form-control" />
-            <span asp-validation-for="ParentFatherName" class="text-danger"></span>
-        </div>
-         <div class="form-group">
-            <label asp-for="PhoneNumber" class="control-label"></label>
-            <input asp-for="PhoneNumber" class="form-control" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
-          <div class="form-group">
-            <label asp-for="Comment" class="control-label"></label>
-            <input asp-for="Comment" class="form-control" />
-            <span asp-validation-for="Comment" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="GroupId" class="control-label"></label>
-            <select asp-for="GroupId" class ="form-control" asp-items="ViewBag.GroupId"></select>
-        </div>
-        
+        </div>*@
+            <div class="form-group">
+                <label asp-for="ParentName" class="control-label"></label>
+                <input asp-for="ParentName" class="form-control" />
+                <span asp-validation-for="ParentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentLastName" class="control-label"></label>
+                <input asp-for="ParentLastName" class="form-control" />
+                <span asp-validation-for="ParentLastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentFatherName" class="control-label"></label>
+                <input asp-for="ParentFatherName" class="form-control" />
+                <span asp-validation-for="ParentFatherName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupId" class="control-label"></label>
+                <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" asp-items="Html.GetEnumSelectList<StudentStatusEnum>()"></select>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

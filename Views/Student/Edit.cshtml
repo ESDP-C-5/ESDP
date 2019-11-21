@@ -1,4 +1,5 @@
 ﻿@model CRM.Models.Student
+@using CRM.Helpers;
 
 @{
     ViewData["Title"] = "Edit";
@@ -32,16 +33,16 @@
             <select asp-for="LevelId" class="form-control" asp-items="@Model.Level"></select>
             <span asp-validation-for="LevelId" class="text-danger"></span>
         </div>*@
-            @*<div class="form-group">
-            <label asp-for="DateOfBirth" class="control-label"></label>
-            <input asp-for="DateOfBirth" class="form-control" />
-            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-        </div>*@
             <div class="form-group">
-                <label asp-for="TrialDate" class="control-label"></label>
-                <input asp-for="TrialDate" class="form-control" />
-                <span asp-validation-for="TrialDate" class="text-danger"></span>
+                <label asp-for="DateOfBirthday" class="control-label"></label>
+                <input asp-for="DateOfBirthday" class="form-control" />
+                <span asp-validation-for="DateOfBirthday" class="text-danger"></span>
             </div>
+            @*<div class="form-group">
+            <label asp-for="TrialDate" class="control-label"></label>
+            <input asp-for="TrialDate" class="form-control" />
+            <span asp-validation-for="TrialDate" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <label asp-for="ParentName" class="control-label"></label>
                 <input asp-for="ParentName" class="form-control" />
@@ -70,6 +71,10 @@
             <div class="form-group">
                 <label asp-for="GroupId" class="control-label"></label>
                 <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" asp-items="Html.GetEnumSelectList<StudentStatusEnum>()"></select>
             </div>
 
             <input type="hidden" asp-for="Id" />
