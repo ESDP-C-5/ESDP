@@ -17,11 +17,11 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Adress" class="control-label">Адрес</label>
                 <input asp-for="Adress" class="form-control" />
                 <span asp-validation-for="Adress" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="UserId" class="control-label">Пользователь</label>
                 <select asp-for="UserId" class="form-control" asp-items="@Model.Users"></select>

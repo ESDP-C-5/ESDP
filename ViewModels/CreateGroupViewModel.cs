@@ -18,7 +18,7 @@ namespace CRM.UoW
         [Required]
         public string Name { get; set; }
         [Required]
-        public string Adress { get; set; }
+        //public string Adress { get; set; }
         public int BranchId { get; set; }
         public int LevelId { get; set; }
         public string UserId { get; set; }
