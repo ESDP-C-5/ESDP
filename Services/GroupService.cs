@@ -23,8 +23,6 @@ namespace CRM.Services
         public async Task<Group> CreateAsync(Group group)
         {
             var groups = _unitOfWork.Groups;
-            //var user = await _userManager.FindByNameAsync(userName);
-            //var createdGroup = new Group { User = user, Name = group.Name };
             await groups.CreateAsync(group);
             await _unitOfWork.CompleteAsync();
             await _userManager.Users.ToListAsync();
