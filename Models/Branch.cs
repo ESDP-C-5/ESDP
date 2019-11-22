@@ -9,7 +9,7 @@ namespace CRM.Models
 {
     public class Branch : BaseEntity
     {
-        [Required(ErrorMessage = "Данное поле не может быть пустым")]
+        [Required(ErrorMessage = "Поле названия не может быть пустым")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Поле адреса не может быть пустым")]
         public string Address { get; set; }
