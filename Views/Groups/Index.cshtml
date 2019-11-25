@@ -12,9 +12,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Name)
-            </th>
+            </th>*@
             @*<th>
                 @Html.DisplayNameFor(model => model.Adress)
             </th>*@
@@ -24,9 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Branch)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Level)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.TimeTable)
             </th>
@@ -36,9 +36,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Name)
-            </td>
+            </td*@>
             @*<td>
                 @Html.DisplayFor(modelItem => item.Adress)
             </td>*@
@@ -48,9 +48,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Branch.Id)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Level.Id)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.TimeTable.Id)
             </td>

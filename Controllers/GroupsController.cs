@@ -56,16 +56,11 @@ namespace CRM.Controllers
         {
             var createGroupViewModel = new CreateGroupViewModel
             {
-                Levels = new SelectList(_groupService.GetAllBranches(), "Id", "Name"),
+                //Levels = new SelectList(_groupService.GetAllBranches(), "Id", "Name"),
                 Branches = new SelectList(_groupService.GetAllLevels(), "Id", "Name"),
                 Users = new SelectList(_userManager.Users.ToList(), "Id", "Email")
             };
             return View(createGroupViewModel);
-
-            //ViewData["BranchId"] = new SelectList(_context.Branches, "Id", "Id");
-            //ViewData["LevelId"] = new SelectList(_context.Levels, "Id", "Id");
-            //ViewData["TimeTableId"] = new SelectList(_context.Set<TimeTable>(), "Id", "Id");
-            //return View();
         }
 
         // POST: Groups/Create
@@ -105,7 +100,7 @@ namespace CRM.Controllers
 
             var model = Mapper.Map<EditGroupViewModel>(group);
             model.Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name", model.BranchId);
-            model.Levels = new SelectList(_groupService.GetAllLevels(), "Id", "Name", model.LevelId);
+            //model.Levels = new SelectList(_groupService.GetAllLevels(), "Id", "Name", model.LevelId);
             model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
 
 
@@ -146,7 +141,7 @@ namespace CRM.Controllers
                 return RedirectToAction(nameof(Index));
             }
             model.Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name", model.BranchId);
-            model.Levels = new SelectList(_groupService.GetAllLevels(), "Id", "Name", model.LevelId);
+            //model.Levels = new SelectList(_groupService.GetAllLevels(), "Id", "Name", model.LevelId);
             model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
             return View(model);
         }

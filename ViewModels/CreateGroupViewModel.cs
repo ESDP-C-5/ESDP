@@ -10,17 +10,17 @@ namespace CRM.UoW
     public class CreateGroupViewModel
     {
         [Required]
+        [Display (Name =  "Выберите преподавателя")]
         public SelectList Users { get; set; }
         [Required]
+        [Display(Name = "Выберите филиал")]
         public SelectList Branches { get; set; }
-        [Required]
-        public SelectList Levels { get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Required]
+        
+        //public SelectList Levels { get; set; }
+        
         //public string Adress { get; set; }
         public int BranchId { get; set; }
-        public int LevelId { get; set; }
+        
         public string UserId { get; set; }
     }
 }
