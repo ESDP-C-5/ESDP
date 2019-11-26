@@ -25,15 +25,18 @@
                 @Html.DisplayNameFor(model => model.FatherName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.DateOfBirthday)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.TrialDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LevelId)
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment)
             </th>
-          
+
         </tr>
     </thead>
     <tbody>
@@ -59,7 +62,7 @@
                 @Html.DisplayFor(modelItem => item.TrialDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Level.Id)
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comment)
