@@ -17,9 +17,11 @@ namespace CRM.Models
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Длина фамилии должна быть от 2 до 50 символов")]
         public string LastName { get; set; }
         public string FatherName { get; set; }
-        [Required]
         public int? LevelId { get; set; }
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Дата рождения")]
         public DateTime DateOfBirthday { get; set; }
         public DateTime TrialDate { get; set; }
         [Required(ErrorMessage = "Не указано имя")]
@@ -30,10 +32,8 @@ namespace CRM.Models
         [Required(ErrorMessage = "Укажите номер телефона")]
         public string PhoneNumber { get; set; }
         public string Comment { get; set; }
-        [Required]
         public int? GroupId { get; set; }
         public StudentStatusEnum Status { get; set; }
-        [Required]
         public Level Level { get; set; }
         public Group Group { get; set; }
 
