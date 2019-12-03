@@ -56,8 +56,8 @@ namespace CRM.Controllers
         {
             var createGroupViewModel = new CreateGroupViewModel
             {
-                //Levels = new SelectList(_groupService.GetAllBranches(), "Id", "Name"),
-                Branches = new SelectList(_groupService.GetAllLevels(), "Id", "Name"),
+                TimeTables = new SelectList(_groupService.GetAllTimeTables(), "Id", "Day1"),
+                Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name"),
                 Users = new SelectList(_userManager.Users.ToList(), "Id", "Email")
             };
             return View(createGroupViewModel);
@@ -77,9 +77,7 @@ namespace CRM.Controllers
                 return RedirectToAction(nameof(Index), createdGroup);
             }
             
-            //ViewData["BranchId"] = new SelectList(_context.Branches, "Id", "Id", @group.BranchId);
-            //ViewData["LevelId"] = new SelectList(_context.Levels, "Id", "Id", @group.LevelId);
-            //ViewData["TimeTableId"] = new SelectList(_context.Set<TimeTable>(), "Id", "Id", @group.TimeTableId);
+            
             return RedirectToAction(nameof(Index));
         }
 
@@ -100,13 +98,9 @@ namespace CRM.Controllers
 
             var model = Mapper.Map<EditGroupViewModel>(group);
             model.Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name", model.BranchId);
-            //model.Levels = new SelectList(_groupService.GetAllLevels(), "Id", "Name", model.LevelId);
+            model.TimeTables = new SelectList(_groupService.GetAllTimeTables(), "Id", "Day1", model.TimeTableId);
             model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
-
-
-            //ViewData["BranchId"] = new SelectList(_context.Branches, "Id", "Id", @group.BranchId);
-            //ViewData["LevelId"] = new SelectList(_context.Levels, "Id", "Id", @group.LevelId);
-            //ViewData["TimeTableId"] = new SelectList(_context.Set<TimeTable>(), "Id", "Id", @group.TimeTableId);
+            
             return View(model);
         }
 
@@ -128,20 +122,12 @@ namespace CRM.Controllers
                 catch (DbUpdateConcurrencyException ex)
                 {
                     return BadRequest(ex.Message);
-
-                    //if (!GroupExists(@group.Id))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
+                   
                 }
                 return RedirectToAction(nameof(Index));
             }
             model.Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name", model.BranchId);
-            //model.Levels = new SelectList(_groupService.GetAllLevels(), "Id", "Name", model.LevelId);
+            model.TimeTables = new SelectList(_groupService.GetAllLevels(), "Id", "Name", model.TimeTableId);
             model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
             return View(model);
         }

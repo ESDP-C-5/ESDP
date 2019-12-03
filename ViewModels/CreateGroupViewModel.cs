@@ -15,12 +15,14 @@ namespace CRM.UoW
         [Required]
         [Display(Name = "Выберите филиал")]
         public SelectList Branches { get; set; }
-        
-        //public SelectList Levels { get; set; }
-        
-        //public string Adress { get; set; }
+        [Required]
+        [Display(Name = "Выберите расписание")]
+        public SelectList TimeTables { get; set; }
+
         public int BranchId { get; set; }
         
         public string UserId { get; set; }
+
+        public int TimeTableId { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace CRM.Models
         public Branch Branch { get; set; }
         public TimeTable TimeTable { get; set; }
         public List<Student> Students { get; set; }
+        
 
         public Group()
         {
