@@ -15,11 +15,12 @@ namespace CRM.Models
         public Branch Branch { get; set; }
         public TimeTable TimeTable { get; set; }
         public List<Student> Students { get; set; }
-        
+        public DateTime DateCreated { get; set; }
 
         public Group()
         {
             Students = new List<Student>();
+            DateCreated = DateTime.Now;
         }
 }
 }
