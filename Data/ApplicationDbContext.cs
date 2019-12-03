@@ -14,6 +14,7 @@ namespace CRM.Data
         public DbSet<Level> Levels { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<TimeTable> TimeTables { get; set; }
        
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
