@@ -7,7 +7,8 @@ namespace CRM.Models
 {
     public class TimeTable : BaseEntity
     {
-        public DateTime DateStarT { get; set; }
-        public DateTime DateEnd { get; set; }
+        public DayOfWeek Day1 { get; set; }
+        public DayOfWeek Day2 { get; set; }
+        public string Time { get; set; }
     }
 }
