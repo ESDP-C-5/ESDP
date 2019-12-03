@@ -14,6 +14,7 @@ namespace CRM.UoW
         public StudentRepository Student;
         public BranchRepository Branchs;
         public LevelRepository Levels;
+        public TimeTableRepository TimeTables;
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -21,6 +22,7 @@ namespace CRM.UoW
             Student = new StudentRepository(context);
             Branchs = new BranchRepository(context);
             Levels = new LevelRepository(context);
+            TimeTables = new TimeTableRepository(context);
 
         }
 
