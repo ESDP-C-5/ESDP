@@ -50,11 +50,6 @@ namespace CRM.Services
             var ttables = _unitOfWork.TimeTables;
             return ttables.GetAll();
         }
-        public IEnumerable<Level> GetAllLevels()
-        {
-            var levels = _unitOfWork.Levels;
-            return levels.GetAll();
-        }
 
         public async Task EditAsync(Group group)
         {

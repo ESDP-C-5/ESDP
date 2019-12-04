@@ -127,7 +127,7 @@ namespace CRM.Controllers
                 return RedirectToAction(nameof(Index));
             }
             model.Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name", model.BranchId);
-            model.TimeTables = new SelectList(_groupService.GetAllLevels(), "Id", "Name", model.TimeTableId);
+            model.TimeTables = new SelectList(_groupService.GetAllTimeTables(), "Id", "Name", model.TimeTableId);
             model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
             return View(model);
         }
