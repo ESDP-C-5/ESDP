@@ -13,9 +13,10 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -30,12 +31,14 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <input type="button" value="+" onclick="location.href='@Url.Action("Create", "Student")'" />
+                            <button class="icon" onclick="location.href='@Url.Action("Create", "Student")'"><i class="fa fa-plus" aria-hidden="true"></i></button />
                         </li>
-                        <form asp-action="List" asp-controller="Student" method="get">
-                            <input id="value" name="value" style="width: 200px; height: 30px;" />
-                            <input id="submit" name="submit" type="submit" style="font-weight: bolder; border-radius: 3px;" value="Поиск" />
-                        </form>
+                        <li class="nav-item">
+                            <form asp-action="Index" asp-controller="Student" method="get">
+                                <input type="search" id="search" placeholder="Поиск..." />
+                                <button class="icon"><i class="fa fa-search"></i></button>
+                            </form>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Index">Филиалы</a>
                         </li>
@@ -43,7 +46,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Оплата</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Архив</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Archive">Архив</a>
                         </li>
                     </ul>
                 </div>
