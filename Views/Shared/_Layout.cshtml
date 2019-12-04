@@ -30,22 +30,20 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <input type="button" value="+" onclick="location.href='@Url.Action("Create", "Student")'" />
+                        </li>
+                        <form asp-action="List" asp-controller="Student" method="get">
+                            <input id="value" name="value" style="width: 200px; height: 30px;" />
+                            <input id="submit" name="submit" type="submit" style="font-weight: bolder; border-radius: 3px;" value="Поиск" />
+                        </form>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Index">Филиалы</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Оплата</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Level" asp-action="Index">Level</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Index">Student</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Index">Branch</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Архив</a>
                         </li>
                     </ul>
                 </div>
