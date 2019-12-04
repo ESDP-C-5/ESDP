@@ -16,10 +16,14 @@ namespace CRM.ViewModels
         [Required]
         [Display(Name = "Выберите филиал")]
         public SelectList Branches { get; set; }
+
         [Required]
-        
+        [Display(Name = "Выберите расписание")]
+        public SelectList TimeTables { get; set; }
+
         public int BranchId { get; set; }
         
         public string UserId { get; set; }
+        public int TimeTableId { get; set; }
     }
 }

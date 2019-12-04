@@ -45,6 +45,11 @@ namespace CRM.Services
             var branchs = _unitOfWork.Branchs;
             return branchs.GetAll();
         }
+        public IEnumerable<TimeTable> GetAllTimeTables()
+        {
+            var ttables = _unitOfWork.TimeTables;
+            return ttables.GetAll();
+        }
         public IEnumerable<Level> GetAllLevels()
         {
             var levels = _unitOfWork.Levels;
