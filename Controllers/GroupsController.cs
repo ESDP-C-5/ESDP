@@ -125,8 +125,7 @@ namespace CRM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            
-            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: Groups/Delete/5
