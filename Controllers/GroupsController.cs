@@ -109,13 +109,12 @@ namespace CRM.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditGroupViewModel model)
+        public async Task<IActionResult> Edit(Group group)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var group = Mapper.Map<Group>(model);
                     await _groupService.EditAsync(group);
                     
                 }
@@ -126,10 +125,7 @@ namespace CRM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            model.Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name", model.BranchId);
-            model.TimeTables = new SelectList(_groupService.GetAllTimeTables(), "Id", "Name", model.TimeTableId);
-            model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
-            return View(model);
+
         }
 
         // GET: Groups/Delete/5

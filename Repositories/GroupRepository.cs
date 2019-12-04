@@ -14,12 +14,14 @@ namespace CRM.Repositories
         {
         }
 
-        public async Task<Group> GetByIdAsync(int id)
+        public override async Task<Group> GetByIdAsync(int id)
         {
             return await DbSet.Include(g => g.Branch)
+                    .Include(g => g.TimeTable)
                     .Include(g => g.User)
                     .SingleOrDefaultAsync(g => g.Id == id)
             ;
         }
+       
     }
 }

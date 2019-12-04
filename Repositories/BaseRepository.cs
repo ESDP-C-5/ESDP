@@ -33,7 +33,7 @@ namespace CRM.Repositories
             return DbSet.ToListAsync();
         }
 
-        public Task<T> GetByIdAsync(int id)
+        public virtual Task<T> GetByIdAsync(int id)
         {
             return DbSet.FindAsync(id);
         }
