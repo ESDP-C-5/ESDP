@@ -14,11 +14,18 @@ namespace CRM
         public MappingProfile()
         {
             CreateGroupsMapping();
+            EditGroupsMapping();
         }
         private void CreateGroupsMapping()
         {
             CreateMap<CreateGroupViewModel, Group>();
             CreateMap<Group, CreateGroupViewModel>();
+            CreateMap<Group, EditGroupViewModel>();
+            CreateMap<EditGroupViewModel, Group>();
+        }
+
+        private void EditGroupsMapping()
+        {
             CreateMap<Group, EditGroupViewModel>();
             CreateMap<EditGroupViewModel, Group>();
         }
