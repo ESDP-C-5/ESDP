@@ -30,14 +30,28 @@ namespace CRM.Services
         }
         public async Task<Group> GetByIdAsync(int id)
         {
-            var groups= _unitOfWork.Groups;
-            return await groups.GetByIdAsync(id);
+            var groups = _unitOfWork.Groups;
+            var group = await groups.GetByIdAsync(id);
+            group.User = User(group.UserId).Result;
+            return group;
         }
 
         public async Task<IEnumerable<Group>> GetAllAsync()
         {
             var groups = _unitOfWork.Groups;
-            return await groups.GetAllAsync();
+            var allgroups = await groups.GetAllAsync();
+            foreach (var group in allgroups)
+            {
+                group.User = User(group.UserId).Result;
+            }
+
+            return allgroups;
+        }
+
+        public async Task<ApplicationUser> User(string Id)
+        {
+            var user = _userManager.FindByIdAsync(Id);
+            return await user;
         }
 
         public IEnumerable<Branch> GetAllBranches()
