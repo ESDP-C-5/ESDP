@@ -24,6 +24,8 @@ namespace CRM.Models
         [Display(Name = "Дата рождения")]
         public DateTime DateOfBirthday { get; set; }
         public DateTime TrialDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime ChangeStatusDate { get; set; }
         [Required(ErrorMessage = "Не указано имя")]
         public string ParentName { get; set; }
         [Required(ErrorMessage = "Не указана фамилия")]
@@ -39,7 +41,7 @@ namespace CRM.Models
 
         public Student()
         {
-            TrialDate = DateTime.Now;
+            CreatedDate = DateTime.Now;
         }
     }
 }
