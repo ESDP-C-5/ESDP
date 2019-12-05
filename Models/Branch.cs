@@ -13,5 +13,6 @@ namespace CRM.Models
         public string Name { get; set; }
         [Required(ErrorMessage = "Поле адреса не может быть пустым")]
         public string Address { get; set; }
+        public List<Group> Groups { get; set; }
     }
 }
