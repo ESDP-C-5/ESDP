@@ -28,7 +28,7 @@ namespace CRM.Repositories
             await DbSet.AddAsync(entity);
         }
 
-        public Task<List<T>> GetAllAsync()
+        public virtual Task<List<T>> GetAllAsync()
         {
             return DbSet.ToListAsync();
         }

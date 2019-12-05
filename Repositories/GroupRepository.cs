@@ -22,6 +22,14 @@ namespace CRM.Repositories
                     .SingleOrDefaultAsync(g => g.Id == id)
             ;
         }
-       
+
+        public override async Task<List<Group>> GetAllAsync()
+        {
+            return DbSet
+                .Include(g => g.Branch)
+                .Include(g => g.TimeTable)
+                .ToList();
+        }
+
     }
 }

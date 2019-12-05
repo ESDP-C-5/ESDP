@@ -155,10 +155,5 @@ namespace CRM.Controllers
             
             return RedirectToAction(nameof(Index));
         }
-
-        //private bool GroupExists(int id)
-        //{
-        //    return _unitOfWork.Groups.GetByIdAsync(id) != null;
-        //}
     }
 }
