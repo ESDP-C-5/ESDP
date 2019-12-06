@@ -17,7 +17,6 @@ namespace CRM.Repositories
         public override async Task<Group> GetByIdAsync(int id)
         {
             return await DbSet.Include(g => g.Branch)
-                    .Include(g => g.TimeTable)
                     .Include(g => g.User)
                     .SingleOrDefaultAsync(g => g.Id == id)
             ;
@@ -27,7 +26,6 @@ namespace CRM.Repositories
         {
             return DbSet
                 .Include(g => g.Branch)
-                .Include(g => g.TimeTable)
                 .ToList();
         }
 
