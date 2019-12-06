@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CRM.Models
 {
-    public class Attendance
+    public class Attendance : BaseEntity
     {
         public int StudentId { get; set; }
         public DateTime Day { get; set; }
