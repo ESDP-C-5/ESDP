@@ -24,7 +24,7 @@ namespace CRM.UoW
             Branchs = new BranchRepository(context);
             Levels = new LevelRepository(context);
             TimeTables = new TimeTableRepository(context);
-
+            Attendances = new AttendanceRepository(context);
         }
 
 
