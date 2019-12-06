@@ -12,8 +12,8 @@ namespace CRM.Models
         public DayOfWeek Day1 { get; set; }
         [Required]
         public DayOfWeek Day2 { get; set; }
-        [RegularExpression(@"^(0[1-9]|1[0-9]|2[0-4]):[0-5][0-9]$",
-                   ErrorMessage = "Invalid Time.")]
+        [RegularExpression(@"^(0[1-9]|1[0-9]|2[0-4]):[0-5][0-9]-(0[1-9]|1[0-9]|2[0-4]):[0-5][0-9]$",
+                   ErrorMessage = "Невернное время (12:00-14:00)")]
         public string Time { get; set; }
     }
 }
