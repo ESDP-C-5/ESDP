@@ -15,6 +15,7 @@ namespace CRM.UoW
         public BranchRepository Branchs;
         public LevelRepository Levels;
         public TimeTableRepository TimeTables;
+        public AttendanceRepository Attendances;
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
