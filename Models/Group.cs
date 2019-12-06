@@ -6,14 +6,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CRM.Models
 {
-    public class Group : BaseEntity
+    public class Group : TimeTable
     {
         public ApplicationUser User { get; set; }
         public string UserId { get; set; }
         public int BranchId { get; set; }
-        public int TimeTableId { get; set; }
         public Branch Branch { get; set; }
-        public TimeTable TimeTable { get; set; }
         public List<Student> Students { get; set; }
         public DateTime DateCreated { get; set; }
 
