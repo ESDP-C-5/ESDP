@@ -18,6 +18,7 @@ namespace CRM.Repositories
         {
             return await DbSet.Include(g => g.Branch)
                     .Include(g => g.User)
+                    .Include(g =>g.TimeTable)
                     .SingleOrDefaultAsync(g => g.Id == id)
             ;
         }
@@ -26,6 +27,8 @@ namespace CRM.Repositories
         {
             return DbSet
                 .Include(g => g.Branch)
+                .Include(g => g.TimeTable)
+                .Include(g => g.User)
                 .ToList();
         }
 
