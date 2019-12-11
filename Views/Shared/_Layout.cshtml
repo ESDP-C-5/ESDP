@@ -29,33 +29,37 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <button class="icon" onclick="location.href='@Url.Action("Create", "Student")'"><i class="fa fa-plus" aria-hidden="true"></i></button />
-                        </li>
-                        <li class="nav-item">
-                            <form asp-action="List" asp-controller="Student" method="get">
-                                <input id="value" name="value" style="width: 150px; height: 30px;"/>
-                                <select id="column" name="column" style="height: 30px;">
-                                    <option>Поиск по фамилии</option>
-                                    <option>Поиск по имени</option>
-                                </select>
-                                <input id="submit" name="submit" type="submit" style="font-weight: bolder; border-radius: 5px;" value="Поиск"/>
-                            </form>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Index">Филиалы</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Оплата</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Index">Архив</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="TimeTable" asp-action="Index">TimeTable</a>
-                        </li>
-                    </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <button class="icon" onclick="location.href = '@Url.Action("Create", "Student")'"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-action="List" asp-controller="Student" method="get">
+                                    <input id="value" name="value" style="width: 150px; height: 30px;" />
+                                    <select id="column" name="column" style="height: 30px;">
+                                        <option>Поиск по фамилии</option>
+                                        <option>Поиск по имени</option>
+                                    </select>
+                                    <input id="submit" name="submit" type="submit" style="font-weight: bolder; border-radius: 5px;" value="Поиск" />
+                                </form>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Index">Филиалы</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Оплата</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Index">Архив</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TimeTable" asp-action="Index">TimeTable</a>
+                            </li>
+                        </ul>
+                    }
+                        
                 </div>
             </div>
         </nav>
