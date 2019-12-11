@@ -13,10 +13,12 @@ namespace CRM.Controllers
     public class BranchController : Controller
     {
         private readonly BranchService _branchService;
+        private readonly GroupService _groupService;
 
-        public BranchController(BranchService branchService)
+        public BranchController(BranchService branchService, GroupService groupService)
         {
             _branchService = branchService;
+            _groupService = groupService;
         }
 
         // GET: Leve
@@ -98,5 +100,11 @@ namespace CRM.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+        public async Task<IActionResult> SelectGroupesByBranchId(int Id)
+        {
+            var groupes = await _groupService.GetGroupesByBranchIdAsync(Id);
+            return PartialView("_ViewsListGroupes", groupes);
+        }
+        
     }
 }
