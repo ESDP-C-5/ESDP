@@ -58,5 +58,22 @@ namespace CRM.Services
         {
             return await _unitOfWork.Student.GetAllStudentsByGroupIdAsync(idGroup);
         }
+
+        public async Task<IEnumerable<Student>> SearchAsync(string column, string value)
+        {
+            if (value == null)
+            {
+                return GetAllStudents().Result.ToList();
+            }
+            switch (column)
+            {
+                case "Поиск по фамилии":
+                    return GetAllStudents().Result.Where(x => x.LastName.Contains(value)).ToList();
+                case "Поиск по имени":
+                    return GetAllStudents().Result.Where(x => x.Name.Contains(value)).ToList();
+                default:
+                    return GetAllStudents().Result.Where(x => x.LastName.Contains(value)).ToList();
+            }
+        }
     }
 }

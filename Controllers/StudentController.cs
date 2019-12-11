@@ -98,5 +98,23 @@ namespace CRM.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+
+        public async Task<IActionResult> List(string column, string value)
+        {
+            var students = await _studentService.SearchAsync(column, value);
+            return View(students);
+        }
+
+        public IActionResult SearchAjax()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> SearchAjaxResult(string column, string keyWord)
+        {
+            var students = await _studentService.SearchAsync(column, keyWord);
+
+            return PartialView("UserSearchResult", students);
+        }
     }
 }
