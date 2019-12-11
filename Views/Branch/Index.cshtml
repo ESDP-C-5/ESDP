@@ -11,7 +11,7 @@
         <h4>
             @foreach (var item in Model)
             {
-                <a onclick="selectBranch(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
+                <a onclick="selectGroupesByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
             }
         </h4>
     </li>
@@ -20,3 +20,14 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<div id="selectedGroupesByBranchId"></div>
+
+
+@section Scripts {
+    <script>
+        function selectGroupesByBranchId(Id) {
+            $('#selectedGroupesByBranchId').load('@Url.Action("SelectGroupesByBranchId", "Branch")?id=' + Id);
+        }
+    </script>
+}

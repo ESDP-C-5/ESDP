@@ -1,0 +1,27 @@
+@model System.Collections.Generic.IEnumerable<System.Linq.IGrouping<string,CRM.Models.Group>>
+
+<div class="row">
+    @{
+        foreach (var item in Model)
+        {
+            <div class="col-md-3">
+                @item.Key
+                @foreach (var t in item)
+                {
+                    int count = 7 - @t.Students.Count;
+                    <div>
+                        <a onclick="selectGroup(@t.Id)">@t.TimeTable.Time (@count)</a>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+<div id="SelectedStudentsBuGroupId"></div>
+
+
+<script>
+    function selectGroup(ID) {
+        $('#SelectedStudentsBuGroupId').load('@Url.Action("SelectStudentsBuGroupId", "Branch")?id=' + ID);
+    }
+</script>

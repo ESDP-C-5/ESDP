@@ -78,5 +78,11 @@ namespace CRM.Services
             groups.RemoveAsync(group);
             await _unitOfWork.CompleteAsync();
         }
+        public async Task<IEnumerable<IGrouping<string,Group>>> GetGroupesByBranchIdAsync(int branchId)
+        {
+            var groupes = await _unitOfWork.Groups.GetGroupesByBranchIdIncludeTimeTableAsync(branchId);
+            var groupedGroupes = groupes.GroupBy(x => $"{x.TimeTable.Day1}-{x.TimeTable.Day2}");
+            return groupedGroupes;
+        }
     }
 }

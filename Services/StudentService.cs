@@ -54,5 +54,9 @@ namespace CRM.Services
             studentUow.RemoveAsync(student);
             await _unitOfWork.CompleteAsync();
         }
+        public async Task<List<Student>> GetAllStudentsByGroupIdAsync(int idGroup)
+        {
+            return await _unitOfWork.Student.GetAllStudentsByGroupIdAsync(idGroup);
+        }
     }
 }
