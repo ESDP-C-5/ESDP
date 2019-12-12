@@ -1,79 +1,27 @@
-﻿@model IEnumerable<CRM.Models.Student>
+﻿@model List<Branch>
+@using CRM.Helpers
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<ul class="nav nav-tabs">
+    <li>
+        <h4>
+            @foreach (var item in Model)
+            {
+                <a onclick="SelectArchiveStudentsByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
+            }
+        </h4>
+    </li>
+</ul>
 
-<p>
-    <a asp-action="Create">Create new student</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FatherName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfBirthday)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrialDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
+<div id="SelectedArchiveStudentsByBranchId"></div>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FatherName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateOfBirthday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrialDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@section Scripts {
+    <script>
+        function SelectArchiveStudentsByBranchId(Id) {
+            $('#SelectedArchiveStudentsByBranchId').load('@Url.Action("SelectArchiveStudentsByBranchId", "Student")?id=' + Id);
         }
-    </tbody>
-</table>
-
+    </script>
+}
