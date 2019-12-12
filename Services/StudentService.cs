@@ -41,6 +41,13 @@ namespace CRM.Services
             await _unitOfWork.CompleteAsync();
         }
 
+        internal async Task<List<Student>> SelectLeadStudentsAsync()
+        {
+            var students = await _unitOfWork.Student.SelectLeadStudentsAsync();
+
+            return students;
+        }
+
         public async Task EditAsync(Student student)
         {
             var studentUow = _unitOfWork.Student;

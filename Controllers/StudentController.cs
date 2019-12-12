@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CRM.Models;
 using CRM.Services;
 using CRM.UoW;
+using CRM.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,10 +29,22 @@ namespace CRM.Controllers
             var students = await _studentService.GetArchiveStudentsByBranchIdAsync(id, status);
             return PartialView("_ArchiveStudents", students);
         }
+
+        public async Task<ActionResult> SelectLeadStudents()
+        {
+            var students = await _studentService.SelectLeadStudentsAsync();
+            return PartialView("_ArchiveLeadsStudents", students);
+        }
+        
         public async Task<ActionResult> Index()
         {
-            var branches = await _branchService.GetAllBranch();
-            return View(branches);
+            BranchesWithStudentsViewModel branchesWithStudents = new BranchesWithStudentsViewModel()
+            {
+                students = await _studentService.SelectLeadStudentsAsync(),
+
+                branches = await _branchService.GetAllBranch()
+            };
+            return View(branchesWithStudents);
         }
 
         // GET: Student/Details/5
