@@ -25,5 +25,10 @@ namespace CRM.Repositories
         {
             return await DbSet.Where(s => s.GroupId == idGroup).ToListAsync();
         }
+
+        internal async Task<List<Student>> SelectLeadStudentsAsync()
+        {
+            return await DbSet.Where(s => s.GroupId == null).ToListAsync();
+        }
     }
 }
