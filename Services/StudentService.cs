@@ -75,5 +75,20 @@ namespace CRM.Services
                     return GetAllStudents().Result.Where(x => x.LastName.Contains(value)).ToList();
             }
         }
+
+        public async Task<List<Student>> GetArchiveStudentsByBranchIdAsync(int BranchId, Helpers.StudentStatusEnum? status)
+        {
+            var groups = await _unitOfWork.Groups.GetIncludeStudentsByBranchIdAsync(BranchId);
+            var students = new List<Student>();
+            foreach (var g in groups)
+            {
+                students.AddRange(g.Students);
+            }
+            if (status != null)
+            {
+                students = students.Where(x => x.Status == status.Value).ToList();
+            }
+            return students;
+        }
     }
 }
