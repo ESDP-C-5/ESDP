@@ -59,21 +59,14 @@ namespace CRM.Services
             return await _unitOfWork.Student.GetAllStudentsByGroupIdAsync(idGroup);
         }
 
-        public async Task<IEnumerable<Student>> SearchAsync(string column, string value)
+        public async Task<IEnumerable<Student>> SearchAsync(string value)
         {
-            if (value == null)
-            {
-                return GetAllStudents().Result.ToList();
-            }
-            switch (column)
-            {
-                case "Поиск по фамилии":
-                    return GetAllStudents().Result.Where(x => x.LastName.Contains(value)).ToList();
-                case "Поиск по имени":
-                    return GetAllStudents().Result.Where(x => x.Name.Contains(value)).ToList();
-                default:
-                    return GetAllStudents().Result.Where(x => x.LastName.Contains(value)).ToList();
-            }
+            var students = await GetAllStudents();
+            students = students.Where(x => x.Name.ToUpper().Contains(value.ToUpper())
+                                           || x.PhoneNumber.ToUpper().Contains(value.ToUpper())
+                                           || x.LastName.ToUpper().Contains(value.ToUpper())
+                                           || x.ParentLastName.ToUpper().Contains(value.ToUpper())).ToList();
+            return students;
         }
 
         public async Task<List<Student>> GetArchiveStudentsByBranchIdAsync(int BranchId, Helpers.StudentStatusEnum? status)
