@@ -16,18 +16,37 @@ namespace CRM.Controllers
     public class StudentController : Controller
     {
         private readonly StudentService _studentService;
+        private readonly BranchService _branchService;
 
-        public StudentController(StudentService studentService)
+
+        public StudentController(StudentService studentService, BranchService branchService)
         {
             _studentService = studentService;
+            _branchService = branchService;
+
         }
 
-        // GET: Leve
+        public async Task<ActionResult> SelectArchiveStudentsByBranchId(int id, Helpers.StudentStatusEnum? status)
+        {
+            var students = await _studentService.GetArchiveStudentsByBranchIdAsync(id, status);
+            return PartialView("_ArchiveStudents", students);
+        }
+
+        public async Task<ActionResult> SelectLeadStudents()
+        {
+            var students = await _studentService.SelectLeadStudentsAsync();
+            return PartialView("_ArchiveLeadsStudents", students);
+        }
+        
         public async Task<ActionResult> Index()
         {
-            var student = await _studentService.GetAllStudents();
+            BranchesWithStudentsViewModel branchesWithStudents = new BranchesWithStudentsViewModel()
+            {
+                students = await _studentService.SelectLeadStudentsAsync(),
 
-            return View(student);
+                branches = await _branchService.GetAllBranch()
+            };
+            return View(branchesWithStudents);
         }
 
         // GET: Student/Details/5
@@ -117,5 +136,13 @@ namespace CRM.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+
+        public async Task<IActionResult> List(string value)
+        {
+            var students = await _studentService.SearchAsync(value);
+
+            return View("List", students);
+        }
+        
     }
 }

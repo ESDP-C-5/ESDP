@@ -48,5 +48,14 @@ namespace CRM.Repositories
                 .ToList();
         }
 
+        internal async Task<List<Group>> GetIncludeStudentsByBranchIdAsync(int branchId)
+        {
+            var item = await DbSet
+                .Include(x => x.Students)
+                .Where(b => b.BranchId == branchId)
+                .ToListAsync();
+            return item;
+        }
+
     }
 }
