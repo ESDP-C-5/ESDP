@@ -41,6 +41,13 @@ namespace CRM.Services
             await _unitOfWork.CompleteAsync();
         }
 
+        internal async Task<List<Student>> SelectLeadStudentsAsync()
+        {
+            var students = await _unitOfWork.Student.SelectLeadStudentsAsync();
+
+            return students;
+        }
+
         public async Task EditAsync(Student student)
         {
             var studentUow = _unitOfWork.Student;
@@ -53,6 +60,35 @@ namespace CRM.Services
             var studentUow = _unitOfWork.Student;
             studentUow.RemoveAsync(student);
             await _unitOfWork.CompleteAsync();
+        }
+        public async Task<List<Student>> GetAllStudentsByGroupIdAsync(int idGroup)
+        {
+            return await _unitOfWork.Student.GetAllStudentsByGroupIdAsync(idGroup);
+        }
+
+        public async Task<IEnumerable<Student>> SearchAsync(string value)
+        {
+            var students = await GetAllStudents();
+            students = students.Where(x => x.Name.ToUpper().Contains(value.ToUpper())
+                                           || x.PhoneNumber.ToUpper().Contains(value.ToUpper())
+                                           || x.LastName.ToUpper().Contains(value.ToUpper())
+                                           || x.ParentLastName.ToUpper().Contains(value.ToUpper())).ToList();
+            return students;
+        }
+
+        public async Task<List<Student>> GetArchiveStudentsByBranchIdAsync(int BranchId, Helpers.StudentStatusEnum? status)
+        {
+            var groups = await _unitOfWork.Groups.GetIncludeStudentsByBranchIdAsync(BranchId);
+            var students = new List<Student>();
+            foreach (var g in groups)
+            {
+                students.AddRange(g.Students);
+            }
+            if (status != null)
+            {
+                students = students.Where(x => x.Status == status.Value).ToList();
+            }
+            return students;
         }
     }
 }

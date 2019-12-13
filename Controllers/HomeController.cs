@@ -12,7 +12,11 @@ namespace CRM.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("Index", "Groups");
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Groups");
+            }
+            return View();
         }
 
         public IActionResult Privacy()
