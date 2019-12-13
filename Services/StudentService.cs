@@ -54,5 +54,17 @@ namespace CRM.Services
             studentUow.RemoveAsync(student);
             await _unitOfWork.CompleteAsync();
         }
+        public IEnumerable<Level> GetAllLevel()
+        {
+            var levelUoF = _unitOfWork.Levels;
+            return levelUoF.GetAll();
+        }
+
+        public IEnumerable<Group> GetAllGroup()
+        {
+            var groupsUoF = _unitOfWork.Groups;
+            var groups = groupsUoF.GetAllGroupsAllInclude();
+            return groups;
+        }
     }
 }

@@ -103,7 +103,11 @@ namespace CRM.Controllers
 
             var model = Mapper.Map<EditGroupViewModel>(group);
             model.Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name", model.BranchId);
-            model.TimeTables = new SelectList(_groupService.GetAllTimeTables(), "Id", "Day1", model.TimeTableId);
+            model.TimeTables = new SelectList(_groupService.GetAllTimeTables().Select(x => new
+            {
+                Id = x.Id,
+                Day = $"{x.Day1}-{x.Day2}"
+            }), "Id", "Day", null);
             model.Users = new SelectList(_userManager.Users.ToList(), "Id", "Email", model.UserId);
             
             return View(model);
