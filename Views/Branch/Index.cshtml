@@ -6,15 +6,16 @@
 
 <h1>Index</h1>
 
-<ul class="nav nav-tabs">
-    <li>
-        <h4>
-            @foreach (var item in Model)
-            {
-                <a onclick="selectGroupesByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
-            }
-        </h4>
-    </li>
+<ul class="nav nav-tabs ">
+
+    @foreach (var item in Model)
+    {
+        <li>
+            <h4>
+                <a class="btn-lg btn-default border border-dark " onclick="selectGroupesByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
+            </h4>
+        </li>
+    }
 
 </ul>
 <p>
