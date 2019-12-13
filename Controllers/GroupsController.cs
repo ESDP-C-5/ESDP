@@ -56,7 +56,12 @@ namespace CRM.Controllers
         {
             var createGroupViewModel = new CreateGroupViewModel
             {
-                TimeTables = new SelectList(_groupService.GetAllTimeTables(), "Id", "Day1"),
+                TimeTables = new SelectList(_groupService.GetAllTimeTables().
+                    Select(x=> new
+                    {
+                        Id = x.Id,
+                        Day = $"{x.Day1}-{x.Day2}"
+                    }), "Id", "Day", null),
                 Branches = new SelectList(_groupService.GetAllBranches(), "Id", "Name"),
                 Users = new SelectList(_userManager.Users.ToList(), "Id", "Email")
             };
