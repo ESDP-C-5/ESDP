@@ -23,6 +23,8 @@ namespace CRM.Models
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата рождения")]
         public DateTime DateOfBirthday { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime TrialDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ChangeStatusDate { get; set; }

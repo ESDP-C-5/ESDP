@@ -38,6 +38,15 @@ namespace CRM.Repositories
                 .Include((g =>g.Students))
                 .Where(g => g.BranchId == branchId).ToListAsync();
         }
+        public IEnumerable<Group> GetAllGroupsAllInclude()
+        {
+            return DbSet
+                .Include(g =>g.Branch)
+                .Include(g =>g.User)
+                .Include(g => g.TimeTable)
+                .Include(g => g.Students)
+                .ToList();
+        }
 
         internal async Task<List<Group>> GetIncludeStudentsByBranchIdAsync(int branchId)
         {
