@@ -10,7 +10,7 @@
                 {
                     int count = 7 - @t.Students.Count;
                     <div>
-                        <a onclick="selectGroup(@t.Id)">@t.TimeTable.Time (@count)</a>
+                        <a onclick="selectGroup(@t.Id)">@t.TimeTable.Time <span class="badge">@count</span></a>
                     </div>
                 }
             </div>
