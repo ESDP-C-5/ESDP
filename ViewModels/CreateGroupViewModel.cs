@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using CRM.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CRM.UoW
 {
-    public class CreateGroupViewModel
+    public class CreateGroupViewModel: TimeTable
     {
         [Required]
         [Display (Name =  "Выберите преподавателя")]
