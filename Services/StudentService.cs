@@ -96,10 +96,11 @@ namespace CRM.Services
             return levelUoF.GetAll();
         }
 
-        public IEnumerable<Group> GetAllGroup()
-        {
-            var groupsUoF = _unitOfWork.Groups;
-            var groups = groupsUoF.GetAllGroupsAllInclude();
-            return groups;
+      public IEnumerable<Group> GetAllGroup()
+      {
+          var groupsUoF = _unitOfWork.Groups;
+          var groups = groupsUoF.GetAllGroupsAllInclude();
+          return groups;
+      }
     }
 }
