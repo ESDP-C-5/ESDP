@@ -12,5 +12,12 @@ namespace CRM.Repositories
         public TimeTableRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        public async Task<TimeTable> GetIdTimeTable(TimeTable timeTable)
+        {
+            TimeTable result = DbSet.FirstOrDefault(
+                t => t.Day1 == timeTable.Day1 && t.Day2 == timeTable.Day2 && t.Time == timeTable.Time);
+            return result;
+        }
     }
 }

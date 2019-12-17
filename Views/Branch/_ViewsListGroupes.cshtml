@@ -1,13 +1,16 @@
 @model System.Collections.Generic.IEnumerable<System.Linq.IGrouping<string,CRM.Models.Group>>
 
 <div class="row">
+    
     @{
+        int branchId = @Convert.ToInt32(ViewData["BranchId"]) ;
         foreach (var item in Model)
         {
             <div class="col-md-3">
-                @item.Key
+                <h5>@item.Key</h5>
                 @foreach (var t in item)
                 {
+                    branchId = @t.BranchId;
                     int count = 7 - @t.Students.Count;
                     <div>
                         <a onclick="selectGroup(@t.Id)">@t.TimeTable.Time <span class="badge">@count</span></a>
@@ -15,6 +18,10 @@
                 }
             </div>
         }
+        <div>
+            <button onclick="ShowAddGroupForm(@branchId)">Add group</button>
+            <div id="FormAddGroup"></div>
+        </div>
     }
 </div>
 <div id="SelectedStudentsBuGroupId"></div>
@@ -25,3 +32,8 @@
         $('#SelectedStudentsBuGroupId').load('@Url.Action("SelectStudentsBuGroupId", "Branch")?id=' + ID);
     }
 </script>
+<script>
+        function ShowAddGroupForm(branchId) {
+            $('#FormAddGroup').load('@Url.Action("ShowFormForAddGroup", "Branch")?id=' + branchId);
+        }
+        </script>
