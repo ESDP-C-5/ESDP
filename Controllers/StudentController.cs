@@ -143,6 +143,22 @@ namespace CRM.Controllers
 
             return View("List", students);
         }
+
+        [Produces("application/json")]
+        public async Task<IActionResult> Search()
+        {
+            try
+            {
+                string term = HttpContext.Request.Query["term"].ToString();
+                var students = await _studentService.SearchAsync(term);
+                var names = students.Select(p => p.Name).ToList();
+                return Ok(names);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
         
     }
 }
