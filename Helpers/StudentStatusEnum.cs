@@ -9,6 +9,7 @@ namespace CRM.Helpers
     {
             studying = 1,
             archive,
-            interested
+            interested,
+            trial 
     }
 }
