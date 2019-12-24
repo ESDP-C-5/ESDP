@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CRM.Helpers;
 
 namespace CRM.Services
 {
     public class StudentService
     {
-
         private readonly UnitOfWork _unitOfWork;
 
         public StudentService(UnitOfWork unitOfWork)
@@ -35,7 +35,6 @@ namespace CRM.Services
 
         public async Task CreateAsync(Student student)
         {
-
             var studentUow = _unitOfWork.Student;
             await studentUow.CreateAsync(student);
             await _unitOfWork.CompleteAsync();
@@ -61,6 +60,7 @@ namespace CRM.Services
             studentUow.RemoveAsync(student);
             await _unitOfWork.CompleteAsync();
         }
+
         public async Task<List<Student>> GetAllStudentsByGroupIdAsync(int idGroup)
         {
             return await _unitOfWork.Student.GetAllStudentsByGroupIdAsync(idGroup);
@@ -76,7 +76,7 @@ namespace CRM.Services
             return students;
         }
 
-        public async Task<List<Student>> GetArchiveStudentsByBranchIdAsync(int BranchId, Helpers.StudentStatusEnum? status)
+        public async Task<List<Student>> GetArchiveStudentsByBranchIdAsync(int BranchId)
         {
             var groups = await _unitOfWork.Groups.GetIncludeStudentsByBranchIdAsync(BranchId);
             var students = new List<Student>();
@@ -84,23 +84,43 @@ namespace CRM.Services
             {
                 students.AddRange(g.Students);
             }
-            if (status != null)
-            {
-                students = students.Where(x => x.Status == status.Value).ToList();
-            }
+
+            students = students.Where(x => x.Status == StudentStatusEnum.archive).ToList();
+
             return students;
         }
-      public IEnumerable<Level> GetAllLevel()
+
+        public IEnumerable<Level> GetAllLevel()
         {
             var levelUoF = _unitOfWork.Levels;
             return levelUoF.GetAll();
         }
 
-      public IEnumerable<Group> GetAllGroup()
-      {
-          var groupsUoF = _unitOfWork.Groups;
-          var groups = groupsUoF.GetAllGroupsAllInclude();
-          return groups;
-      }
+        public IEnumerable<Group> GetAllGroup()
+        {
+            var groupsUoF = _unitOfWork.Groups;
+            var groups = groupsUoF.GetAllGroupsAllInclude();
+            return groups;
+        }
+
+        public async Task<List<Student>> SelectStudyingStudentsAsync()
+        {
+            var students = await _unitOfWork.Student.SelectStudyingStudentsAsync();
+            return students;
+        }
+
+        public async Task<List<Student>> GetStudingStudentsByBranchIdAsync(int BranchId)
+        {
+            var groups = await _unitOfWork.Groups.GetIncludeStudentsByBranchIdAsync(BranchId);
+            var students = new List<Student>();
+            foreach (var g in groups)
+            {
+                students.AddRange(g.Students);
+            }
+
+            students = students.Where(x => x.Status == StudentStatusEnum.studying).ToList();
+
+            return students;
+        }
     }
 }
