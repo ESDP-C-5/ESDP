@@ -26,16 +26,27 @@ namespace CRM.Controllers
 
         }
 
-        public async Task<ActionResult> SelectArchiveStudentsByBranchId(int id, Helpers.StudentStatusEnum? status)
+        public async Task<ActionResult> SelectArchiveStudentsByBranchId(int id)
         {
-            var students = await _studentService.GetArchiveStudentsByBranchIdAsync(id, status);
+            var students = await _studentService.GetArchiveStudentsByBranchIdAsync(id);
             return PartialView("_ArchiveStudents", students);
         }
-
+        public async Task<ActionResult> SelectStudingStudentsByBranchId(int id)
+        {
+            var students = await _studentService.GetStudingStudentsByBranchIdAsync(id);
+            return PartialView("_StudingStudents", students);
+        }
+        
         public async Task<ActionResult> SelectLeadStudents()
         {
             var students = await _studentService.SelectLeadStudentsAsync();
-            return PartialView("_ArchiveLeadsStudents", students);
+            return View(students);
+        }
+        public async Task<ActionResult> SelectStudyingStudents()
+        {
+            var students = await _studentService.SelectStudyingStudentsAsync();
+            ViewData["Branches"] = await _branchService.GetAllBranch();
+            return View(students);
         }
         
         public async Task<ActionResult> Index()

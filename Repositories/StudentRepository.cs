@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CRM.Helpers;
 
 namespace CRM.Repositories
 {
@@ -28,7 +29,12 @@ namespace CRM.Repositories
 
         internal async Task<List<Student>> SelectLeadStudentsAsync()
         {
-            return await DbSet.Where(s => s.GroupId == null).ToListAsync();
+            return await DbSet.Where(s => s.Status == StudentStatusEnum.interested).ToListAsync();
+        }
+
+        public async Task<List<Student>> SelectStudyingStudentsAsync()
+        {
+            return await DbSet.Where(s => s.Status == StudentStatusEnum.studying).ToListAsync();
         }
     }
 }
