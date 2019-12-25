@@ -24,7 +24,9 @@ namespace CRM.Repositories
         }
         public async Task<List<Student>> GetAllStudentsByGroupIdAsync(int idGroup)
         {
-            return await DbSet.Where(s => s.GroupId == idGroup).ToListAsync();
+            return await DbSet.Where(s => s.GroupId == idGroup && 
+                                          s.Status == StudentStatusEnum.studying || 
+                                          s.Status == StudentStatusEnum.trial).ToListAsync();
         }
 
         internal async Task<List<Student>> SelectLeadStudentsAsync()
@@ -35,6 +37,19 @@ namespace CRM.Repositories
         public async Task<List<Student>> SelectStudyingStudentsAsync()
         {
             return await DbSet.Where(s => s.Status == StudentStatusEnum.studying).ToListAsync();
+        }
+
+        public async Task<List<Student>> GetAllStudentsByArchiveAsync()
+        {
+            return await DbSet.Where(s => s.Status == StudentStatusEnum.archive).ToListAsync();
+        }
+
+        public async Task<List<Student>> GetStudentsByGroupeIdByStudentStatusAsync(int groupeId)
+        {
+            return await DbSet.Where(s =>
+                    s.GroupId == groupeId && s.Status == StudentStatusEnum.studying ||
+                    s.Status == StudentStatusEnum.trial)
+                .ToListAsync();
         }
     }
 }

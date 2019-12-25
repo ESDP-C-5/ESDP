@@ -81,6 +81,10 @@ namespace CRM.Services
         public async Task<IEnumerable<IGrouping<string,Group>>> GetGroupesByBranchIdAsync(int branchId)
         {
             var groupes = await _unitOfWork.Groups.GetGroupesByBranchIdIncludeTimeTableAsync(branchId);
+            foreach (var groupe in groupes)
+            {
+                groupe.Students = await _unitOfWork.Student.GetStudentsByGroupeIdByStudentStatusAsync(groupe.Id);
+            }
             var groupedGroupes = groupes.GroupBy(x => $"{x.TimeTable.Day1}-{x.TimeTable.Day2}");
             return groupedGroupes;
         }
