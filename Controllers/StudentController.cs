@@ -53,7 +53,7 @@ namespace CRM.Controllers
         {
             BranchesWithStudentsViewModel branchesWithStudents = new BranchesWithStudentsViewModel()
             {
-                students = await _studentService.SelectLeadStudentsAsync(),
+                students = await _studentService.GetAllStudentsByArchive(),
 
                 branches = await _branchService.GetAllBranch()
             };

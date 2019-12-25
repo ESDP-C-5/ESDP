@@ -35,7 +35,6 @@ namespace CRM.Repositories
         {
             return await DbSet
                 .Include(g =>g.TimeTable)
-                .Include((g =>g.Students))
                 .Where(g => g.BranchId == branchId).ToListAsync();
         }
         public IEnumerable<Group> GetAllGroupsAllInclude()

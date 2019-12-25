@@ -122,5 +122,11 @@ namespace CRM.Services
 
             return students;
         }
+
+        public async Task<List<Student>> GetAllStudentsByArchive()
+        {
+            var students = await _unitOfWork.Student.GetAllStudentsByArchiveAsync();
+            return students;
+        }
     }
 }
