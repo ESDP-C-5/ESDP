@@ -1,4 +1,4 @@
-@model IEnumerable<CRM.Models.Student>
+﻿@model IEnumerable<CRM.Models.Student>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,34 +8,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                ФИО Ребенка
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                Дата Рождения
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FatherName)
+                Дата Записи
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateOfBirthday)
+                ФИО Родителя
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
+                Номер телефона
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ParentName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParentLastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParentFatherName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
+                Статус
             </th>
         </tr>
     </thead>
@@ -46,12 +34,8 @@
             {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
+                @Html.DisplayFor(modelItem => item.Name)
                 @Html.DisplayFor(modelItem => item.FatherName)
             </td>
             <td>
@@ -61,15 +45,11 @@
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ParentName)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.ParentLastName)
-            </td>
-            <td>
+                @Html.DisplayFor(modelItem => item.ParentName)
                 @Html.DisplayFor(modelItem => item.ParentFatherName)
             </td>
-            <td>
+           <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
@@ -77,13 +57,13 @@
             </td>
 
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <a asp-action="Details" asp-route-id="@item.Id">Детали</a> 
             </td>
             <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a> 
             </td>
         </tr>
             }
