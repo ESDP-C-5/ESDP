@@ -19,46 +19,56 @@
 <div id="SelectedArchiveStudentsByBranchId">
     <table class="table table-bordered">
         <thead>
-        <tr>
-            <th>
-                #Телефон
-            </th>
-            <th>
-                ФИО Родителя
-            </th>
-            <th>
-                Дата Записи
-            </th>
-            <th>
-                Дата Пробного
-            </th>
-            <th>
-                ФИО Ребенка
-            </th>
-            <th>
-                Дата Рождения
-            </th>
-            <th>
-                Уровень
-            </th>
-            <th>
-                Комментарии
-            </th>
-            <th>
-                Дата Переноса в Архив
-            </th>
-            <th>
-                Группа
-            </th>
+            <tr>
+                <th>
+                    ФИО Ребенка
+                </th>
+                <th>
+                    Дата Рождения
+                </th>
+                <th>
+                    Дата Записи
+                </th>
+                <th>
+                    Группа
+                </th>
+                <th>
+                    ФИО Родителя
+                </th>
+                <th>
+                    Телефон
+                </th>
+                <th>
+                    Дата Пробного урока
+                </th>
+                <th>
+                    Уровень
+                </th>
+                <th>
+                    Комментарии
+                </th>
+                <th>
+                    Дата Переноса в Архив
+                </th>
 
-        </tr>
+            </tr>
         </thead>
         <tbody>
         @foreach (var item in Model.students)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    @Html.DisplayFor(modelItem => item.LastName)
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Group)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ParentLastName)
@@ -66,17 +76,10 @@
                     @Html.DisplayFor(modelItem => item.ParentFatherName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TrialDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfBirthday)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Level.Name)
@@ -88,10 +91,7 @@
                     @Html.DisplayFor(modelItem => item.ChangeStatusDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Group)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Детали</a>
                 </td>
             </tr>
         }
