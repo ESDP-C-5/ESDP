@@ -10,11 +10,14 @@
 
     @foreach (var item in Model)
     {
-        <li>
-            <h4>
-                <a class="btn-lg btn-default border border-dark " onclick="selectGroupesByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
-            </h4>
-        </li>
+    <li>
+        <h4>
+            <a class="btn-lg btn-default border border-dark " onclick="selectGroupesByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
+        </h4>
+        <h4>
+            <a class=" btn btn-secondary " onclick="selectGroupesByBranchIdForAttendance(@item.Id)">@Html.DisplayFor(modelItem => item.Name) (attendance)</a>
+        </h4>
+    </li>
     }
 
 </ul>
@@ -29,6 +32,12 @@
     <script>
         function selectGroupesByBranchId(Id) {
             $('#selectedGroupesByBranchId').load('@Url.Action("SelectGroupesByBranchId", "Branch")?id=' + Id);
+        }
+    </script>
+
+    <script>
+        function selectGroupesByBranchIdForAttendance(Id) {
+            $('#selectedGroupesByBranchId').load('@Url.Action("GetGroupesByBranchId", "Attendance")?id=' + Id);
         }
     </script>
 }

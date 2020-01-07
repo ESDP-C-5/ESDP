@@ -11,10 +11,14 @@ namespace CRM.Controllers
     public class AttendanceController : Controller
     {
         private readonly AttendanceService _attendanceService;
+        private readonly GroupService _groupService;
+        private readonly StudentService _studentService;
 
-        public AttendanceController(AttendanceService attendanceService)
+        public AttendanceController(AttendanceService attendanceService, GroupService groupService, StudentService studentService)
         {
             _attendanceService = attendanceService;
+            _groupService = groupService;
+            _studentService = studentService;
         }
 
         public async Task<ActionResult> Index()
@@ -94,6 +98,12 @@ namespace CRM.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        public async Task<IActionResult> GetGroupesByBranchId(int Id)
+        {
+            var groupes = await _groupService.GetGroupesByBranchIdAsync(Id);
+            return PartialView("_ViewGroupsByBranchId", groupes);
         }
     }
 }
