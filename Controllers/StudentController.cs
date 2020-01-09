@@ -162,7 +162,7 @@ namespace CRM.Controllers
             {
                 string term = HttpContext.Request.Query["term"].ToString();
                 var students = await _studentService.SearchAsync(term);
-                var names = students.Select(p => p.Name).ToList();
+                var names = students.Select(p => p.Name ?? p.PhoneNumber ?? p.LastName ?? p.ParentLastName).ToList();
                 return Ok(names);
             }
             catch
