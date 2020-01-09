@@ -25,8 +25,8 @@ namespace CRM.Repositories
         public async Task<List<Student>> GetAllStudentsByGroupIdAsync(int idGroup)
         {
             return await DbSet.Where(s => s.GroupId == idGroup && 
-                                          s.Status == StudentStatusEnum.studying || 
-                                          s.Status == StudentStatusEnum.trial).ToListAsync();
+                                          (s.Status == StudentStatusEnum.studying || 
+                                          s.Status == StudentStatusEnum.trial)).ToListAsync();
         }
 
         internal async Task<List<Student>> SelectLeadStudentsAsync()
@@ -47,8 +47,8 @@ namespace CRM.Repositories
         public async Task<List<Student>> GetStudentsByGroupeIdByStudentStatusAsync(int groupeId)
         {
             return await DbSet.Where(s =>
-                    s.GroupId == groupeId && s.Status == StudentStatusEnum.studying ||
-                    s.Status == StudentStatusEnum.trial)
+                    s.GroupId == groupeId && (s.Status == StudentStatusEnum.studying ||
+                    s.Status == StudentStatusEnum.trial))
                 .ToListAsync();
         }
     }
