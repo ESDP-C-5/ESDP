@@ -69,10 +69,10 @@ namespace CRM.Services
         public async Task<IEnumerable<Student>> SearchAsync(string value)
         {
             var students = await GetAllStudents();
-            students = students.Where(x => x.Name.ToUpper().Contains(value.ToUpper())
-                                           || x.PhoneNumber.ToUpper().Contains(value.ToUpper())
-                                           || x.LastName.ToUpper().Contains(value.ToUpper())
-                                           || x.ParentLastName.ToUpper().Contains(value.ToUpper())).ToList();
+            students = students.Where(x => (x.Name?.ToUpper() ?? String.Empty).Contains(value.ToUpper())
+                                           || (x.PhoneNumber?.ToUpper() ?? String.Empty).Contains(value.ToUpper())
+                                           || (x.LastName?.ToUpper() ?? String.Empty).Contains(value.ToUpper())
+                                           || (x.ParentLastName?.ToUpper() ?? String.Empty).Contains(value.ToUpper())).ToList();
             return students;
         }
 
