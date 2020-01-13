@@ -19,6 +19,7 @@ namespace CRM.Repositories
         {
             return await DbSet.Include(s => s.Level)
                     .Include(s => s.Group)
+                    .Include(s=>s.Comments)
                     .SingleOrDefaultAsync(g => g.Id == id)
             ;
         }
