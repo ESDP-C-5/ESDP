@@ -6,5 +6,6 @@ namespace CRM.ViewModels
     public class CreateStudentViewModel : Student
     {
         public SelectList Levels { get; set; }
+        public string Comment { get; set; }
     }
 }
