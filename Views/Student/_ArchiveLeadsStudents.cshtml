@@ -26,7 +26,7 @@
                 @Html.DisplayNameFor(model => model[0].Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].Comment)
+                @Html.DisplayNameFor(model => model[0].Comments)
             </th>
 
         </tr>
@@ -57,7 +57,7 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Comment)
+                    @Html.DisplayFor(modelItem => item.Comments)
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a>

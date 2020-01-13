@@ -56,6 +56,7 @@ namespace CRM
             services.AddTransient<GroupService>();
             services.AddTransient<TimeTableService>();
             services.AddTransient<AttendanceService>();
+            services.AddTransient<CommentService>();
 
             Mapper.Initialize(config => config.AddProfile(new MappingProfile()));
         }

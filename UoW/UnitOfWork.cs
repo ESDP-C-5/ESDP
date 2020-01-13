@@ -17,6 +17,7 @@ namespace CRM.UoW
         public TimeTableRepository TimeTables;
         public AttendanceRepository Attendances;
         public JournalRepository Journals;
+        public CommentRepository Comments;
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -27,6 +28,7 @@ namespace CRM.UoW
             TimeTables = new TimeTableRepository(context);
             Attendances = new AttendanceRepository(context);
             Journals = new JournalRepository(context);
+            Comments = new CommentRepository(context);
         }
 
 

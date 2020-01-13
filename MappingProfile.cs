@@ -16,6 +16,13 @@ namespace CRM
             CreateGroupsMapping();
             EditGroupsMapping();
             EditStudentMapping();
+            StudentViewModelMapping();
+        }
+
+        private void StudentViewModelMapping()
+        {
+            CreateMap<StudentViewModel, Comment>();
+            CreateMap<Comment, StudentViewModel>();
         }
         private void CreateGroupsMapping()
         {
