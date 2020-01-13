@@ -27,7 +27,7 @@ namespace CRM.Models
         public string ParentFatherName { get; set; }
         [Required(ErrorMessage = "Укажите номер телефона")]
         public string PhoneNumber { get; set; }
-        public string Comment { get; set; }
+        public List<Comment> Comments { get; set; }
         public int? GroupId { get; set; }
         public StudentStatusEnum Status { get; set; }
         public Level Level { get; set; }
@@ -36,6 +36,8 @@ namespace CRM.Models
         public Student()
         {
             CreatedDate = DateTime.Now;
+
+            Comments = new List<Comment>();
         }
     }
 }
