@@ -17,12 +17,14 @@ namespace CRM.Controllers
     {
         private readonly StudentService _studentService;
         private readonly BranchService _branchService;
+        private readonly CommentService _commentService;
 
 
-        public StudentController(StudentService studentService, BranchService branchService)
+        public StudentController(StudentService studentService, BranchService branchService, CommentService commentService)
         {
             _studentService = studentService;
             _branchService = branchService;
+            _commentService = commentService;
 
         }
 
@@ -80,15 +82,34 @@ namespace CRM.Controllers
         // POST: Student/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Student student)
+        public async Task<ActionResult> Create(CreateStudentViewModel student)
         {
             if (ModelState.IsValid)
             {
-                await _studentService.CreateAsync(student);
-                return RedirectToAction(nameof(Index));
+                Student newStudent = new Student()
+                {
+                    Name = student.Name,
+                    LastName = student.LastName,
+                    FatherName = student.FatherName,
+                    PhoneNumber = student.PhoneNumber,
+                    DateOfBirthday = student.DateOfBirthday,
+                    TrialDate = student.TrialDate,
+                    ParentName = student.ParentName,
+                    ParentLastName = student.ParentLastName,
+                    ParentFatherName = student.ParentFatherName
+                };
+                var studentId = await _studentService.CreateAsyncReturnId(student);
+                Comment comment = new Comment
+                {
+                    StudentId = studentId,
+                    Text = student.Comment,
+                    Create = DateTime.Now
+                };
+                await _commentService.CreateAsync(comment);
+                return RedirectToAction(nameof(SelectLeadStudents));
             }
 
-            return RedirectToAction(nameof(Index));
+            return View(student);
         }
 
         // GET: Student/Edit/5
@@ -112,7 +133,7 @@ namespace CRM.Controllers
         // POST: Student/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Student student)
+        public async Task<ActionResult> Edit(EditStudentViewModel student)
         {
             try
             {
