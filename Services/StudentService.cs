@@ -9,6 +9,8 @@ using CRM.Helpers;
 using CRM.Strategy;
 using CRM.ViewModels;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using CRM.ViewModels;
+using AutoMapper;
 
 namespace CRM.Services
 {
@@ -42,8 +44,18 @@ namespace CRM.Services
         public async Task CreateAsync(Student student)
         {
             var studentUow = _unitOfWork.Student;
+            student.Status = StudentStatusEnum.interested;
             await studentUow.CreateAsync(student);
             await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task<int> CreateAsyncReturnId(Student student)
+        {
+            var studentUow = _unitOfWork.Student;
+            student.Status = StudentStatusEnum.interested;
+            await studentUow.CreateAsync(student);
+            await _unitOfWork.CompleteAsync();
+            return student.Id;
         }
 
         internal async Task<List<Student>> SelectLeadStudentsAsync()
@@ -51,6 +63,29 @@ namespace CRM.Services
             var students = await _unitOfWork.Student.SelectLeadStudentsAsync();
 
             return students;
+        }
+        public async Task EditAsync(StudentViewModel student)
+        {
+            var studentUow = _unitOfWork.Student;
+            var studentMapping = Mapper.Map<Student>(student);
+            studentUow.UpdateAsync(studentMapping);
+            await _unitOfWork.CompleteAsync();
+            if (student.Comment != null)
+            {
+                await CreateComment(student);
+            }
+        }
+
+        private async Task CreateComment(StudentViewModel student)
+        {
+            Comment comment = new Comment
+            {
+                Text = student.Comment,
+                StudentId = student.Id,
+                Create = DateTime.Now
+            };
+            await _unitOfWork.Comments.CreateAsync(comment);
+            await _unitOfWork.CompleteAsync();
         }
         public async Task DeleteAsync(Student student)
         {

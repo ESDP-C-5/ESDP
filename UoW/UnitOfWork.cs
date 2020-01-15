@@ -19,6 +19,8 @@ namespace CRM.UoW
         public JournalRepository Journals;
         public PaymentRepository Payments;
         public StudentPaymentAndPeriodRepository StudentPaymentAndPeriods;
+        public CommentRepository Comments;
+
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -31,6 +33,7 @@ namespace CRM.UoW
             TimeTables = new TimeTableRepository(context);
             Attendances = new AttendanceRepository(context);
             Journals = new JournalRepository(context);
+            Comments = new CommentRepository(context);
         }
 
 
