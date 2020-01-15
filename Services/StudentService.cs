@@ -4,7 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CRM.Helpers;
+using CRM.Strategy;
+using CRM.ViewModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using CRM.ViewModels;
 using AutoMapper;
 
@@ -13,10 +17,12 @@ namespace CRM.Services
     public class StudentService
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly PaymentPeriodService _paymentPeriodService;
 
-        public StudentService(UnitOfWork unitOfWork)
+        public StudentService(UnitOfWork unitOfWork, PaymentPeriodService paymentPeriodService)
         {
             _unitOfWork = unitOfWork;
+            _paymentPeriodService = paymentPeriodService;
         }
 
         public async Task<List<Student>> GetAllStudents()
@@ -58,7 +64,6 @@ namespace CRM.Services
 
             return students;
         }
-
         public async Task EditAsync(StudentViewModel student)
         {
             var studentUow = _unitOfWork.Student;
@@ -82,7 +87,6 @@ namespace CRM.Services
             await _unitOfWork.Comments.CreateAsync(comment);
             await _unitOfWork.CompleteAsync();
         }
-
         public async Task DeleteAsync(Student student)
         {
             var studentUow = _unitOfWork.Student;
@@ -156,6 +160,74 @@ namespace CRM.Services
         {
             var students = await _unitOfWork.Student.GetAllStudentsByArchiveAsync();
             return students;
+        }
+        public async Task EditAsync(EditStudentViewModel student)
+        {
+            //StudentStatusEnum? studentStatusEnum = _unitOfWork.Student.GetStudentStatusByStudentId(student.Id);
+            if (student.Status != student.StudentStatusEnum)
+            {
+               // studentStatusEnum = null;
+                var something = await GetStudentInterface(student.StudentStatusEnum);
+
+                student.IStatusStudent = something;
+                IStatusStudent statusStudent = null;
+                switch (student.Status)
+                {
+                    case StudentStatusEnum.interested:
+                        statusStudent = new StatusInterested(_unitOfWork);
+                        break;
+                    case StudentStatusEnum.trial:
+                       statusStudent = new StatusTrial(_unitOfWork);
+                        break;
+                    case StudentStatusEnum.studying:
+                        statusStudent = new StatusStudying(_unitOfWork);
+                        break;
+                    case StudentStatusEnum.archive:
+                        statusStudent = new StatusArchive();
+                        break;
+                    default:
+                        break;
+                }
+              //  _unitOfWork.Dispose();
+                statusStudent?.CreatePeriod(student);
+                var model = Mapper.Map<Student>(student);
+                _unitOfWork.Student.UpdateAsync(model);
+                await _unitOfWork.CompleteAsync();
+            }
+            else
+            {
+                var model = Mapper.Map<Student>(student);
+                _unitOfWork.Student.UpdateAsync(model);
+                await _unitOfWork.CompleteAsync();
+            }
+
+/*            _unitOfWork.Student.UpdateAsync(student);
+            await _unitOfWork.CompleteAsync();*/
+        }
+
+        private async Task<IStatusStudent> GetStudentInterface(StudentStatusEnum statusEnum)
+        {
+            switch (statusEnum)
+            {
+                case StudentStatusEnum.interested:
+                    return new StatusInterested(_unitOfWork);
+                    break;
+                case StudentStatusEnum.trial:
+                    return new StatusTrial(_unitOfWork);
+                    break;
+                case StudentStatusEnum.studying:
+                    return new StatusStudying(_unitOfWork);
+                    break;
+                case StudentStatusEnum.archive:
+                    return new StatusArchive();
+                    break;
+                default: throw new Exception();
+            }
+        }
+        private async void UpdateAndCompleteAsync(Student student)
+        {
+            _unitOfWork.Student.UpdateAsync(student);
+            await _unitOfWork.CompleteAsync();
         }
     }
 }

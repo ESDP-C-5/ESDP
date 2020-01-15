@@ -16,6 +16,7 @@ namespace CRM
             CreateGroupsMapping();
             EditGroupsMapping();
             EditStudentMapping();
+            StudentPaymentViewModel();
             StudentViewModelMapping();
         }
 
@@ -42,6 +43,11 @@ namespace CRM
         {
             CreateMap<Student, EditStudentViewModel>();
             CreateMap<EditStudentViewModel, Student>();
+        }
+        private void StudentPaymentViewModel()
+        {
+            CreateMap<Student, StudentPaymentViewModel>();
+            CreateMap<StudentPaymentViewModel, Student>();
         }
     }
 }

@@ -4,14 +4,16 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRM.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200113111607_ChangeModelStudentAndAddModelStudentPaymentPeriodAndPayment")]
+    partial class ChangeModelStudentAndAddModelStudentPaymentPeriodAndPayment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,8 +136,6 @@ namespace CRM.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentId");
-
                     b.ToTable("Comments");
                 });
 
@@ -228,6 +228,8 @@ namespace CRM.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("ChangeStatusDate");
+
+                    b.Property<string>("Comment");
 
                     b.Property<DateTime>("CreatedDate");
 
@@ -426,14 +428,6 @@ namespace CRM.Data.Migrations
                     b.HasOne("CRM.Models.Journal")
                         .WithMany("Attendances")
                         .HasForeignKey("JournalId");
-                });
-
-            modelBuilder.Entity("CRM.Models.Comment", b =>
-                {
-                    b.HasOne("CRM.Models.Student")
-                        .WithMany("Comments")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CRM.Models.Group", b =>

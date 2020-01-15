@@ -17,10 +17,15 @@ namespace CRM.UoW
         public TimeTableRepository TimeTables;
         public AttendanceRepository Attendances;
         public JournalRepository Journals;
+        public PaymentRepository Payments;
+        public StudentPaymentAndPeriodRepository StudentPaymentAndPeriods;
         public CommentRepository Comments;
+
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
+            Payments = new PaymentRepository(context);
+            StudentPaymentAndPeriods = new StudentPaymentAndPeriodRepository(context);
             Groups = new GroupRepository(context);
             Student = new StudentRepository(context);
             Branchs = new BranchRepository(context);
