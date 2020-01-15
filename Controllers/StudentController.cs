@@ -98,6 +98,7 @@ namespace CRM.Controllers
             var model = Mapper.Map<EditStudentViewModel>(student);
 
             model.Levels = new SelectList(_studentService.GetAllLevel(), "Id", "Name");
+            model.StudentStatusEnum = student.Status;
             model.Groups = new SelectList(_studentService.GetAllGroup().Select(x => new
             {
                 Id = x.Id,
@@ -112,7 +113,7 @@ namespace CRM.Controllers
         // POST: Student/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Student student)
+        public async Task<ActionResult> Edit(EditStudentViewModel student)
         {
             try
             {
