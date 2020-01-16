@@ -11,6 +11,7 @@ using CRM.ViewModels;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using CRM.ViewModels;
 using AutoMapper;
+using CRM.Helpers.SortHelper;
 
 namespace CRM.Services
 {
@@ -99,14 +100,19 @@ namespace CRM.Services
             return await _unitOfWork.Student.GetAllStudentsByGroupIdAsync(idGroup);
         }
 
-        public async Task<IEnumerable<Student>> SearchAsync(string value)
+        public async Task<StudentViewModel> SearchAsync(
+                string value,
+                SortingEnum sortState = SortingEnum.LastNameAsc)
         {
-            var students = await GetAllStudents();
-            students = students.Where(x => (x.Name?.ToUpper() ?? String.Empty).Contains(value.ToUpper())
-                                           || (x.PhoneNumber?.ToUpper() ?? String.Empty).Contains(value.ToUpper())
-                                           || (x.LastName?.ToUpper() ?? String.Empty).Contains(value.ToUpper())
-                                           || (x.ParentLastName?.ToUpper() ?? String.Empty).Contains(value.ToUpper())).ToList();
-            return students;
+            var students = await _unitOfWork.Student.GetAllAsync();
+            students = students.Where(x => (x.Name?.ToUpper() ?? string.Empty).Contains(value.ToUpper())
+                                           || (x.PhoneNumber?.ToUpper() ?? string.Empty).Contains(value.ToUpper())
+                                           || (x.LastName?.ToUpper() ?? string.Empty).Contains(value.ToUpper())
+                                           || (x.ParentLastName?.ToUpper() ?? string.Empty).Contains(value.ToUpper())).ToList();
+
+
+
+            return SortStudents.Sort(students, sortState);
         }
 
         public async Task<List<Student>> GetArchiveStudentsByBranchIdAsync(int BranchId)
@@ -160,6 +166,70 @@ namespace CRM.Services
         {
             var students = await _unitOfWork.Student.GetAllStudentsByArchiveAsync();
             return students;
+        }
+
+        public async Task<IEnumerable<StudentViewModel>> SortStudentsAsync(SortingEnum sortState = SortingEnum.LastNameAsc)
+        {
+            var students = await _unitOfWork.Student.GetAllStudentsByArchiveAsync();
+            #region Sort
+            var model = new StudentViewModel
+            {
+                LastNameSortState = sortState == SortingEnum.ParentLastNameAsc
+                    ? SortingEnum.LastNameDesc
+                    : SortingEnum.LastNameAsc,
+                CreatedDateSortState = sortState == SortingEnum.CreatedDateAsc
+                    ? SortingEnum.CreatedDateDesc
+                    : SortingEnum.CreatedDateAsc,
+                DateOfBirthdaySortState = sortState == SortingEnum.DateOfBirthdayAsc
+                    ? SortingEnum.DateOfBirthdayDesc
+                    : SortingEnum.DateOfBirthdayAsc,
+                ParentLastNameSortState = sortState == SortingEnum.ParentLastNameAsc
+                    ? SortingEnum.ParentLastNameDesc
+                    : SortingEnum.ParentLastNameAsc,
+                PhoneNumberSortState = sortState == SortingEnum.PhoneNumberAsc
+                    ? SortingEnum.PhoneNumberDesc
+                    : SortingEnum.PhoneNumberAsc,
+                StatusSortState = sortState == SortingEnum.StatusAsc
+                    ? SortingEnum.StatusDesc
+                    : SortingEnum.StatusAsc
+            };
+
+            
+
+            switch (sortState)
+            {
+                case SortingEnum.LastNameDesc:
+                    students = students.OrderByDescending(s => s.LastName).ToList();
+                    break;
+                case SortingEnum.CreatedDateAsc:
+                    students = students.OrderBy(s => s.CreatedDate).ToList();
+                    break;
+                case SortingEnum.CreatedDateDesc:
+                    students = students.OrderByDescending(s => s.CreatedDate).ToList();
+                    break;
+
+            }
+
+            #endregion
+
+            List<StudentViewModel> studentList = new List<StudentViewModel>();
+            foreach (var student in students)
+            {
+                StudentViewModel studentViewModel = new StudentViewModel
+                {
+                    LastName = student.LastName,
+                    Name = student.Name,
+                    FatherName = student.FatherName,
+                    ParentName = student.ParentName,
+                    ParentLastName = student.ParentLastName,
+                    ParentFatherName = student.ParentFatherName,
+                    Status = student.Status,
+                    PhoneNumber = student.PhoneNumber
+                };
+                studentList.Add(studentViewModel);
+            }
+            
+            return studentList;
         }
         public async Task EditAsync(EditStudentViewModel student)
         {

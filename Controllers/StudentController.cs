@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CRM.Helpers;
 using CRM.Models;
 using CRM.Services;
 using CRM.UoW;
@@ -170,11 +171,13 @@ namespace CRM.Controllers
             }
         }
 
-        public async Task<IActionResult> List(string value)
+        public async Task<IActionResult> List(string value,
+            SortingEnum sortState = SortingEnum.LastNameAsc)
         {
-            var students = await _studentService.SearchAsync(value);
+            ViewBag.value = value;
+            var students = await _studentService.SearchAsync(value, sortState);
 
-            return View("List", students);
+            return View(students);
         }
 
         [Produces("application/json")]
@@ -184,7 +187,7 @@ namespace CRM.Controllers
             {
                 string term = HttpContext.Request.Query["term"].ToString();
                 var students = await _studentService.SearchAsync(term);
-                var names = students.Select(p => p.Name ?? p.PhoneNumber ?? p.LastName ?? p.ParentLastName).ToList();
+                var names = students.Student.Select(p => p.LastName ?? p.Name ?? p.PhoneNumber ?? p.ParentLastName).ToList();
                 return Ok(names);
             }
             catch
@@ -192,6 +195,6 @@ namespace CRM.Controllers
                 return BadRequest();
             }
         }
-        
+
     }
 }
