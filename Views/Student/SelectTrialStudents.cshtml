@@ -1,0 +1,73 @@
+﻿@model IEnumerable<CRM.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                ФИО Ребенка
+            </th>
+            <th>
+                Дата Рождения
+            </th>
+            <th>
+                Дата Записи
+            </th>
+            <th>
+                ФИО Родителя
+            </th>
+            <th>
+                Номер телефона
+            </th>
+            <th>
+                Статус
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.FatherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentLastName)
+                @Html.DisplayFor(modelItem => item.ParentName)
+                @Html.DisplayFor(modelItem => item.ParentFatherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Детали</a>
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+
