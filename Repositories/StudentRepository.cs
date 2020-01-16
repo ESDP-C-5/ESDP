@@ -34,6 +34,10 @@ namespace CRM.Repositories
         {
             return await DbSet.Where(s => s.Status == StudentStatusEnum.interested).ToListAsync();
         }
+        internal async Task<List<Student>> SelectTrialStudentsAsync()
+        {
+            return await DbSet.Where(s => s.Status == StudentStatusEnum.trial).ToListAsync();
+        }
 
         public async Task<List<Student>> SelectStudyingStudentsAsync()
         {
