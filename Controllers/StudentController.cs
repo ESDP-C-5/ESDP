@@ -120,6 +120,7 @@ namespace CRM.Controllers
             var model = Mapper.Map<EditStudentViewModel>(student);
 
             model.Levels = new SelectList(_studentService.GetAllLevel(), "Id", "Name");
+            model.StudentStatusEnum = student.Status;
             model.Groups = new SelectList(_studentService.GetAllGroup().Select(x => new
             {
                 Id = x.Id,

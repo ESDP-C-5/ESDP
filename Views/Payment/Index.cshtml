@@ -1,0 +1,31 @@
+﻿@model IEnumerable<CRM.Models.Branch>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<ul class="nav nav-tabs ">
+
+    @foreach (var item in Model)
+    {
+        <li>
+            <h4>
+                <a class="btn-lg btn-default border border-dark " onclick="selectStudentsByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
+            </h4>
+        </li>
+    }
+
+</ul>
+
+<div id="selectedStudentsByBranchId"></div>
+
+
+@section Scripts {
+    <script>
+        function selectStudentsByBranchId(Id) {
+            $('#selectedStudentsByBranchId').load('@Url.Action("SelectStudentsByBranchId", "Payment")?id=' + Id);
+        }
+    </script>
+}

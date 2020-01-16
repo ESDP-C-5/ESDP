@@ -52,5 +52,25 @@ namespace CRM.Repositories
                     s.Status == StudentStatusEnum.trial))
                 .ToListAsync();
         }
+
+        public async Task<List<Student>> GetAllStudentsByBranchIdAsync(int branchId)
+        {
+            return await DbSet
+                .Include(s => s.Group)
+                .Where(s => s.Group.BranchId == branchId && s.Status != StudentStatusEnum.interested).ToListAsync();
+        }
+        public StudentStatusEnum GetStudentStatusByStudentId(int studentId)
+        {
+            var student = DbSet.FirstOrDefault(s => s.Id == studentId);
+            return student.Status;
+        }
+
+        public async Task<Student> GetByIdForCardStudent(int id)
+        {
+            return await DbSet
+                .Include(s => s.Payments)
+                .Include(s => s.StudentPaymentAndPeriods)
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
     }
 }
