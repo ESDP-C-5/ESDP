@@ -58,6 +58,7 @@ namespace CRM
             services.AddTransient<AttendanceService>();
             services.AddTransient<PaymentService>();
             services.AddTransient<PaymentPeriodService>();
+            services.AddTransient<CommentService>();
 
             Mapper.Initialize(config => config.AddProfile(new MappingProfile()));
         }
