@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CRM.Models;
 using CRM.Services;
+using CRM.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.Controllers
@@ -40,16 +41,23 @@ namespace CRM.Controllers
             return View(student);
         }
 
-        public async Task<IActionResult> AddPayment(int periodID,int studentId, decimal payment,string text)
+        public async Task<JsonResult> AddPayment(int periodID,int studentId, decimal payment,string text)
         {
             await _paymentService.AddPayment(periodID, studentId, payment,text);
-            return RedirectToAction("CardStudent", "Payment",studentId);
+            //var student = await _paymentService.GetStudentCardByIdStudentAsync(studentId);
+            return Json(StatusCode(200));
         }
 
-        public async Task<IActionResult> AddPeriod(DateTime dateStart, decimal mustTotal, int StudentId,DateTime dateEnd)
+        public async Task<JsonResult> AddPeriod(DateTime dateStart, decimal mustTotal, int StudentId,DateTime dateEnd)
         {
             await _periodService.CreateAsync(dateStart, mustTotal,StudentId,dateEnd);
-            return RedirectToAction("Index");
+            return Json(StatusCode(200));
+        }
+
+        public JsonResult UpdatePeriod( int periodId ,decimal mustTotal,DateTime dateStart,DateTime dateEnd)
+        {
+            _periodService.Update(periodId, mustTotal, dateStart, dateEnd);
+            return Json(StatusCode(200));
         }
     }
 }
