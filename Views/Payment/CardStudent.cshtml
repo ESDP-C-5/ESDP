@@ -1,6 +1,5 @@
 ﻿@model CRM.Models.Student
 
-
 <div class="row">
     <div class="col-sm-4 border border-dark">
         <dt class="col-sm-2">
@@ -62,7 +61,33 @@
             @{ decimal raz = summ - AllTotal; }
             @raz
         </dd>
-
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPeriod">Добавить период</button>
+        <div class="modal fade" id="addPeriod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="col-form-label">Дата начало:</label>
+                                <input type="date" class="form-control" id="dateStart">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Дата конца:</label>
+                                <input type="date" class="form-control" id="dateEnd">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Сумма оплаты:</label>
+                                <input type="number" class="form-control" id="mustTotal">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="AddPeriod(@Model.Id)">Отправить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col-8">
         <div class="row border border-dark">
@@ -73,74 +98,134 @@
             <div class="col-2">Примечание</div>
             <div class="col-2">Оплата</div>
         </div>
-          @foreach (var item in Model.StudentPaymentAndPeriods)
-          {
-              <div class="row border border-dark">
-                  <div class="col-2">
-                        @Html.DisplayFor(modelItem => item.PaymentPeriodStart)
-                        @Html.DisplayFor(modelItem => item.PaymentPeriodEnd)
+        @foreach (var item in Model.StudentPaymentAndPeriods)
+        {
+            <div class="row border border-dark">
+                <div class="col-2">
+                    @Html.DisplayFor(modelItem => item.PaymentPeriodStart)
+                    @Html.DisplayFor(modelItem => item.PaymentPeriodEnd)
+                </div>
+                <div class="col-2">
+                    @Html.DisplayFor(modelItem => item.MustTotal)
+                </div>
+                <div class="col-6 row">
+
+                    @foreach (var payment in item.Payments)
+                    {
+                        <div class="col-4">
+                            @Html.DisplayFor(modelItem => payment.Total)
+                        </div>
+                        <div class="col-4">
+                            @Html.DisplayFor(modelItem => payment.DateTimePayment)
+                        </div>
+                        <div class="col-4">
+                            @Html.DisplayFor(modelItem => payment.Comment)
+                        </div>
+                    }
+                </div>
+                <div class="col-2">
+                    @{
+                        decimal debt = 0;
+
+                        foreach (var payment in item.Payments)
+                        {
+                            debt += payment.Total;
+                        }
+                        decimal placeholder = item.MustTotal - debt;
+                        if (item.MustTotal > debt)
+                        {
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPayment" onclick="SendId(@item.Id)">Добавить оплату</button>
+                            <div class="modal fade" id="addPayment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label class="col-form-label">Сумма:</label>
+                                                    <input type="text" class="form-control" id="total">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-form-label">Коментарии:</label>
+                                                    <textarea class="form-control" id="comment"></textarea>
+                                                </div>
+                                                <input type="hidden" id="periodId">
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" onclick="AddPayment(@item.StudentId)">Отправить</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updatePeriod" 
+                            onclick="PastData(@item.Id, '@item.PaymentPeriodStart.ToString("O")',
+                            '@item.PaymentPeriodEnd.ToString("O")','@item.MustTotal')">Обновить</button>
+                    <div class="modal fade" id="updatePeriod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Дата начало</label>
+                                            <input type="date" class="form-control" id="dateStartForUpdate"  >
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Дата конца</label>
+                                            <input type="date" class="form-control" id="dateEndForUpdate">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Сумма оплаты</label>
+                                            <input type="number" class="form-control" id="mustTotalForUpdate">
+                                        </div>
+                                        <input type="hidden" id="periodIdForUpdate">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" onclick="UpdatePeriod()">Обновить</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  <div class="col-2">
-                      @Html.DisplayFor(modelItem => item.MustTotal)
-                  </div>
-                  <div class="col-6 row">
-                      
-                      @foreach (var payment in item.Payments)
-                      {
-                          <div class="col-4">
-                              @Html.DisplayFor(modelItem => payment.Total)
-                          </div>
-                          <div class="col-4">
-                              @Html.DisplayFor(modelItem => payment.DateTimePayment)
-                          </div>
-                          <div class="col-4">
-                              @Html.DisplayFor(modelItem => payment.Comment)
-                          </div>
-                      }
-                  </div>
-                  <div class="col-2">
-                      @{
-                          decimal debt = 0;
 
-                          foreach (var payment in item.Payments)
-                          {
-                              debt += payment.Total;
-                          }
-                          decimal placeholder = item.MustTotal - debt;
-                          if (item.MustTotal > debt)
-                          {
-                              <input type="number" style="width: 7em" id="dept" placeholder="@placeholder" required>
-                              <input type="text"size="7em" id="comment" placeholder="Коментарии" required>
-                              <button onclick="AddPayment(@item.Id,@item.StudentId)">Добавить оплату</button>
-                          }
-
-                      }
-                  </div>
-              </div>      
-          }
-        </div>
-            <div>
-                Дата начало
-                <input type="date" id="dateStart" value="@DateTime.Now">
-                <input type="dateEnd" id="dateEnd" value="@DateTime.Now">
-                <input type="number" id="mustTotal" required>
-                <button onclick="AddPeriod(@Model.Id)">Добавить период</button>
+                </div>
             </div>
-        </div>
+        }
+    </div>
+</div>
+
 @section Scripts {
     <script >
-         function AddPayment(periodId,studentId) {
-             var dept = $('#dept').val();
+         function AddPayment(studentId) {
+             var periodId = $('#periodId').val();
+             var total = $('#total').val();
              var text = $('#comment').val();
                 $.ajax({
                     url: '@Url.Action("AddPayment", "Payment")',
                     type: 'POST',
-                    data: { 'periodID': periodId, 'studentId': studentId,'payment':dept,'text': text },
+                    data: { 'periodID': periodId, 'studentId': studentId,'payment':total,'text': text },
                     success: function (data) {
+                        location.reload();
                      },
                 });
              }
-    </script><script >
+    </script>
+    <script >
+         function PastData(periodId, dateStart,dataEnd,mustTotal) {
+             let dataStar = new Date(dateStart);
+             let dataEn = new Date(dataEnd);
+             $('#mustTotalForUpdate').val(parseInt(mustTotal));
+             $('#periodIdForUpdate').val(periodId);
+             document.getElementById("dateStartForUpdate").valueAsDate = new Date(Date.UTC(dataStar.getFullYear(), dataStar.getMonth(), dataStar.getDate()));
+             document.getElementById("dateEndForUpdate").valueAsDate = new Date(Date.UTC(dataEn.getFullYear(), dataEn.getMonth(), dataEn.getDate()));
+   
+         }
+    </script>
+    <script >
          function AddPeriod(StudentId) {
              var dateStart = $('#dateStart').val();
              var mustTotal = $('#mustTotal').val();
@@ -150,9 +235,46 @@
                     type: 'POST',
                     data: { 'dateStart': dateStart, 'mustTotal': mustTotal,'StudentId':StudentId,'dateEnd':dateEnd },
                     success: function (data) {
-                        
+                        location.reload();
                      },
                 });
              }
     </script>
+    <script >
+         function UpdatePeriod() {
+                var periodIdForUpdate = $('#periodIdForUpdate').val();
+                var mustTotalForUpdate = $('#mustTotalForUpdate').val();
+                var dateStartForUpdate = $('#dateStartForUpdate').val();
+                var dateEndForUpdate = $('#dateEndForUpdate').val();
+                $.ajax({
+                    url: '@Url.Action("UpdatePeriod", "Payment")',
+                    type: 'POST',
+                    data: { 'periodId': periodIdForUpdate, 'mustTotal': mustTotalForUpdate,'dateStart':dateStartForUpdate,'dateEnd':dateEndForUpdate },
+                    success: function (data) {
+                        location.reload();
+                     },
+                });
+             }
+    </script>
+    <script >
+    function SendId(periodId) {
+       $('#periodId').val(periodId);
+    }
+    </script>
+    <script >
+    $('#addPayment').on( function (event) {
+      var button = $(event.relatedTarget);
+      var recipient = button.data('whatever');
+      var modal = $(this);
+      modal.find('.modal-body input').val(recipient)
+    })
+    </script>
+    <script >
+        $('#addPeriod').on(function (event) {
+          var button = $(event.relatedTarget);
+          var recipient = button.data('whatever');
+          var modal = $(this)
+            
+        })
+        </script>
 }
