@@ -39,38 +39,146 @@
     <tbody>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MustTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AllMustTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AllTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Balance)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PeriodCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastPayment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastCommit)
-            </td>
-        </tr>
+        if (item.Balance > item.MustTotal)
+                 {
+                     <tr class="table-danger bg-danger">
+                         <td>
+                             <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                         </td>
+                         <td>
+                             @Html.DisplayFor(modelItem => item.LastName)
+                         </td>
+                         <td>
+                             @Html.DisplayFor(modelItem => item.MustTotal)
+                         </td>
+                         <td>
+                             @Html.DisplayFor(modelItem => item.AllMustTotal)
+                         </td>
+                         <td>
+                             @Html.DisplayFor(modelItem => item.AllTotal)
+                         </td>
+                         <td>
+                             @Html.DisplayFor(modelItem => item.Balance)
+                         </td>
+                         <td>
+                             @Html.DisplayFor(modelItem => item.PeriodCount)
+                         </td>
+                         <td>
+                             @Html.DisplayFor(modelItem => item.LastPayment)
+                         </td>
+                         <td>
+                             @Html.DisplayFor(modelItem => item.PhoneNumber)
+                         </td>
+                         <td>
+                             @Html.DisplayFor(modelItem => item.LastCommit)
+                         </td>
+                     </tr>
+                 }
+        else if(item.MustTotal > item.Balance || item.Balance > 0)
+        {
+            <tr class="table-warning">
+                <td>
+                    <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MustTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AllMustTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AllTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Balance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PeriodCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastPayment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastCommit)
+                </td>
+            </tr>
+        }
+        else if(item.Balance == 0)
+        {
+            <tr class="table-primary">
+                <td>
+                    <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MustTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AllMustTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AllTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Balance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PeriodCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastPayment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastCommit)
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MustTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AllMustTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AllTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Balance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PeriodCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastPayment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastCommit)
+                </td>
+            </tr>
+        }
     }
     </tbody>
 </table>
