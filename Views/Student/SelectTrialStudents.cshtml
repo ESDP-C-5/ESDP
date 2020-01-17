@@ -32,40 +32,42 @@
         {
             foreach (var item in Model)
             {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-                @Html.DisplayFor(modelItem => item.Name)
-                @Html.DisplayFor(modelItem => item.FatherName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateOfBirthday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParentLastName)
-                @Html.DisplayFor(modelItem => item.ParentName)
-                @Html.DisplayFor(modelItem => item.ParentFatherName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Детали</a>
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-            </td>
-        </tr>
+                <tr>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.LastName)
+                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.DisplayFor(modelItem => item.FatherName)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.DateOfBirthday)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.ParentLastName)
+                            @Html.DisplayFor(modelItem => item.ParentName)
+                            @Html.DisplayFor(modelItem => item.ParentFatherName)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </a>
+                    </td>
+                </tr>
             }
         }
     </tbody>
