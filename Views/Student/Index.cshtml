@@ -54,47 +54,64 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model.students)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfBirthday)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Group)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParentLastName)
-                    @Html.DisplayFor(modelItem => item.ParentName)
-                    @Html.DisplayFor(modelItem => item.ParentFatherName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TrialDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Level.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ChangeStatusDate)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Детали</a>
-                </td>
-            </tr>
-        }
+            @foreach (var item in Model.students)
+            {
+                <tr>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.LastName)
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.DateOfBirthday)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Group)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.ParentLastName)
+                            @Html.DisplayFor(modelItem => item.ParentName)
+                            @Html.DisplayFor(modelItem => item.ParentFatherName)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.TrialDate)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Level.Name)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Comments.LastOrDefault().Text)
+                        </a>
+                    </td>
+                    <td>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.ChangeStatusDate)
+                        </a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

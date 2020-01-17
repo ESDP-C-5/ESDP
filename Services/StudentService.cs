@@ -65,6 +65,12 @@ namespace CRM.Services
 
             return students;
         }
+        internal async Task<List<Student>> SelectTrialStudentsAsync()
+        {
+            var students = await _unitOfWork.Student.SelectTrialStudentsAsync();
+
+            return students;
+        }
         public async Task EditAsync(StudentViewModel student)
         {
             var studentUow = _unitOfWork.Student;

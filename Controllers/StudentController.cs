@@ -45,6 +45,11 @@ namespace CRM.Controllers
             var students = await _studentService.SelectLeadStudentsAsync();
             return View(students);
         }
+        public async Task<ActionResult> SelectTrialStudents()
+        {
+            var students = await _studentService.SelectTrialStudentsAsync();
+            return View(students);
+        }
         public async Task<ActionResult> SelectStudyingStudents()
         {
             var students = await _studentService.SelectStudyingStudentsAsync();
@@ -140,6 +145,7 @@ namespace CRM.Controllers
             try
             {
                 await _studentService.EditAsync(student);
+
                 return RedirectToAction(nameof(Index));
             }
             catch
