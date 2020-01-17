@@ -100,13 +100,17 @@ namespace CRM.Controllers
                     ParentFatherName = student.ParentFatherName
                 };
                 var studentId = await _studentService.CreateAsyncReturnId(student);
-                Comment comment = new Comment
+                if(student.Comment != null)
                 {
-                    StudentId = studentId,
-                    Text = student.Comment,
-                    Create = DateTime.Now
-                };
-                await _commentService.CreateAsync(comment);
+                    Comment comment = new Comment
+                    {
+                        StudentId = studentId,
+                        Text = student.Comment,
+                        Create = DateTime.Now
+                    };
+                    await _commentService.CreateAsync(comment);
+                }
+                
                 return RedirectToAction(nameof(SelectLeadStudents));
             }
 
