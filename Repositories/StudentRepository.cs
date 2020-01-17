@@ -46,7 +46,9 @@ namespace CRM.Repositories
 
         public async Task<List<Student>> GetAllStudentsByArchiveAsync()
         {
-            return await DbSet.Where(s => s.Status == StudentStatusEnum.archive).ToListAsync();
+            return await DbSet.Include(s => s.Level)
+                .Include(s => s.Comments)
+                .Where(s => s.Status == StudentStatusEnum.archive).ToListAsync();
         }
 
         public async Task<List<Student>> GetStudentsByGroupeIdByStudentStatusAsync(int groupeId)
