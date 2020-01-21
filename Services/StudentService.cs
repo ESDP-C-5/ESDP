@@ -71,18 +71,6 @@ namespace CRM.Services
 
             return students;
         }
-        public async Task EditAsync(StudentViewModel student)
-        {
-            var studentUow = _unitOfWork.Student;
-            var studentMapping = Mapper.Map<Student>(student);
-            studentUow.UpdateAsync(studentMapping);
-            await _unitOfWork.CompleteAsync();
-            if (student.Comment != null)
-            {
-                await CreateComment(student);
-            }
-        }
-
         private async Task CreateComment(StudentViewModel student)
         {
             Comment comment = new Comment
@@ -239,10 +227,18 @@ namespace CRM.Services
         }
         public async Task EditAsync(EditStudentViewModel student)
         {
-            //StudentStatusEnum? studentStatusEnum = _unitOfWork.Student.GetStudentStatusByStudentId(student.Id);
+            if (student.Comment != null)
+            {
+                Comment comment = new Comment
+                {
+                    StudentId = student.Id,
+                    Text = student.Comment,
+                    Create = DateTime.Now
+                };
+                await _unitOfWork.Comments.CreateAsync(comment);
+            }
             if (student.Status != student.StudentStatusEnum)
             {
-               // studentStatusEnum = null;
                 var something = await GetStudentInterface(student.StudentStatusEnum);
 
                 student.IStatusStudent = something;
@@ -253,19 +249,19 @@ namespace CRM.Services
                         statusStudent = new StatusInterested(_unitOfWork);
                         break;
                     case StudentStatusEnum.trial:
-                       statusStudent = new StatusTrial(_unitOfWork);
+                        statusStudent = new StatusTrial(_unitOfWork);
                         break;
                     case StudentStatusEnum.studying:
                         statusStudent = new StatusStudying(_unitOfWork);
                         break;
                     case StudentStatusEnum.archive:
-                        statusStudent = new StatusArchive();
+                        statusStudent = new StatusArchive(_unitOfWork);
                         break;
                     default:
                         break;
                 }
-              //  _unitOfWork.Dispose();
                 statusStudent?.CreatePeriod(student);
+                statusStudent?.CreateComment(student);
                 var model = Mapper.Map<Student>(student);
                 _unitOfWork.Student.UpdateAsync(model);
                 await _unitOfWork.CompleteAsync();
@@ -276,9 +272,6 @@ namespace CRM.Services
                 _unitOfWork.Student.UpdateAsync(model);
                 await _unitOfWork.CompleteAsync();
             }
-
-/*            _unitOfWork.Student.UpdateAsync(student);
-            await _unitOfWork.CompleteAsync();*/
         }
 
         private async Task<IStatusStudent> GetStudentInterface(StudentStatusEnum statusEnum)
@@ -295,7 +288,7 @@ namespace CRM.Services
                     return new StatusStudying(_unitOfWork);
                     break;
                 case StudentStatusEnum.archive:
-                    return new StatusArchive();
+                    return new StatusArchive(_unitOfWork);
                     break;
                 default: throw new Exception();
             }
