@@ -15,7 +15,19 @@ namespace CRM.Strategy
 
         public async void CreatePeriod(Student student)
         {
-            
+            student.ChangeStatusDate = DateTime.Now;
+        }
+
+        public async void CreateComment(Student student)
+        {
+            Comment comment = new Comment()
+            {
+                Create = DateTime.Now,
+                StudentId = student.Id,
+                Text = "Change status interested"
+            };
+            await _unitOfWork.Comments.CreateAsync(comment);
+
         }
     }
 }
