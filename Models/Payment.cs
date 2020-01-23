@@ -15,7 +15,6 @@ namespace CRM.Models
         public string Comment { get; set; }
         public Payment()
         {
-            DateTimePayment = DateTime.Now;
         }
     }
 }

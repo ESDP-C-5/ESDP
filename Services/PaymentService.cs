@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using CRM.Helpers;
+using CRM.Helpers.SortHelper;
 using CRM.Models;
 using CRM.UoW;
 using CRM.ViewModels;
@@ -17,7 +19,7 @@ namespace CRM.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<StudentPaymentViewModel>> GetAllStudentsByBranchIdAsync(int branchId)
+        public async Task<StudentsPaymentListViewModel> GetAllStudentsByBranchIdAsync(int branchId,PaymentSortingEnum sortState)
         {
             var students = await _unitOfWork.Student.GetAllStudentsByBranchIdAsync(branchId);
             List<StudentPaymentViewModel> studentPaymentViewModels = new List<StudentPaymentViewModel>();
@@ -34,7 +36,7 @@ namespace CRM.Services
                 studentPaymentViewModels.Add(model);
             }
 
-            return studentPaymentViewModels;
+            return PaymentStudentsSort.Sort(studentPaymentViewModels, sortState);
         }
 
         private async Task<string> GetLastCommitByStudentIdAsync(int studentId)
@@ -83,17 +85,38 @@ namespace CRM.Services
             return student;
         }
 
-        public async Task AddPayment(int periodId, int studentId, decimal total,string text)
+        public async Task AddPayment(int periodId,DateTime dataPayment, int studentId, decimal total,string text)
         {
             Payment payment = new Payment()
             {
                 StudentId = studentId,
                 StudentPaymentAndPeriodId = periodId,
+                DateTimePayment = dataPayment,
                 Total = total,
                 Comment = text
             };
             await _unitOfWork.Payments.CreateAsync(payment);
             await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task<StudentsPaymentListViewModel> GetAllStudentsByPayment(PaymentSortingEnum sortState)
+        {
+            var students = await _unitOfWork.Student.GetAllStudentsByPayment();
+            List<StudentPaymentViewModel> studentPaymentViewModels = new List<StudentPaymentViewModel>();
+            foreach (var student in students)
+            {
+                var model = Mapper.Map<StudentPaymentViewModel>(student);
+                model.MustTotal = await _unitOfWork.StudentPaymentAndPeriods.GetMustTotalByStudentIdAsync(student.Id);
+                model.AllMustTotal = await GetAllMustTotalByStudentIdAsync(student.Id);
+                model.AllTotal = await GetAllTotalByStudentId(student.Id);
+                model.Balance = model.AllMustTotal - model.AllTotal;
+                model.PeriodCount = await GetCountPeriodsByStudentIdAsync(student.Id);
+                model.LastPayment = await GetLastPaymentByStudentIdAsync(student.Id);
+                model.LastCommit = await GetLastCommitByStudentIdAsync(student.Id);
+                studentPaymentViewModels.Add(model);
+            }
+
+            return PaymentStudentsSort.Sort(studentPaymentViewModels, sortState);
         }
     }
 }

@@ -2,6 +2,7 @@
 using CRM.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -77,6 +78,13 @@ namespace CRM.Repositories
                 .Include(s => s.Payments)
                 .Include(s => s.StudentPaymentAndPeriods)
                 .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<List<Student>> GetAllStudentsByPayment()
+        {
+            return await DbSet
+                .Include(s => s.Group)
+                .Where(s => s.Status != StudentStatusEnum.interested || s.Status != StudentStatusEnum.trial).ToListAsync();
         }
     }
 }
