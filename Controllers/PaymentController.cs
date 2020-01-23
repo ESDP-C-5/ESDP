@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CRM.Helpers;
 using CRM.Models;
 using CRM.Services;
 using CRM.ViewModels;
@@ -29,9 +30,38 @@ namespace CRM.Controllers
             return View(branches);
         }
 
-        public async Task<IActionResult> SelectStudentsByBranchId(int Id)
+        public async Task<IActionResult> SortSelectedStudentsByBranchId(PaymentSortingEnum sort, int Id)
         {
-            var students = await _paymentService.GetAllStudentsByBranchIdAsync(Id);
+            StudentsPaymentListViewModel students = null;
+            if (Id == 0)
+            {
+                students = await _paymentService.GetAllStudentsByPayment(sort); 
+            }
+            else
+            {
+                students = await _paymentService.GetAllStudentsByBranchIdAsync(Id, sort);
+                ViewBag.BranchId = Id;
+            }
+            return PartialView("_ListStudentByBranchIdPartialView", students);
+        }
+        public async Task<IActionResult> SelectStudentsByBranchId(int Id,PaymentSortingEnum sortState = PaymentSortingEnum.BalanceAsc)
+        {
+            var students = await _paymentService.GetAllStudentsByBranchIdAsync(Id,sortState);
+            ViewBag.BranchId = Id;
+            return PartialView("_ListStudentByBranchIdPartialView", students);
+        }
+
+        public async Task<IActionResult> GetAllStudentsByPayment(PaymentSortingEnum sortState = PaymentSortingEnum.BalanceAsc)
+        {
+            var students = await _paymentService.GetAllStudentsByPayment(sortState);
+            if (sortState != PaymentSortingEnum.BalanceAsc)
+            {
+                ViewBag.value = true;
+            }
+            else
+            {
+                ViewBag.value = false;
+            }
             return PartialView("_ListStudentByBranchIdPartialView", students);
         }
 
@@ -41,9 +71,9 @@ namespace CRM.Controllers
             return View(student);
         }
 
-        public async Task<JsonResult> AddPayment(int periodID,int studentId, decimal payment,string text)
+        public async Task<JsonResult> AddPayment(int periodID, DateTime dataPayment, int studentId, decimal payment,string text)
         {
-            await _paymentService.AddPayment(periodID, studentId, payment,text);
+            await _paymentService.AddPayment(periodID,dataPayment, studentId, payment,text);
             //var student = await _paymentService.GetStudentCardByIdStudentAsync(studentId);
             return Json(StatusCode(200));
         }
@@ -59,5 +89,6 @@ namespace CRM.Controllers
             _periodService.Update(periodId, mustTotal, dateStart, dateEnd);
             return Json(StatusCode(200));
         }
+
     }
 }

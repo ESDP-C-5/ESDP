@@ -1,184 +1,212 @@
-﻿@model System.Collections.Generic.List<CRM.ViewModels.StudentPaymentViewModel>
-
+﻿@model CRM.ViewModels.StudentsPaymentListViewModel
 <table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>
+<thead>
+<tr>
+    <th>
+        <a @{ var sortName = Model.NameSortState;}
+            onclick="SortStudentByBranchIdPayment('@sortName', @ViewBag.BranchId)">
             Имя ребенка
-        </th>
-        <th>
+        </a>
+    </th>
+    <th>
+        <a @{ var sortLastName = Model.LastNameSortState;}
+            onclick="SortStudentByBranchIdPayment('@sortLastName', @ViewBag.BranchId)">
             Фамилия ребенка
-        </th>
-        <th>
+        </a>
+    </th>
+    <th>
+        <a @{ var MustTotalSortState = Model.MustTotalSortState;}
+            onclick="SortStudentByBranchIdPayment('@MustTotalSortState', @ViewBag.BranchId)">
             Стоимость
-        </th>
-        <th>
+        </a>
+    </th>
+    <th>
+        <a @{ var AllMustTotalSortState = Model.AllMustTotalSortState;}
+            onclick="SortStudentByBranchIdPayment('@AllMustTotalSortState', @ViewBag.BranchId)">
             Сумма за все время
-        </th>
-        <th>
-            Факт сумма оплаты за все время
-        </th>
-        <th>
-            Остаток оплаты за все время
-        </th>
-        <th>
-            Фактическое кол-во месяцов обучения
-        </th>
-        <th>
+        </a>
+    </th>
+    <th>
+        <a @{ var AllTotalSortState = Model.AllTotalSortState;}
+            onclick="SortStudentByBranchIdPayment('@AllTotalSortState', @ViewBag.BranchId)">
+            Сумма оплаты за все время
+        </a>
+    </th>
+    <th>
+        <a @{ var BalanceSortState = Model.BalanceSortState;}
+            onclick="SortStudentByBranchIdPayment('@BalanceSortState', @ViewBag.BranchId)">
+            Задолжность
+        </a>
+    </th>
+    <th>
+        <a @{ var PeriodCountSortState = Model.PeriodCountSortState;}
+            onclick="SortStudentByBranchIdPayment('@PeriodCountSortState', @ViewBag.BranchId)">
+            Кол-во месяцов обучения
+        </a>
+    </th>
+    <th>
+        <a @{ var LastPaymentSortState = Model.LastPaymentSortState;}
+            onclick="SortStudentByBranchIdPayment('@LastPaymentSortState', @ViewBag.BranchId)">
             Последняя дата оплаты
-        </th>
-        <th>
-            Ном тел родителя
-        </th>
-        <th>
-            Последний ком оплаты
-        </th>
+        </a>
+    </th>
+    <th>
+        Ном тел родителя
+    </th>
+    <th>
+        Последний ком оплаты
+    </th>
 
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
+</tr>
+</thead>
+<tbody>
+@foreach (var item in Model.Student)
+{
+    if (item.Balance > item.MustTotal)
     {
-        if (item.Balance > item.MustTotal)
-                 {
-                     <tr class="table-danger bg-danger">
-                         <td>
-                             <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
-                         </td>
-                         <td>
-                             @Html.DisplayFor(modelItem => item.LastName)
-                         </td>
-                         <td>
-                             @Html.DisplayFor(modelItem => item.MustTotal)
-                         </td>
-                         <td>
-                             @Html.DisplayFor(modelItem => item.AllMustTotal)
-                         </td>
-                         <td>
-                             @Html.DisplayFor(modelItem => item.AllTotal)
-                         </td>
-                         <td>
-                             @Html.DisplayFor(modelItem => item.Balance)
-                         </td>
-                         <td>
-                             @Html.DisplayFor(modelItem => item.PeriodCount)
-                         </td>
-                         <td>
-                             @Html.DisplayFor(modelItem => item.LastPayment)
-                         </td>
-                         <td>
-                             @Html.DisplayFor(modelItem => item.PhoneNumber)
-                         </td>
-                         <td>
-                             @Html.DisplayFor(modelItem => item.LastCommit)
-                         </td>
-                     </tr>
-                 }
-        else if(item.MustTotal > item.Balance || item.Balance > 0)
-        {
-            <tr class="table-warning">
-                <td>
-                    <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MustTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AllMustTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AllTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Balance)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PeriodCount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastPayment)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastCommit)
-                </td>
-            </tr>
-        }
-        else if(item.Balance == 0)
-        {
-            <tr class="table-primary">
-                <td>
-                    <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MustTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AllMustTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AllTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Balance)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PeriodCount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastPayment)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastCommit)
-                </td>
-            </tr>
-        }
-        else
-        {
-            <tr>
-                <td>
-                    <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MustTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AllMustTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AllTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Balance)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PeriodCount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastPayment)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastCommit)
-                </td>
-            </tr>
-        }
+        <tr class="table-danger bg-danger">
+            <td>
+                <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MustTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllMustTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PeriodCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastPayment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastCommit)
+            </td>
+        </tr>
     }
-    </tbody>
+    else if (item.MustTotal > item.Balance || item.Balance > 0)
+    {
+        <tr class="table-warning">
+            <td>
+                <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MustTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllMustTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PeriodCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastPayment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastCommit)
+            </td>
+        </tr>
+    }
+    else if (item.Balance == 0)
+    {
+        <tr class="table-primary">
+            <td>
+                <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MustTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllMustTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PeriodCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastPayment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastCommit)
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td>
+                <a asp-controller="Payment" asp-action="CardStudent" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MustTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllMustTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PeriodCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastPayment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastCommit)
+            </td>
+        </tr>
+    }
+}
+</tbody>
 </table>
+<script>
+    function SortStudentByBranchIdPayment(SortAction, Id) {
+        $('#selectedStudentsByBranchId').load('@Url.Action("SortSelectedStudentsByBranchId", "Payment")?sort=' + SortAction + '&Id=' + Id);
+    }
+</script>
