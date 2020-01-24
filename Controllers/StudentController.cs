@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CRM.Helpers;
+using CRM.Helpers.SortHelper;
 using CRM.Models;
 using CRM.Services;
 using CRM.UoW;
@@ -40,32 +41,28 @@ namespace CRM.Controllers
             return PartialView("_StudingStudents", students);
         }
         
-        public async Task<ActionResult> SelectLeadStudents()
+        public async Task<ActionResult> SelectLeadStudents(SortingEnum sortState = SortingEnum.LastNameAsc)
         {
-            var students = await _studentService.SelectLeadStudentsAsync();
+            var students = await _studentService.SelectLeadStudentsAsync(sortState);
             return View(students);
         }
-        public async Task<ActionResult> SelectTrialStudents()
+        public async Task<ActionResult> SelectTrialStudents(SortingEnum sortState = SortingEnum.LastNameAsc)
         {
-            var students = await _studentService.SelectTrialStudentsAsync();
+            var students = await _studentService.SelectTrialStudentsAsync(sortState);
             return View(students);
         }
-        public async Task<ActionResult> SelectStudyingStudents()
+        public async Task<ActionResult> SelectStudyingStudents(SortingEnum sortState = SortingEnum.LastNameAsc)
         {
-            var students = await _studentService.SelectStudyingStudentsAsync();
+            var students = await _studentService.SelectStudyingStudentsAsync(sortState);
             ViewData["Branches"] = await _branchService.GetAllBranch();
             return View(students);
         }
         
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(SortingEnum sortState = SortingEnum.LastNameAsc)
         {
-            BranchesWithStudentsViewModel branchesWithStudents = new BranchesWithStudentsViewModel()
-            {
-                students = await _studentService.GetAllStudentsByArchive(),
-
-                branches = await _branchService.GetAllBranch()
-            };
-            return View(branchesWithStudents);
+            StudentViewModel st = SortStudents.Sort(await _studentService.GetAllStudentsByArchive(), sortState);
+            st.branches = await _branchService.GetAllBranch();
+            return View(st);
         }
 
         // GET: Student/Details/5

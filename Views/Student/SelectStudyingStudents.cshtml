@@ -1,5 +1,5 @@
 ﻿@using System.Collections
-@model IEnumerable<CRM.Models.Student>
+@model CRM.ViewModels.StudentViewModel
 
 
 <ul class="nav nav-tabs">
@@ -18,29 +18,29 @@
         <thead>
             <tr>
                 <th>
-                    ФИО Ребенка
+                    <a asp-route-sortState="@Model.LastNameSortState">ФИО Ребенка</a>
                 </th>
                 <th>
-                    Дата Рождения
+                    <a asp-route-sortState="@Model.DateOfBirthdaySortState">Дата Рождения</a>
                 </th>
                 <th>
-                    Дата Записи
+                    <a asp-route-sortState="@Model.CreatedDateSortState">Дата Записи</a>
                 </th>
                 <th>
-                    ФИО Родителя
+                    <a asp-route-sortState="@Model.ParentLastNameSortState">ФИО Родителя</a>
                 </th>
                 <th>
-                    Номер телефона
+                    <a asp-route-sortState="@Model.PhoneNumberSortState">Номер телефона</a>
                 </th>
                 <th>
-                    Статус
+                    <a asp-route-sortState="@Model.StatusSortState">Статус</a>
                 </th>
             </tr>
         </thead>
         <tbody>
             @if (Model != null)
             {
-                foreach (var item in Model)
+                foreach (var item in Model.Student)
                 {
                     <tr>
                         <td>

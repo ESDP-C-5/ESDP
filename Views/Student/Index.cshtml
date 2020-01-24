@@ -1,4 +1,4 @@
-﻿@model CRM.ViewModels.BranchesWithStudentsViewModel
+﻿@model CRM.ViewModels.StudentViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -21,40 +21,40 @@
         <thead>
             <tr>
                 <th>
-                    ФИО Ребенка
+                    <a asp-route-sortState="@Model.LastNameSortState">ФИО Ребенка</a>
                 </th>
                 <th>
-                    Дата Рождения
+                    <a asp-route-sortState="@Model.DateOfBirthdaySortState">Дата Рождения</a>
                 </th>
                 <th>
-                    Дата Записи
+                    <a asp-route-sortState="@Model.CreatedDateSortState">Дата Записи</a>
                 </th>
                 <th>
-                    Группа
+                    <a asp-route-sortState="@Model.GroupSortState">Группа</a>
                 </th>
                 <th>
-                    ФИО Родителя
+                    <a asp-route-sortState="@Model.ParentLastNameSortState">ФИО Родителя</a>
                 </th>
                 <th>
-                    Телефон
+                    <a asp-route-sortState="@Model.PhoneNumberSortState">Номер телефона</a>
                 </th>
                 <th>
-                    Дата Пробного урока
+                    <a asp-route-sortState="@Model.TrialDateSortState">Дата Пробного урока</a>
                 </th>
                 <th>
-                    Уровень
+                    <a asp-route-sortState="@Model.LevelSortState">Уровень</a>
                 </th>
                 <th>
-                    Комментарии
+                    <a asp-route-sortState="@Model.CommentSortState">Комментарии</a>
                 </th>
                 <th>
-                    Дата Переноса в Архив
+                    <a asp-route-sortState="@Model.ChangeStatusSortState">Дата перехода в архив</a>
                 </th>
 
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.students)
+            @foreach (var item in Model.Student)
             {
                 <tr>
                     <td>
