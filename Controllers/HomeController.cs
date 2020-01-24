@@ -14,7 +14,7 @@ namespace CRM.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Groups");
+                return RedirectToAction("Index", "Branch");
             }
             return View();
         }
