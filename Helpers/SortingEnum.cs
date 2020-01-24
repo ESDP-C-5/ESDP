@@ -18,6 +18,16 @@ namespace CRM.Helpers
         PhoneNumberAsc,
         PhoneNumberDesc,
         StatusAsc,
-        StatusDesc
+        StatusDesc,
+        GroupAsc,
+        GroupDesc,
+        TrialDateAsc,
+        TrialDateDesc,
+        LevelAsc,
+        LevelDesc,
+        CommentAsc,
+        CommentDesc,
+        ChangeStatusAsc,
+        ChangeStatusDesc
     }
 }
