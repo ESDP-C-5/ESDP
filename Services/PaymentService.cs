@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CRM.Helpers;
@@ -102,6 +103,30 @@ namespace CRM.Services
         public async Task<StudentsPaymentListViewModel> GetAllStudentsByPayment(PaymentSortingEnum sortState)
         {
             var students = await _unitOfWork.Student.GetAllStudentsByPayment();
+            List<StudentPaymentViewModel> studentPaymentViewModels = new List<StudentPaymentViewModel>();
+            foreach (var student in students)
+            {
+                var model = Mapper.Map<StudentPaymentViewModel>(student);
+                model.MustTotal = await _unitOfWork.StudentPaymentAndPeriods.GetMustTotalByStudentIdAsync(student.Id);
+                model.AllMustTotal = await GetAllMustTotalByStudentIdAsync(student.Id);
+                model.AllTotal = await GetAllTotalByStudentId(student.Id);
+                model.Balance = model.AllMustTotal - model.AllTotal;
+                model.PeriodCount = await GetCountPeriodsByStudentIdAsync(student.Id);
+                model.LastPayment = await GetLastPaymentByStudentIdAsync(student.Id);
+                model.LastCommit = await GetLastCommitByStudentIdAsync(student.Id);
+                studentPaymentViewModels.Add(model);
+            }
+
+            return PaymentStudentsSort.Sort(studentPaymentViewModels, sortState);
+        }
+
+        public async Task<StudentsPaymentListViewModel> StudentSearchAsync(string term, PaymentSortingEnum sortState)
+        {
+            var students = await _unitOfWork.Student.GetAllStudentsByPayment();
+            students = students.Where(x => (x.Name?.ToUpper() ?? string.Empty).Contains(term.ToUpper())
+                                           || (x.PhoneNumber?.ToUpper() ?? string.Empty).Contains(term.ToUpper())
+                                           || (x.LastName?.ToUpper() ?? string.Empty).Contains(term.ToUpper())
+                                           || (x.ParentLastName?.ToUpper() ?? string.Empty).Contains(term.ToUpper())).ToList();
             List<StudentPaymentViewModel> studentPaymentViewModels = new List<StudentPaymentViewModel>();
             foreach (var student in students)
             {
