@@ -19,11 +19,13 @@ namespace CRM.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly PaymentPeriodService _paymentPeriodService;
+        private readonly CommentService _commentService;
 
-        public StudentService(UnitOfWork unitOfWork, PaymentPeriodService paymentPeriodService)
+        public StudentService(UnitOfWork unitOfWork, PaymentPeriodService paymentPeriodService, CommentService commentService)
         {
             _unitOfWork = unitOfWork;
             _paymentPeriodService = paymentPeriodService;
+            _commentService = commentService;
         }
 
         public async Task<List<Student>> GetAllStudents()
@@ -233,6 +235,77 @@ namespace CRM.Services
         private async void UpdateAndCompleteAsync(Student student)
         {
             _unitOfWork.Student.UpdateAsync(student);
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task AddStudent(string name, string lastName, string fatherName, DateTime dateOfBirth, DateTime trialDate, string parentName, string parentLastName, string parentFatherName, string phoneNumber, int status, string text, int groupId)
+        {
+            Student student = new Student()
+            {
+                Name = name,
+                LastName = lastName,
+                FatherName = fatherName,
+                DateOfBirthday = dateOfBirth,
+                TrialDate = trialDate,
+                ParentName = parentName,
+                ParentLastName = parentLastName,
+                ParentFatherName = parentFatherName,
+                PhoneNumber = phoneNumber,
+                Status = GetStatusEnum(status),
+                GroupId = groupId
+            };
+            await CreateAsyncReturnStudent(student);
+            if (student.Comments != null)
+            {
+                Comment comment = new Comment
+                {
+                    StudentId = student.Id,
+                    Text = text,
+                    Create = DateTime.Now
+                };
+                await _commentService.CreateAsync(comment);
+                await CreatePeriod(student);
+            }
+
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task CreatePeriod(Student student)
+        {
+            if (student.Status == StudentStatusEnum.studying || student.Status == StudentStatusEnum.trial)
+            {
+                student.DataStartStudying = DateTime.Today.AddDays(1);
+                StudentPaymentAndPeriod period = new StudentPaymentAndPeriod
+                {
+                    StudentId = student.Id,
+                    MustTotal = 0,
+                    PaymentPeriodStart = student.DataStartStudying,
+                    PaymentPeriodEnd = DateTime.Today.AddMonths(1)
+                };
+
+                student.ChangeStatusDate = DateTime.Now;
+                await _unitOfWork.StudentPaymentAndPeriods.CreateAsync(period);
+            }
+        }
+
+        public StudentStatusEnum GetStatusEnum(int value)
+        {
+            StudentStatusEnum status;
+            switch (value)
+            {
+                case 1:
+                    return StudentStatusEnum.studying;
+                case 2:
+                    return StudentStatusEnum.trial;
+                default:
+                    return StudentStatusEnum.interested;
+            }
+        }
+
+        public async Task CreateAsyncReturnStudent(Student student)
+        {
+            var studentUow = _unitOfWork.Student;
+            await studentUow.CreateAsync(student);
             await _unitOfWork.CompleteAsync();
         }
     }

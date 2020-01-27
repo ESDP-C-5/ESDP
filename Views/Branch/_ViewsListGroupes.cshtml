@@ -1,9 +1,9 @@
-@model System.Collections.Generic.IEnumerable<System.Linq.IGrouping<string,CRM.Models.Group>>
+@model System.Collections.Generic.IEnumerable<System.Linq.IGrouping<string, CRM.Models.Group>>
 
 <div class="row">
-    
+
     @{
-        int branchId = @Convert.ToInt32(ViewData["BranchId"]) ;
+        int branchId = @Convert.ToInt32(ViewData["BranchId"]);
         foreach (var item in Model)
         {
             <div class="col-md-3">
@@ -14,6 +14,73 @@
                     int count = 7 - @t.Students.Count;
                     <div>
                         <a onclick="selectGroup(@t.Id)">@t.TimeTable.Time <span class="badge">@count</span></a>
+                        @if (count > 0)
+                        {
+                            <div class="icon" style="" data-toggle="modal" data-target="#addStudent" onclick="Send(@t.Id)">
+                            </div>
+                        }
+                        <div class="modal fade" id="addStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Имя:</label>
+                                                <input type="text" class="form-control" id="name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Фамилия:</label>
+                                                <input type="text" class="form-control" id="lastName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Отчество:</label>
+                                                <input type="text" class="form-control" id="fatherName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Дата рождения:</label>
+                                                <input type="date" class="form-control" id="dateOfBirth">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Дато пробного:</label>
+                                                <input type="date" class="form-control" id="trialDate">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Имя родителя:</label>
+                                                <input type="text" class="form-control" id="parentName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Фамилия родителя:</label>
+                                                <input type="text" class="form-control" id="parentLastName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Отчество родителя:</label>
+                                                <input type="text" class="form-control" id="parentFatherName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Номер тел:</label>
+                                                <input type="text" class="form-control" id="phoneNumber">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Выберите статус:</label>
+                                                <select id="status">
+                                                    <option value="1">Учится</option>
+                                                    <option value="2">Пробный</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Коментарий:</label>
+                                                <textarea class="form-control" id="comment"></textarea>
+                                            </div>
+                                            <input type="hidden" id="groupId">
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                        <button type="button" class="btn btn-primary" onclick="AddStudent(@t.Id)">Сохранить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 }
             </div>
@@ -33,7 +100,57 @@
     }
 </script>
 <script>
-        function ShowAddGroupForm(branchId) {
-            $('#FormAddGroup').load('@Url.Action("ShowFormForAddGroup", "Branch")?id=' + branchId);
-        }
-        </script>
+    function ShowAddGroupForm(branchId) {
+        $('#FormAddGroup').load('@Url.Action("ShowFormForAddGroup", "Branch")?id=' + branchId);
+    }
+</script>
+<script>
+    function AddStudent(groupId) {
+        var name = $('#name').val();
+        var lastName = $('#lastName').val();
+        var fatherName = $('#fatherName').val();
+        var dateOfBirth = $('#dateOfBirth').val();
+        var trialDate = $('#trialDate').val();
+        var parentName = $('#parentName').val();
+        var parentLastName = $('#parentLastName').val();
+        var parentFatherName = $('#parentFatherName').val();
+        var phoneNumber = $('#phoneNumber').val();
+        var status = $('#status').val();
+        var text = $('#comment').val();
+        groupId = $('#groupId').val();
+        $.ajax({
+            url: '@Url.Action("AddStudent", "Student")',
+            type: 'POST',
+            data: {
+                'name': name,
+                'lastName': lastName,
+                'fatherName': fatherName,
+                'dateOfBirth': dateOfBirth,
+                'trialDate': trialDate,
+                'parentName': parentName,
+                'parentLastName': parentLastName,
+                'parentFatherName': parentFatherName,
+                'phoneNumber': phoneNumber,
+                'status': status,
+                'text': text,
+                'groupId': groupId
+            },
+            success: function (data) {
+                location.reload();
+            }
+        });
+    }
+</script>
+<script>
+    function Send(groupId) {
+        $('#groupId').val(groupId);
+    }
+</script>
+<script>
+    $('#addStudent').on(function (event) {
+        var button = $(event.relatedTarget);
+        var recipient = button.data('whatever');
+        var modal = $(this);
+        modal.find('.modal-body input').val(recipient);
+    })
+</script>

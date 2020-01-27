@@ -203,5 +203,13 @@ namespace CRM.Controllers
             }
         }
 
+        public async Task<JsonResult> AddStudent(string name, string lastName, string fatherName, DateTime dateOfBirth, DateTime trialDate,
+            string parentName, string parentLastName, string parentFatherName, string phoneNumber, int status, string text, int groupId)
+        {
+            await _studentService.AddStudent(name, lastName, fatherName, dateOfBirth, trialDate,
+                parentName, parentLastName, parentFatherName, phoneNumber, status, text, groupId);
+
+            return new JsonResult(StatusCode(200)); 
+        }
     }
 }
