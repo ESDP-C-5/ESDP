@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CRM.Helpers;
 using CRM.Models;
@@ -89,6 +90,22 @@ namespace CRM.Controllers
             _periodService.Update(periodId, mustTotal, dateStart, dateEnd);
             return Json(StatusCode(200));
         }
-
+        [Produces("application/json")]
+        public async Task<IActionResult> SearchStudent(string searchValue,PaymentSortingEnum sortState = PaymentSortingEnum.BalanceAsc)
+        {
+            try
+            {
+                var students = await _paymentService.StudentSearchAsync(searchValue,sortState);
+                return PartialView("_ListStudentByBranchIdPartialView", students);
+            }
+            catch (NullReferenceException e)
+            {
+                return await GetAllStudentsByPayment();
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(e);
+            }
+        }
     }
 }

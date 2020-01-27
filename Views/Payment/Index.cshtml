@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<div class="pb-3">
+    <input type="text" id="searchValue" oninput="Search()">
+</div>
 <ul class="nav nav-tabs ">
 
     @foreach (var item in Model)
@@ -13,7 +15,7 @@
                 <a class="btn-lg btn-default border border-dark " onclick="selectStudentsByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
             </h4>
         </li>
-    } 
+    }
 
 </ul>
 
@@ -33,4 +35,12 @@
             $('#selectedStudentsByBranchId').load('@Url.Action("GetAllStudentsByPayment", "Payment")');
         }
     </script>
+    <script >
+        function Search() {
+          let searchParams = $('#searchValue').val();
+          $('#selectedStudentsByBranchId').load('@Url.Action("SearchStudent", "Payment")?searchValue=' + searchParams);
+        }
+    </script>
+
+
 }
