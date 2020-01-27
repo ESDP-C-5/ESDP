@@ -26,9 +26,10 @@ namespace CRM.Repositories
         }
         public async Task<List<Student>> GetAllStudentsByGroupIdAsync(int idGroup)
         {
-            return await DbSet.Where(s => s.GroupId == idGroup && 
-                                          (s.Status == StudentStatusEnum.studying || 
-                                          s.Status == StudentStatusEnum.trial)).ToListAsync();
+            return await DbSet.Include(s => s.Level)
+                .Where(s => s.GroupId == idGroup && 
+                                                                (s.Status == StudentStatusEnum.studying || 
+                                                                 s.Status == StudentStatusEnum.trial)).ToListAsync();
         }
 
         internal async Task<List<Student>> SelectLeadStudentsAsync()
