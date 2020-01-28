@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CRM.Helpers;
+using CRM.ViewModels;
 
 namespace CRM.Repositories
 {
@@ -27,8 +28,7 @@ namespace CRM.Repositories
         public async Task<List<Student>> GetAllStudentsByGroupIdAsync(int idGroup)
         {
             return await DbSet.Include(s => s.Level)
-                .Where(s => s.GroupId == idGroup && 
-                                                                (s.Status == StudentStatusEnum.studying || 
+                .Where(s => s.GroupId == idGroup &&(s.Status == StudentStatusEnum.studying || 
                                                                  s.Status == StudentStatusEnum.trial)).ToListAsync();
         }
 
@@ -60,7 +60,32 @@ namespace CRM.Repositories
                     s.Status == StudentStatusEnum.trial))
                 .ToListAsync();
         }
+        public async Task<List<StudentAttendanceViewModel>> GetAllStudentsWithAttendancesByGroupIdAsync(int idGroup)
+        {
+            var students = await DbSet
+                .Include(s => s.Attendances)
+                .Where(s =>
+                    s.GroupId == idGroup &&
+                    (s.Status == StudentStatusEnum.studying ||
+                                              s.Status == StudentStatusEnum.trial))
+                .ToListAsync();
 
+            return students.Select(s => new StudentAttendanceViewModel()
+            {
+                Name = s.Name,
+                Id = s.Id,
+                StudentAttendances = s.Attendances.Where(a => a.Month == (Month)DateTime.Now.Month).OrderBy(a => a.Day).ToList()
+            }).ToList();
+        }
+
+        public async Task<List<Student>> GetStudyingAndTrialStudentsWithoutAttendanceByGroupId(int id)
+        {
+            var students = await DbSet
+                .Include(s => s.Attendances)
+                .Where(s => s.GroupId == id && (s.Status == StudentStatusEnum.studying || s.Status == StudentStatusEnum.trial))
+                .ToListAsync();
+
+            return students.Where(s => s.Attendances.Count == 0 || s.Attendances[s.Attendances.Count - 1].Month != (Month)DateTime.Now.Month).ToList();
         public async Task<List<Student>> GetAllStudentsByBranchIdAsync(int branchId)
         {
             return await DbSet

@@ -16,7 +16,6 @@ namespace CRM.Data
         public DbSet<Group> Groups { get; set; }
         public DbSet<TimeTable> TimeTables { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
-        public DbSet<Journal> Journals { get; set; }
         public DbSet<Comment> Comments { get; set; } 
         public DbSet<Payment> Payments { get; set; }
         public DbSet<StudentPaymentAndPeriod> StudentPaymentAndPeriods { get; set; }

@@ -24,6 +24,6 @@
 
 <script>
     function selectGroup(ID) {
-        $('#SelectedStudentsBuGroupId').load('@Url.Action("SelectStudentsBuGroupId", "Branch")?id=' + ID);
+        $('#SelectedStudentsBuGroupId').load('@Url.Action("ViewStudentsAttendanceByGroupId", "Attendance")?id=' + ID);
     }
 </script>

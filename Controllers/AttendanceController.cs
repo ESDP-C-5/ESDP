@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CRM.ViewModels;
 
 namespace CRM.Controllers
 {
@@ -104,6 +105,28 @@ namespace CRM.Controllers
         {
             var groupes = await _groupService.GetGroupesByBranchIdAsync(Id);
             return PartialView("_ViewGroupsByBranchId", groupes);
+        }
+
+
+        public async Task<IActionResult> ViewStudentsAttendanceByGroupId(int Id)
+        {
+            var group = await _groupService.GetGroupByIdAsync(Id);
+
+            var students = await _studentService.GetStudyingAndTrialStudentsWithoutAttendanceByGroupId(Id);
+
+            await _attendanceService.SetAttendances(DateTime.Now, group, students);
+
+            var model = await _studentService.GetStudyingAndTrialStudentsAttendanceByGroupId(Id);
+
+            return PartialView("_ViewsListStudents", model);
+        }
+
+        public async Task<JsonResult> UpdateAttendance(int studentId, int attendanceId, int attendanceDay, string attendanceMonth, int isAttend, string comment)
+        {
+            await _attendanceService.UpdateAttendance(studentId, attendanceId, attendanceDay, attendanceMonth, isAttend,
+                comment);
+            var student = _studentService.GetByIdAsync(studentId);
+            return new JsonResult(StatusCode(200));
         }
     }
 }

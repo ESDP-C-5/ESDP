@@ -34,14 +34,13 @@ namespace CRM.Models
         public StudentStatusEnum Status { get; set; }
         public Level Level { get; set; }
         public Group Group { get; set; }
+        public List<Attendance> Attendances { get; set; }
         public List<StudentPaymentAndPeriod> StudentPaymentAndPeriods { get; set; }
         [NotMapped]
         public IStatusStudent IStatusStudent { get; set; }
-
         public List<Payment> Payments { get; set; }
         public DateTime DataStartStudying { get; set; }
         public DateTime DataEndStudying { get; set; }
-
         public Student()
         {
             CreatedDate = DateTime.Now;

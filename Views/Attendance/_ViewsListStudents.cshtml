@@ -1,0 +1,148 @@
+﻿@model List<CRM.ViewModels.StudentAttendanceViewModel>;
+
+<div class="card mt-3">
+    <div class="card-header">
+        <div class="row font-weight-bold">
+            <div class="offset-2"></div>
+            <div class="col-10 text-center">@Model[0].StudentAttendances[0].Month</div>
+            <div class="col-2">
+                @Html.DisplayNameFor(model => model[0].Name)
+            </div>
+            @{
+                foreach (var attendance in Model[0].StudentAttendances)
+                {
+                    <div class="col-1 text-center">
+                        @attendance.Day
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    @{
+        foreach (var student in Model)
+        {
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-2">
+                            @Html.DisplayFor(modelItem => student.Name)
+                        </div>
+                        @foreach (var attendance in student.StudentAttendances)
+                        {
+                            <div id="@attendance.Id" class="col-1 text-center" data-toggle="tooltip" data-placement="right" title="@attendance.Comment">
+                                <span data-toggle="modal" data-target="#attendance-modal"
+                                      data-name="@string.Concat($"{student.Name} {attendance.Day}-{attendance.Month}")"
+                                      data-attendance-comment="@attendance.Comment"
+                                      data-attendance-id="@attendance.Id"
+                                      data-attendance-day="@attendance.Day"
+                                      data-attendance-month="@attendance.Month"
+                                      data-student-id="@student.Id">
+                                    @{ int isAttendance = (int)attendance.IsAttended;}
+                                    <input type="hidden" id="isAttend" value="@isAttendance" />
+                                    @Html.DisplayFor(modelItem => attendance.IsAttended)
+                                </span>
+                            </div>
+                        }
+                    </div>
+
+                </li>
+
+            </ul>
+        }
+    }
+</div>
+
+<div class="modal fade" id="attendance-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <input type="hidden" name="Id" id="modal-attendance-id" />
+                    <input type="hidden" name="day" id="modal-attendance-day" />
+                    <input type="hidden" name="month" id="modal-attendance-month" />
+                    <input type="hidden" id="modal-student-id">
+                    <div class="form-group">
+                        <select id="modal-attendance-isAttended">
+                            <option value="0">Не указано</option>
+                            <option value="1">Был</option>
+                            <option value="2">Не был</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-attendance-comment" class="col-form-label">Комментарий:</label>
+                        <textarea class="form-control" id="modal-attendance-comment"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" onclick="updateAttendance()">Отметить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateAttendance() {
+        let studentId =$('#modal-student-id').val();
+        let attendanceId =$('#modal-attendance-id').val();
+        let attendanceDay =$('#modal-attendance-day').val();
+        let attendanceMonth =$('#modal-attendance-month').val();
+        let isAttend =$('#modal-attendance-isAttended').val();
+        let comment = $('#modal-attendance-comment').val();
+        $.ajax({
+            url: '@Url.Action("UpdateAttendance", "Attendance")',
+            type: 'POST',
+            data: {
+                'studentId': studentId,
+                'attendanceId': attendanceId,
+                'attendanceDay': attendanceDay,
+                'attendanceMonth': attendanceMonth,
+                'isAttend': isAttend,
+                'comment': comment,
+            },
+            success: function (data) {
+                location.reload();
+            }
+        });
+
+    }
+</script>
+
+<script>
+    $('#attendance-modal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var name = button.data('name'); // Extract info from data-* attributes
+        var attendanceId = button.data('attendance-id');
+        var attendanceDay = button.data('attendance-day');
+        var attendanceMonth = button.data('attendance-month');
+        var studentId = button.data('student-id');
+        var attendanceComment = button.data('attendance-comment');
+        var isAttend = $('#'+attendanceId+' #isAttend').val();
+
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('Отметить посещаемость: ' + name);
+        modal.find('.modal-body #modal-attendance-comment').val(attendanceComment);
+        modal.find('.modal-body #modal-attendance-comment').val(attendanceComment);
+        modal.find('.modal-body #modal-attendance-isAttended').val(isAttend);
+        modal.find('.modal-body #modal-student-id').val(studentId);
+        modal.find('.modal-body #modal-attendance-day').val(attendanceDay);
+        modal.find('.modal-body #modal-attendance-id').val(attendanceId);
+        modal.find('.modal-body #modal-attendance-month').val(attendanceMonth);
+
+    })
+</script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+</script>

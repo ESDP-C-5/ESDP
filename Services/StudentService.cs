@@ -144,6 +144,12 @@ namespace CRM.Services
             return SortStudents.Sort(students, sortState);
         }
 
+        public async Task<List<Student>> GetStudyingAndTrialStudentsWithoutAttendanceByGroupId(int id)
+        {
+            var students = await _unitOfWork.Student.GetStudyingAndTrialStudentsWithoutAttendanceByGroupId(id);
+            return students;
+        }
+
         public async Task<List<Student>> GetStudingStudentsByBranchIdAsync(int BranchId)
         {
             var groups = await _unitOfWork.Groups.GetIncludeStudentsByBranchIdAsync(BranchId);
@@ -176,7 +182,11 @@ namespace CRM.Services
             var students = await _unitOfWork.Student.GetAllStudentsByArchiveAsync();
             return students;
         }
+        public async Task<List<StudentAttendanceViewModel>> GetStudyingAndTrialStudentsAttendanceByGroupId(int id)
+        {
+            var students = await _unitOfWork.Student.GetAllStudentsWithAttendancesByGroupIdAsync(id);
 
+            return students;
         public async Task EditAsync(EditStudentViewModel student)
         {
             if (student.Comment != null)
