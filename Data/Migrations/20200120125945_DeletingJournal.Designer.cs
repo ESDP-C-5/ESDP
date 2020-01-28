@@ -4,14 +4,16 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRM.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200120125945_DeletingJournal")]
+    partial class DeletingJournal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,17 +89,13 @@ namespace CRM.Data.Migrations
                     b.Property<string>("Comment")
                         .HasMaxLength(300);
 
-                    b.Property<int>("Day");
+                    b.Property<DateTime>("Day");
 
-                    b.Property<int>("IsAttended");
-
-                    b.Property<int>("Month");
+                    b.Property<bool>("IsAttended");
 
                     b.Property<int>("StudentId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Attendances");
                 });
@@ -352,14 +350,6 @@ namespace CRM.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("CRM.Models.Attendance", b =>
-                {
-                    b.HasOne("CRM.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CRM.Models.Group", b =>

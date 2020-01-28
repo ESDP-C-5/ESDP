@@ -4,10 +4,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CRM.Data.Migrations
 {
-    public partial class AddTableJournal : Migration
+    public partial class DeletingJournal : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            
+            migrationBuilder.DropTable(
+                name: "Journals");
+
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<int>(
+                name: "JournalId",
+                table: "Attendances",
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "Journals",
                 columns: table => new
@@ -32,12 +45,14 @@ namespace CRM.Data.Migrations
                 name: "IX_Journals_GroupID",
                 table: "Journals",
                 column: "GroupID");
-        }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "Journals");
+            migrationBuilder.AddForeignKey(
+                name: "FK_Attendances_Journals_JournalId",
+                table: "Attendances",
+                column: "JournalId",
+                principalTable: "Journals",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

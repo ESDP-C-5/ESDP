@@ -18,7 +18,7 @@ namespace CRM.Repositories
         {
             return await DbSet.Include(g => g.Branch)
                     .Include(g => g.User)
-                    .Include(g =>g.TimeTable)
+                    .Include(g => g.TimeTable)
                     .SingleOrDefaultAsync(g => g.Id == id)
             ;
         }
@@ -34,14 +34,14 @@ namespace CRM.Repositories
         public async Task<List<Group>> GetGroupesByBranchIdIncludeTimeTableAsync(int branchId)
         {
             return await DbSet
-                .Include(g =>g.TimeTable)
+                .Include(g => g.TimeTable)
                 .Where(g => g.BranchId == branchId).ToListAsync();
         }
         public IEnumerable<Group> GetAllGroupsAllInclude()
         {
             return DbSet
-                .Include(g =>g.Branch)
-                .Include(g =>g.User)
+                .Include(g => g.Branch)
+                .Include(g => g.User)
                 .Include(g => g.TimeTable)
                 .Include(g => g.Students)
                 .ToList();
@@ -55,6 +55,7 @@ namespace CRM.Repositories
                 .ToListAsync();
             return item;
         }
+
 
     }
 }

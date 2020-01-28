@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CRM.Helpers;
+using CRM.ViewModels;
 
 namespace CRM.Services
 {
@@ -109,6 +110,12 @@ namespace CRM.Services
             return students;
         }
 
+        public async Task<List<Student>> GetStudyingAndTrialStudentsWithoutAttendanceByGroupId(int id)
+        {
+            var students = await _unitOfWork.Student.GetStudyingAndTrialStudentsWithoutAttendanceByGroupId(id);
+            return students;
+        }
+
         public async Task<List<Student>> GetStudingStudentsByBranchIdAsync(int BranchId)
         {
             var groups = await _unitOfWork.Groups.GetIncludeStudentsByBranchIdAsync(BranchId);
@@ -126,6 +133,13 @@ namespace CRM.Services
         public async Task<List<Student>> GetAllStudentsByArchive()
         {
             var students = await _unitOfWork.Student.GetAllStudentsByArchiveAsync();
+            return students;
+        }
+
+        public async Task<List<StudentAttendanceViewModel>> GetStudyingAndTrialStudentsAttendanceByGroupId(int id)
+        {
+            var students = await _unitOfWork.Student.GetAllStudentsWithAttendancesByGroupIdAsync(id);
+
             return students;
         }
     }

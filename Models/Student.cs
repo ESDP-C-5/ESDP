@@ -32,6 +32,7 @@ namespace CRM.Models
         public StudentStatusEnum Status { get; set; }
         public Level Level { get; set; }
         public Group Group { get; set; }
+        public List<Attendance> Attendances { get; set; }
 
         public Student()
         {

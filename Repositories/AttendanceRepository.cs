@@ -13,5 +13,12 @@ namespace CRM.Repositories
         public AttendanceRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        public async Task CreateRangeAsync(List<Attendance> attendances)
+        {
+            await DbSet.AddRangeAsync(attendances);
+        }
+
+
     }
 }

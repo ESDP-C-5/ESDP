@@ -6,12 +6,11 @@ namespace CRM.Models
 {
     public class Journal : BaseEntity
     {
-        public Group Group { get; set; }
-        public int GroupID { get; set; }
+        //public Group Group { get; set; }
+        //public int GroupID { get; set; }
 
-        [DataType(DataType.Date)]
-        public DateTime YearMonthAttendance { get; set; }
+        //[DataType(DataType.Date)]
+        //public DateTime YearMonthAttendance { get; set; }
 
-        public List<Attendance> Attendances { get; set; }
     }
 }
