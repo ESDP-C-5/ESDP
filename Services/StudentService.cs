@@ -157,6 +157,19 @@ namespace CRM.Services
 
             return students;
         }
+        public async Task<List<Student>> GetTrialStudentsByBranchIdAsync(int BranchId)
+        {
+            var groups = await _unitOfWork.Groups.GetIncludeStudentsByBranchIdAsync(BranchId);
+            var students = new List<Student>();
+            foreach (var g in groups)
+            {
+                students.AddRange(g.Students);
+            }
+
+            students = students.Where(x => x.Status == StudentStatusEnum.trial).ToList();
+
+            return students;
+        }
 
         public async Task<List<Student>> GetAllStudentsByArchive()
         {
