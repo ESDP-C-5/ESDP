@@ -40,7 +40,12 @@ namespace CRM.Controllers
             var students = await _studentService.GetStudingStudentsByBranchIdAsync(id);
             return PartialView("_StudingStudents", students);
         }
-        
+        public async Task<ActionResult> SelectTrialStudentsByBranchId(int id)
+        {
+            var students = await _studentService.GetTrialStudentsByBranchIdAsync(id);
+            return PartialView("_TrialStudents", students);
+        }
+
         public async Task<ActionResult> SelectLeadStudents(SortingEnum sortState = SortingEnum.LastNameAsc)
         {
             var students = await _studentService.SelectLeadStudentsAsync(sortState);
@@ -49,6 +54,7 @@ namespace CRM.Controllers
         public async Task<ActionResult> SelectTrialStudents(SortingEnum sortState = SortingEnum.LastNameAsc)
         {
             var students = await _studentService.SelectTrialStudentsAsync(sortState);
+            ViewData["Branches"] = await _branchService.GetAllBranch();
             return View(students);
         }
         public async Task<ActionResult> SelectStudyingStudents(SortingEnum sortState = SortingEnum.LastNameAsc)

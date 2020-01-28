@@ -1,75 +1,90 @@
 ﻿@model CRM.ViewModels.StudentViewModel
 
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>
-                <a asp-route-sortState="@Model.LastNameSortState">ФИО Ребенка</a>
-            </th>
-            <th>
-                <a asp-route-sortState="@Model.DateOfBirthdaySortState">Дата Рождения</a>
-            </th>
-            <th>
-                <a asp-route-sortState="@Model.CreatedDateSortState">Дата Записи</a>
-            </th>
-            <th>
-                <a asp-route-sortState="@Model.ParentLastNameSortState">ФИО Родителя</a>
-            </th>
-            <th>
-                <a asp-route-sortState="@Model.PhoneNumberSortState">Номер телефона</a>
-            </th>
-            <th>
-                <a asp-route-sortState="@Model.StatusSortState">Статус</a>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            foreach (var item in Model.Student)
-            {
-                <tr>
-                    <td>
-                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
-                            @Html.DisplayFor(modelItem => item.LastName)
-                            @Html.DisplayFor(modelItem => item.Name)
-                            @Html.DisplayFor(modelItem => item.FatherName)
-                        </a>
-                    </td>
-                    <td>
-                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
-                            @Html.DisplayFor(modelItem => item.DateOfBirthday)
-                        </a>
-                    </td>
-                    <td>
-                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
-                            @Html.DisplayFor(modelItem => item.CreatedDate)
-                        </a>
-                    </td>
-                    <td>
-                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
-                            @Html.DisplayFor(modelItem => item.ParentLastName)
-                            @Html.DisplayFor(modelItem => item.ParentName)
-                            @Html.DisplayFor(modelItem => item.ParentFatherName)
-                        </a>
-                    </td>
-                    <td>
-                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
-                            @Html.DisplayFor(modelItem => item.PhoneNumber)
-                        </a>
-                    </td>
-                    <td>
-                        <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
-                            @Html.DisplayFor(modelItem => item.Status)
-                        </a>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
+<ul class="nav nav-tabs">
+    @foreach (var item in (List<Branch>)ViewData["Branches"])
+    {
+        <li>
+            <h4>
+                <a class="btn-lg btn-default border border-dark " onclick="SelectArchiveStudentsByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
+            </h4>
+        </li>
+    }
 
+</ul>
+<div id="SelectedTrialStudentsByBranchId">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-route-sortState="@Model.LastNameSortState">ФИО Ребенка</a>
+                </th>
+                <th>
+                    <a asp-route-sortState="@Model.DateOfBirthdaySortState">Дата Рождения</a>
+                </th>
+                <th>
+                    <a asp-route-sortState="@Model.CreatedDateSortState">Дата Записи</a>
+                </th>
+                <th>
+                    <a asp-route-sortState="@Model.ParentLastNameSortState">ФИО Родителя</a>
+                </th>
+                <th>
+                    <a asp-route-sortState="@Model.PhoneNumberSortState">Номер телефона</a>
+                </th>
+                <th>
+                    <a asp-route-sortState="@Model.StatusSortState">Статус</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model.Student)
+                {
+                    <tr>
+                        <td>
+                            <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                                @Html.DisplayFor(modelItem => item.LastName)
+                                @Html.DisplayFor(modelItem => item.Name)
+                                @Html.DisplayFor(modelItem => item.FatherName)
+                            </a>
+                        </td>
+                        <td>
+                            <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                                @Html.DisplayFor(modelItem => item.DateOfBirthday)
+                            </a>
+                        </td>
+                        <td>
+                            <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                                @Html.DisplayFor(modelItem => item.CreatedDate)
+                            </a>
+                        </td>
+                        <td>
+                            <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                                @Html.DisplayFor(modelItem => item.ParentLastName)
+                                @Html.DisplayFor(modelItem => item.ParentName)
+                                @Html.DisplayFor(modelItem => item.ParentFatherName)
+                            </a>
+                        </td>
+                        <td>
+                            <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </a>
+                        </td>
+                        <td>
+                            <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        function SelectArchiveStudentsByBranchId(id) {
+            $('#SelectedTrialStudentsByBranchId').load('@Url.Action("SelectTrialStudentsByBranchId", "Student")?id=' + id);
+        }
+    </script>
+}
