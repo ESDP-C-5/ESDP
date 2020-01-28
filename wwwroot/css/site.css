@@ -45,6 +45,18 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
+.icon {
+    width: 30px;
+    height: 20px;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(../icons/user_plus_solid.ico);
+    margin-bottom: -5px;
+    display: inline-block;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

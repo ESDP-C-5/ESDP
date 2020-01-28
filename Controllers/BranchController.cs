@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CRM.Models;
 using CRM.Services;
 using CRM.UoW;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ namespace CRM.Controllers
             _userManager = userManager;
         }
 
-        // GET: Leve
+        [Authorize]
         public async Task<ActionResult> Index()
         {
             var branchs = await _branchService.GetAllBranch();

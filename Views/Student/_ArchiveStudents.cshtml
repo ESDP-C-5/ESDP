@@ -26,7 +26,7 @@
                 @Html.DisplayNameFor(model => model[0].Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].Comment)
+                @Html.DisplayNameFor(model => model[0].Comments)
             </th>
 
         </tr>
@@ -36,33 +36,46 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
+                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FatherName)
+                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.FatherName)
+                    </a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateOfBirthday)
+                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.DateOfBirthday)
+                    </a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TrialDate)
+                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.TrialDate)
+                    </a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Comment)
+                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Comments)
+                    </a>
                 </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                </td>
-            </tr>
+             </tr>
         }
     </tbody>
 </table>

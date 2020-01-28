@@ -56,6 +56,9 @@ namespace CRM
             services.AddTransient<GroupService>();
             services.AddTransient<TimeTableService>();
             services.AddTransient<AttendanceService>();
+            services.AddTransient<PaymentService>();
+            services.AddTransient<PaymentPeriodService>();
+            services.AddTransient<CommentService>();
 
             Mapper.Initialize(config => config.AddProfile(new MappingProfile()));
         }
@@ -85,7 +88,7 @@ namespace CRM
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Branch}/{action=Index}/{id?}");
             });
             CreateUserRoles(service).Wait();
         }

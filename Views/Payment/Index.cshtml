@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CRM.Models.Branch>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="pb-3">
+    <input type="text" id="searchValue" oninput="Search()">
+</div>
+<ul class="nav nav-tabs ">
+
+    @foreach (var item in Model)
+    {
+        <li>
+            <h4>
+                <a class="btn-lg btn-default border border-dark " onclick="selectStudentsByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
+            </h4>
+        </li>
+    }
+
+</ul>
+
+<div id="selectedStudentsByBranchId"></div>
+
+
+@section Scripts {
+    <script>
+        
+        function selectStudentsByBranchId(Id) {
+            $('#selectedStudentsByBranchId').load('@Url.Action("SelectStudentsByBranchId", "Payment")?id=' + Id);
+        }
+    </script>
+    <script>
+        window.onload = GetAllStudentsByPayment();
+        function GetAllStudentsByPayment() {
+            $('#selectedStudentsByBranchId').load('@Url.Action("GetAllStudentsByPayment", "Payment")');
+        }
+    </script>
+    <script >
+        function Search() {
+          let searchParams = $('#searchValue').val();
+          $('#selectedStudentsByBranchId').load('@Url.Action("SearchStudent", "Payment")?searchValue=' + searchParams);
+        }
+    </script>
+
+
+}

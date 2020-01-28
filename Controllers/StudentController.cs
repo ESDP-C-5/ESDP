@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CRM.Helpers;
+using CRM.Helpers.SortHelper;
 using CRM.Models;
 using CRM.Services;
 using CRM.UoW;
@@ -17,12 +19,14 @@ namespace CRM.Controllers
     {
         private readonly StudentService _studentService;
         private readonly BranchService _branchService;
+        private readonly CommentService _commentService;
 
 
-        public StudentController(StudentService studentService, BranchService branchService)
+        public StudentController(StudentService studentService, BranchService branchService, CommentService commentService)
         {
             _studentService = studentService;
             _branchService = branchService;
+            _commentService = commentService;
 
         }
 
@@ -36,28 +40,35 @@ namespace CRM.Controllers
             var students = await _studentService.GetStudingStudentsByBranchIdAsync(id);
             return PartialView("_StudingStudents", students);
         }
-        
-        public async Task<ActionResult> SelectLeadStudents()
+        public async Task<ActionResult> SelectTrialStudentsByBranchId(int id)
         {
-            var students = await _studentService.SelectLeadStudentsAsync();
+            var students = await _studentService.GetTrialStudentsByBranchIdAsync(id);
+            return PartialView("_TrialStudents", students);
+        }
+
+        public async Task<ActionResult> SelectLeadStudents(SortingEnum sortState = SortingEnum.LastNameAsc)
+        {
+            var students = await _studentService.SelectLeadStudentsAsync(sortState);
             return View(students);
         }
-        public async Task<ActionResult> SelectStudyingStudents()
+        public async Task<ActionResult> SelectTrialStudents(SortingEnum sortState = SortingEnum.LastNameAsc)
         {
-            var students = await _studentService.SelectStudyingStudentsAsync();
+            var students = await _studentService.SelectTrialStudentsAsync(sortState);
+            ViewData["Branches"] = await _branchService.GetAllBranch();
+            return View(students);
+        }
+        public async Task<ActionResult> SelectStudyingStudents(SortingEnum sortState = SortingEnum.LastNameAsc)
+        {
+            var students = await _studentService.SelectStudyingStudentsAsync(sortState);
             ViewData["Branches"] = await _branchService.GetAllBranch();
             return View(students);
         }
         
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(SortingEnum sortState = SortingEnum.LastNameAsc)
         {
-            BranchesWithStudentsViewModel branchesWithStudents = new BranchesWithStudentsViewModel()
-            {
-                students = await _studentService.GetAllStudentsByArchive(),
-
-                branches = await _branchService.GetAllBranch()
-            };
-            return View(branchesWithStudents);
+            StudentViewModel st = SortStudents.Sort(await _studentService.GetAllStudentsByArchive(), sortState);
+            st.branches = await _branchService.GetAllBranch();
+            return View(st);
         }
 
         // GET: Student/Details/5
@@ -80,15 +91,38 @@ namespace CRM.Controllers
         // POST: Student/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Student student)
+        public async Task<ActionResult> Create(CreateStudentViewModel student)
         {
             if (ModelState.IsValid)
             {
-                await _studentService.CreateAsync(student);
-                return RedirectToAction(nameof(Index));
+                Student newStudent = new Student()
+                {
+                    Name = student.Name,
+                    LastName = student.LastName,
+                    FatherName = student.FatherName,
+                    PhoneNumber = student.PhoneNumber,
+                    DateOfBirthday = student.DateOfBirthday,
+                    TrialDate = student.TrialDate,
+                    ParentName = student.ParentName,
+                    ParentLastName = student.ParentLastName,
+                    ParentFatherName = student.ParentFatherName
+                };
+                var studentId = await _studentService.CreateAsyncReturnId(student);
+                if(student.Comment != null)
+                {
+                    Comment comment = new Comment
+                    {
+                        StudentId = studentId,
+                        Text = student.Comment,
+                        Create = DateTime.Now
+                    };
+                    await _commentService.CreateAsync(comment);
+                }
+                
+                return RedirectToAction(nameof(SelectLeadStudents));
             }
 
-            return RedirectToAction(nameof(Index));
+            return View(student);
         }
 
         // GET: Student/Edit/5
@@ -98,6 +132,7 @@ namespace CRM.Controllers
             var model = Mapper.Map<EditStudentViewModel>(student);
 
             model.Levels = new SelectList(_studentService.GetAllLevel(), "Id", "Name");
+            model.StudentStatusEnum = student.Status;
             model.Groups = new SelectList(_studentService.GetAllGroup().Select(x => new
             {
                 Id = x.Id,
@@ -112,11 +147,12 @@ namespace CRM.Controllers
         // POST: Student/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Student student)
+        public async Task<ActionResult> Edit(EditStudentViewModel student)
         {
             try
             {
                 await _studentService.EditAsync(student);
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -148,11 +184,13 @@ namespace CRM.Controllers
             }
         }
 
-        public async Task<IActionResult> List(string value)
+        public async Task<IActionResult> List(string value,
+            SortingEnum sortState = SortingEnum.LastNameAsc)
         {
-            var students = await _studentService.SearchAsync(value);
+            ViewBag.value = value;
+            var students = await _studentService.SearchAsync(value, sortState);
 
-            return View("List", students);
+            return View(students);
         }
 
         [Produces("application/json")]
@@ -162,7 +200,7 @@ namespace CRM.Controllers
             {
                 string term = HttpContext.Request.Query["term"].ToString();
                 var students = await _studentService.SearchAsync(term);
-                var names = students.Select(p => p.Name ?? p.PhoneNumber ?? p.LastName ?? p.ParentLastName).ToList();
+                var names = students.Student.Select(p => p.LastName ?? p.Name ?? p.PhoneNumber ?? p.ParentLastName).ToList();
                 return Ok(names);
             }
             catch
@@ -170,6 +208,14 @@ namespace CRM.Controllers
                 return BadRequest();
             }
         }
-        
+
+        public async Task<JsonResult> AddStudent(string name, string lastName, string fatherName, DateTime dateOfBirth, DateTime trialDate,
+            string parentName, string parentLastName, string parentFatherName, string phoneNumber, int status, string text, int groupId)
+        {
+            await _studentService.AddStudent(name, lastName, fatherName, dateOfBirth, trialDate,
+                parentName, parentLastName, parentFatherName, phoneNumber, status, text, groupId);
+
+            return new JsonResult(StatusCode(200)); 
+        }
     }
 }

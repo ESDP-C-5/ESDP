@@ -30,27 +30,35 @@
             {
                 <tr style="background-color: red">
                     <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                        @Html.DisplayFor(modelItem => item.Name)
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.LastName)
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DateOfBirthday)
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.DateOfBirthday)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TrialDate)
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.TrialDate)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Level.Name)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Student">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Student">Details</a>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Level.Name)
+                        </a>
                     </td>
                 </tr>
             }
@@ -58,27 +66,35 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                        @Html.DisplayFor(modelItem => item.Name)
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.LastName)
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DateOfBirthday)
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.DateOfBirthday)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TrialDate)
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.TrialDate)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Level.Name)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Student">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Student">Details</a>
+                        <a style="text-decoration: none; color:black" asp-action="Details" asp-controller="Student" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Level.Name)
+                        </a>
                     </td>
                 </tr>
             }

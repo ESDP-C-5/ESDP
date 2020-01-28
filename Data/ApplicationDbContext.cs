@@ -17,6 +17,8 @@ namespace CRM.Data
         public DbSet<TimeTable> TimeTables { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Comment> Comments { get; set; } 
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<StudentPaymentAndPeriod> StudentPaymentAndPeriods { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
