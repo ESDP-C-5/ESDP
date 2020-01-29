@@ -4,16 +4,14 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CRM.Data.Migrations
+namespace CRM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191120093420_ChangeTableStudentGroupIdAndLevelIdISNull")]
-    partial class ChangeTableStudentGroupIdAndLevelIdISNull
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,19 +78,65 @@ namespace CRM.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("CRM.Models.Attendance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(300);
+
+                    b.Property<int>("Day");
+
+                    b.Property<int>("IsAttended");
+
+                    b.Property<int>("Month");
+
+                    b.Property<int>("StudentId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Attendances");
+                });
+
             modelBuilder.Entity("CRM.Models.Branch", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .IsRequired();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.ToTable("Branches");
+                });
+
+            modelBuilder.Entity("CRM.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Create");
+
+                    b.Property<int>("StudentId");
+
+                    b.Property<string>("Text")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("CRM.Models.Group", b =>
@@ -101,13 +145,9 @@ namespace CRM.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Adress");
-
                     b.Property<int>("BranchId");
 
-                    b.Property<int>("LevelId");
-
-                    b.Property<string>("Name");
+                    b.Property<DateTime>("DateCreated");
 
                     b.Property<int>("TimeTableId");
 
@@ -116,8 +156,6 @@ namespace CRM.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
-
-                    b.HasIndex("LevelId");
 
                     b.HasIndex("TimeTableId");
 
@@ -132,11 +170,38 @@ namespace CRM.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
                     b.ToTable("Levels");
+                });
+
+            modelBuilder.Entity("CRM.Models.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment");
+
+                    b.Property<DateTime>("DateTimePayment");
+
+                    b.Property<int>("StudentId");
+
+                    b.Property<int>("StudentPaymentAndPeriodId");
+
+                    b.Property<decimal>("Total");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("StudentPaymentAndPeriodId");
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("CRM.Models.Student", b =>
@@ -145,7 +210,13 @@ namespace CRM.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Comment");
+                    b.Property<DateTime>("ChangeStatusDate");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<DateTime>("DataEndStudying");
+
+                    b.Property<DateTime>("DataStartStudying");
 
                     b.Property<DateTime>("DateOfBirthday");
 
@@ -165,7 +236,10 @@ namespace CRM.Data.Migrations
 
                     b.Property<string>("ParentName");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired();
+
+                    b.Property<int>("Status");
 
                     b.Property<DateTime>("TrialDate");
 
@@ -178,19 +252,42 @@ namespace CRM.Data.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("CRM.Models.StudentPaymentAndPeriod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("MustTotal");
+
+                    b.Property<DateTime>("PaymentPeriodEnd");
+
+                    b.Property<DateTime>("PaymentPeriodStart");
+
+                    b.Property<int>("StudentId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentPaymentAndPeriods");
+                });
+
             modelBuilder.Entity("CRM.Models.TimeTable", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateEnd");
+                    b.Property<int>("Day1");
 
-                    b.Property<DateTime>("DateStarT");
+                    b.Property<int>("Day2");
+
+                    b.Property<string>("Time");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TimeTable");
+                    b.ToTable("TimeTables");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -307,16 +404,27 @@ namespace CRM.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CRM.Models.Attendance", b =>
+                {
+                    b.HasOne("CRM.Models.Student", "Student")
+                        .WithMany("Attendances")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CRM.Models.Comment", b =>
+                {
+                    b.HasOne("CRM.Models.Student")
+                        .WithMany("Comments")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("CRM.Models.Group", b =>
                 {
                     b.HasOne("CRM.Models.Branch", "Branch")
-                        .WithMany()
+                        .WithMany("Groups")
                         .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CRM.Models.Level", "Level")
-                        .WithMany()
-                        .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CRM.Models.TimeTable", "TimeTable")
@@ -329,15 +437,36 @@ namespace CRM.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("CRM.Models.Payment", b =>
+                {
+                    b.HasOne("CRM.Models.Student", "Student")
+                        .WithMany("Payments")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CRM.Models.StudentPaymentAndPeriod", "StudentPaymentAndPeriod")
+                        .WithMany("Payments")
+                        .HasForeignKey("StudentPaymentAndPeriodId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("CRM.Models.Student", b =>
                 {
                     b.HasOne("CRM.Models.Group", "Group")
-                        .WithMany()
+                        .WithMany("Students")
                         .HasForeignKey("GroupId");
 
                     b.HasOne("CRM.Models.Level", "Level")
                         .WithMany()
                         .HasForeignKey("LevelId");
+                });
+
+            modelBuilder.Entity("CRM.Models.StudentPaymentAndPeriod", b =>
+                {
+                    b.HasOne("CRM.Models.Student", "Student")
+                        .WithMany("StudentPaymentAndPeriods")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

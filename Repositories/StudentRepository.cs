@@ -86,6 +86,7 @@ namespace CRM.Repositories
                 .ToListAsync();
 
             return students.Where(s => s.Attendances.Count == 0 || s.Attendances[s.Attendances.Count - 1].Month != (Month)DateTime.Now.Month).ToList();
+        }
         public async Task<List<Student>> GetAllStudentsByBranchIdAsync(int branchId)
         {
             return await DbSet
