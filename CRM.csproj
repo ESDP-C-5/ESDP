@@ -6,23 +6,6 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Data\Migrations\20200111092616_DeletingAttendanceFromJournal.cs" />
-    <Compile Remove="Data\Migrations\20200111092616_DeletingAttendanceFromJournal.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200111092831_DeletingJournalAndAttendance.cs" />
-    <Compile Remove="Data\Migrations\20200111092831_DeletingJournalAndAttendance.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200111111816_test.cs" />
-    <Compile Remove="Data\Migrations\20200111111816_test.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200113125357_test.cs" />
-    <Compile Remove="Data\Migrations\20200113125357_test.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200113132436_test.cs" />
-    <Compile Remove="Data\Migrations\20200113132436_test.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200121132655_EditedAttendance.cs" />
-    <Compile Remove="Data\Migrations\20200121132655_EditedAttendance.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200127125616_test.cs" />
-    <Compile Remove="Data\Migrations\20200127125616_test.Designer.cs" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />

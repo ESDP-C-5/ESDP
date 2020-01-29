@@ -187,6 +187,7 @@ namespace CRM.Services
             var students = await _unitOfWork.Student.GetAllStudentsWithAttendancesByGroupIdAsync(id);
 
             return students;
+        }
         public async Task EditAsync(EditStudentViewModel student)
         {
             if (student.Comment != null)
@@ -263,34 +264,41 @@ namespace CRM.Services
 
         public async Task AddStudent(string name, string lastName, string fatherName, DateTime dateOfBirth, DateTime trialDate, string parentName, string parentLastName, string parentFatherName, string phoneNumber, int status, string text, int groupId)
         {
-            Student student = new Student()
+            try
             {
-                Name = name,
-                LastName = lastName,
-                FatherName = fatherName,
-                DateOfBirthday = dateOfBirth,
-                TrialDate = trialDate,
-                ParentName = parentName,
-                ParentLastName = parentLastName,
-                ParentFatherName = parentFatherName,
-                PhoneNumber = phoneNumber,
-                Status = GetStatusEnum(status),
-                GroupId = groupId
-            };
-            await CreateAsyncReturnStudent(student);
-            if (student.Comments != null)
-            {
-                Comment comment = new Comment
+                Student student = new Student()
                 {
-                    StudentId = student.Id,
-                    Text = text,
-                    Create = DateTime.Now
+                    Name = name,
+                    LastName = lastName,
+                    FatherName = fatherName,
+                    DateOfBirthday = dateOfBirth,
+                    TrialDate = trialDate,
+                    ParentName = parentName,
+                    ParentLastName = parentLastName,
+                    ParentFatherName = parentFatherName,
+                    PhoneNumber = phoneNumber,
+                    Status = GetStatusEnum(status),
+                    GroupId = groupId
                 };
-                await _commentService.CreateAsync(comment);
-                await CreatePeriod(student);
-            }
+                await CreateAsyncReturnStudent(student);
+                if (text != null)
+                {
+                    Comment comment = new Comment
+                    {
+                        StudentId = student.Id,
+                        Text = text,
+                        Create = DateTime.Now
+                    };
+                    await _commentService.CreateAsync(comment);
 
-            await _unitOfWork.CompleteAsync();
+                }
+                await CreatePeriod(student);
+                await _unitOfWork.CompleteAsync();
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
 
         public async Task CreatePeriod(Student student)

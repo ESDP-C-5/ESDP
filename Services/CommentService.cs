@@ -17,7 +17,6 @@ namespace CRM.Services
         public async Task CreateAsync(Comment comment)
         {
             await _unitOfWork.Comments.CreateAsync(comment);
-            await _unitOfWork.CompleteAsync();
         }
     }
 }
