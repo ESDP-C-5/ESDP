@@ -111,7 +111,7 @@ namespace CRM.Repositories
         {
             return await DbSet
                 .Include(s => s.Group)
-                .Where(s => s.Status != StudentStatusEnum.interested || s.Status != StudentStatusEnum.trial).ToListAsync();
+                .Where(s => s.Status != StudentStatusEnum.interested && s.Status != StudentStatusEnum.trial).ToListAsync();
         }
     }
 }

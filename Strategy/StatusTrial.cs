@@ -15,16 +15,7 @@ namespace CRM.Strategy
 
         public async void CreatePeriod(Student student)
         {
-            student.DataStartStudying = DateTime.Today.AddDays(1);
             student.ChangeStatusDate = DateTime.Now;
-            StudentPaymentAndPeriod period = new StudentPaymentAndPeriod
-            {
-                StudentId = student.Id,
-                MustTotal = 0,
-                PaymentPeriodStart = student.DataStartStudying,
-                PaymentPeriodEnd = DateTime.Today.AddMonths(1)
-            };
-            await _unitOfWork.StudentPaymentAndPeriods.CreateAsync(period);
         }
         public async void CreateComment(Student student)
         {
@@ -32,7 +23,7 @@ namespace CRM.Strategy
             {
                 Create = DateTime.Now,
                 StudentId = student.Id,
-                Text = "Change status trial"
+                Text = DateTime.Now +" Статус студента изменен на 'Пробный'"
             };
             await _unitOfWork.Comments.CreateAsync(comment);
 
