@@ -22,12 +22,12 @@ namespace CRM.Controllers
             _levelService = levelService;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<JsonResult> Index()
         {
 
             var levels = await _levelService.GetAllLevel();
 
-            return View(levels);
+            return new JsonResult(levels);
         }
 
         // GET: Leve/Details/5
