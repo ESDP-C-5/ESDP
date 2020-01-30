@@ -208,7 +208,7 @@ namespace CRM.Services
                 default: throw new Exception();
             }
         }
-        public async Task AddStudent(string name, string lastName, string fatherName, DateTime dateOfBirth, DateTime trialDate, string parentName, string parentLastName, string parentFatherName, string phoneNumber, int status, string text, int groupId)
+        public async Task AddStudent(string name, string lastName, string fatherName, DateTime dateOfBirth, DateTime trialDate, DateTime startDate, string parentName, string parentLastName, string parentFatherName, string phoneNumber, int status,int levelId, string text, int groupId)
         {
             try
             {
@@ -219,11 +219,13 @@ namespace CRM.Services
                     FatherName = fatherName,
                     DateOfBirthday = dateOfBirth,
                     TrialDate = trialDate,
+                    DataStartStudying = startDate,
                     ParentName = parentName,
                     ParentLastName = parentLastName,
                     ParentFatherName = parentFatherName,
                     PhoneNumber = phoneNumber,
                     Status = GetStatusEnum(status),
+                    LevelId = levelId,
                     GroupId = groupId
                 };
                 await CreateAsyncReturnStudent(student);

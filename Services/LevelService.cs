@@ -14,12 +14,16 @@ namespace CRM.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Level>> GetAllLevel()
+        public async Task<Dictionary<int, string>> GetAllLevel()
         {
             var levelUoF = _unitOfWork.Levels;
-            var levels =await levelUoF.GetAllAsync();
-
-            return levels;
+            var levels = await levelUoF.GetAllAsync();
+            Dictionary<int, string> lev = new Dictionary<int, string>();
+            foreach (var level in levels)
+            {
+                lev.Add(level.Id, level.Name);
+            }
+            return lev;
         }
 
         public async Task<Level> GetLevelById(int id)

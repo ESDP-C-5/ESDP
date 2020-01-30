@@ -210,12 +210,12 @@ namespace CRM.Controllers
         }
 
         public async Task<JsonResult> AddStudent(string name, string lastName, string fatherName, DateTime dateOfBirth, DateTime trialDate,
-            string parentName, string parentLastName, string parentFatherName, string phoneNumber, int status, string text, int groupId)
+            DateTime startDate, string parentName, string parentLastName, string parentFatherName, string phoneNumber, int status,int levelId, string text, int groupId)
         {
             if (!string.IsNullOrWhiteSpace(phoneNumber))
             {
                 await _studentService.AddStudent(name, lastName, fatherName, dateOfBirth, trialDate,
-                    parentName, parentLastName, parentFatherName, phoneNumber, status, text, groupId);
+                    startDate,parentName, parentLastName, parentFatherName, phoneNumber, status,levelId, text, groupId);
 
                 return new JsonResult(StatusCode(200));
             }

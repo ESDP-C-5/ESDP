@@ -8,13 +8,13 @@ namespace CRM.Helpers
 {
     public enum StudentStatusEnum
     {
-            [Display(Name = "Учится")]
-            studying = 1,
-            [Display(Name = "Архив")]
-            archive,
-            [Display(Name = "Интереуется")]
-            interested,
-            [Display(Name = "Пробный")]
-            trial 
+        [Display(Name = "Учится")]
+        studying = 1,
+        [Display(Name = "Архив")]
+        archive,
+        [Display(Name = "Интересуется")]
+        interested,
+        [Display(Name = "Пробный")]
+        trial 
     }
 }
