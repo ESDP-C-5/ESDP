@@ -90,6 +90,11 @@ namespace CRM.Controllers
             _periodService.Update(periodId, mustTotal, dateStart, dateEnd);
             return Json(StatusCode(200));
         }
+        public JsonResult UpdatePayment( int editPaymentId ,decimal editPaymentTotal,DateTime editDatePayment,string editPaymentComment)
+        {
+            _paymentService.UpdatePayment(editPaymentId, editPaymentTotal, editDatePayment, editPaymentComment);
+            return Json(StatusCode(200));
+        }
         [Produces("application/json")]
         public async Task<IActionResult> SearchStudent(string searchValue,PaymentSortingEnum sortState = PaymentSortingEnum.BalanceAsc)
         {
