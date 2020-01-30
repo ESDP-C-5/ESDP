@@ -68,17 +68,20 @@ namespace CRM.Services
                 SortingEnum sortState = SortingEnum.LastNameAsc)
         {
             var students = await _unitOfWork.Student.GetAllAsync();
-            students = students.Where(x => (x.Name?.ToUpper() ?? string.Empty).Contains(value.ToUpper())
-                                           || (x.PhoneNumber?.ToUpper() ?? string.Empty).Contains(value.ToUpper())
-                                           || (x.LastName?.ToUpper() ?? string.Empty).Contains(value.ToUpper())
-                                           || (x.ParentLastName?.ToUpper() ?? string.Empty).Contains(value.ToUpper())).ToList();
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                students = students.Where(x => (x.Name?.ToUpper() ?? string.Empty).Contains(value.ToUpper())
+                                               || (x.PhoneNumber?.ToUpper() ?? string.Empty).Contains(value.ToUpper())
+                                               || (x.LastName?.ToUpper() ?? string.Empty).Contains(value.ToUpper())
+                                               || (x.ParentLastName?.ToUpper() ?? string.Empty).Contains(value.ToUpper())).ToList();
 
+                return SortStudents.Sort(students, sortState);
+            }
 
-
-            return SortStudents.Sort(students, sortState);
+            return new StudentViewModel() { Student = new List<Student>() };
         }
 
-        public async Task<List<Student>> GetArchiveStudentsByBranchIdAsync(int branchId)
+        public async Task<StudentViewModel> GetArchiveStudentsByBranchIdAsync(int branchId, SortingEnum sortState)
         {
             var groups = await _unitOfWork.Groups.GetIncludeStudentsByBranchIdAsync(branchId);
             var students = new List<Student>();
@@ -89,7 +92,7 @@ namespace CRM.Services
 
             students = students.Where(x => x.Status == StudentStatusEnum.archive).ToList();
 
-            return students;
+            return SortStudents.Sort(students, sortState);
         }
 
         public IEnumerable<Level> GetAllLevel()
@@ -116,7 +119,7 @@ namespace CRM.Services
             return await _unitOfWork.Student.GetStudyingAndTrialStudentsWithoutAttendanceByGroupId(id);
         }
 
-        public async Task<List<Student>> GetStudingStudentsByBranchIdAsync(int BranchId)
+        public async Task<StudentViewModel> GetStudingStudentsByBranchIdAsync(int BranchId, SortingEnum sortState)
         {
             var groups = await _unitOfWork.Groups.GetIncludeStudentsByBranchIdAsync(BranchId);
             var students = new List<Student>();
@@ -125,9 +128,9 @@ namespace CRM.Services
                 students.AddRange(g.Students);
             }
             students = students.Where(x => x.Status == StudentStatusEnum.studying).ToList();
-            return students;
+            return SortStudents.Sort(students, sortState);
         }
-        public async Task<List<Student>> GetTrialStudentsByBranchIdAsync(int BranchId)
+        public async Task<StudentViewModel> GetTrialStudentsByBranchIdAsync(int BranchId, SortingEnum sortState)
         {
             var groups = await _unitOfWork.Groups.GetIncludeStudentsByBranchIdAsync(BranchId);
             var students = new List<Student>();
@@ -135,8 +138,10 @@ namespace CRM.Services
             {
                 students.AddRange(g.Students);
             }
+
             students = students.Where(x => x.Status == StudentStatusEnum.trial).ToList();
-            return students;
+
+            return SortStudents.Sort(students, sortState);
         }
 
         public async Task<List<Student>> GetAllStudentsByArchive()

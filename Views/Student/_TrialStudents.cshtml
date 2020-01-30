@@ -1,57 +1,49 @@
-﻿@model List<Student>
+﻿@model CRM.ViewModels.StudentViewModel
 
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model[0].PhoneNumber)
+                <a onclick="SortStudentByBranchId('@Model.LastNameSortState', @ViewBag.BranchId)">
+                    ФИО Ребенка
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].Name)
+                <a onclick="SortStudentByBranchId('@Model.DateOfBirthdaySortState', @ViewBag.BranchId)">
+                    Дата Рождения
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].LastName)
+                <a onclick="SortStudentByBranchId('@Model.TrialDateSortState', @ViewBag.BranchId)">
+                    Дата пробного урока
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].FatherName)
+                <a onclick="SortStudentByBranchId('@Model.PhoneNumberSortState', @ViewBag.BranchId)">
+                    Номер телефона
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].DateOfBirthday)
+                <a onclick="SortStudentByBranchId('@Model.StatusSortState', @ViewBag.BranchId)">
+                    Статус
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].TrialDate)
+                <a onclick="SortStudentByBranchId('@Model.CommentSortState', @ViewBag.BranchId)">
+                    Комментарии
+                </a>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Comments)
-            </th>
-
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Student)
         {
             <tr>
                 <td>
                     <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </a>
-                </td>
-                <td>
-                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </a>
-                </td>
-                <td>
-                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
                         @Html.DisplayFor(modelItem => item.LastName)
-                    </a>
-                </td>
-                <td>
-                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Name)
                         @Html.DisplayFor(modelItem => item.FatherName)
                     </a>
                 </td>
@@ -63,6 +55,11 @@
                 <td>
                     <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
                         @Html.DisplayFor(modelItem => item.TrialDate)
+                    </a>
+                </td>
+                <td>
+                    <a style="text-decoration: none; color:black" asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
                     </a>
                 </td>
                 <td>
@@ -79,3 +76,8 @@
         }
     </tbody>
 </table>
+<script>
+    function SortStudentByBranchId(SortAction, Id) {
+        $('#SelectedTrialStudentsByBranchId').load('@Url.Action("SelectTrialStudentsByBranchId", "Student")?sort=' + SortAction + '&Id=' + Id);
+    }
+</script>
