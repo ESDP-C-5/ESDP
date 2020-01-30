@@ -21,6 +21,8 @@ namespace CRM.Repositories
         {
             return await DbSet.Include(s => s.Level)
                     .Include(s => s.Group)
+                    .Include(s =>s.Group.Branch)
+                    .Include(s =>s.Group.TimeTable)
                     .Include(s=>s.Comments)
                     .SingleOrDefaultAsync(g => g.Id == id)
             ;
@@ -111,7 +113,7 @@ namespace CRM.Repositories
         {
             return await DbSet
                 .Include(s => s.Group)
-                .Where(s => s.Status != StudentStatusEnum.interested || s.Status != StudentStatusEnum.trial).ToListAsync();
+                .Where(s => s.Status != StudentStatusEnum.interested && s.Status != StudentStatusEnum.trial).ToListAsync();
         }
     }
 }

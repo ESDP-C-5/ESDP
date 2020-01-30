@@ -24,7 +24,7 @@ namespace CRM.Strategy
             {
                 Create = DateTime.Now,
                 StudentId = student.Id,
-                Text = "Change status interested"
+                Text = DateTime.Now +" Статус студента изменен на 'Интереуется'"
             };
             await _unitOfWork.Comments.CreateAsync(comment);
 

@@ -26,15 +26,15 @@ namespace CRM.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task Update(int periodId, decimal mustTotal,DateTime dateStart,DateTime dateEnd)
+        public  void Update(int periodId, decimal mustTotal,DateTime dateStart,DateTime dateEnd)
         {
-            var testPeriod = await _unitOfWork.StudentPaymentAndPeriods.GetByIdAsync(periodId);
+            var testPeriod = _unitOfWork.StudentPaymentAndPeriods.GetByIdAsync(periodId).Result;
 
             testPeriod.MustTotal = mustTotal;
             testPeriod.PaymentPeriodStart = dateStart;
             testPeriod.PaymentPeriodEnd = dateEnd;
             _unitOfWork.StudentPaymentAndPeriods.UpdateAsync(testPeriod);
-            await _unitOfWork.CompleteAsync();
+            _unitOfWork.CompleteAsync();
         }
     }
 }

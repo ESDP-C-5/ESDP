@@ -1,4 +1,4 @@
-﻿@model CRM.Models.Student
+﻿@model CRM.ViewModels.StudentDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -65,7 +65,7 @@
             Группа
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Group.TimeTable)
+            @Html.DisplayFor(model => model.GroupName)
         </dd>
         <dt class="col-sm-2">
             Статус
