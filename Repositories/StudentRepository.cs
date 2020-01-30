@@ -21,6 +21,8 @@ namespace CRM.Repositories
         {
             return await DbSet.Include(s => s.Level)
                     .Include(s => s.Group)
+                    .Include(s =>s.Group.Branch)
+                    .Include(s =>s.Group.TimeTable)
                     .Include(s=>s.Comments)
                     .SingleOrDefaultAsync(g => g.Id == id)
             ;

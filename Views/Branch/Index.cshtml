@@ -1,11 +1,8 @@
 ﻿@model IEnumerable<CRM.Models.Branch>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Филиалы";
 }
-
-<h1>Index</h1>
-
 <ul class="nav nav-tabs ">
 
     @foreach (var item in Model)
@@ -21,10 +18,6 @@
     }
 
 </ul>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
 <div id="selectedGroupesByBranchId"></div>
 
 
