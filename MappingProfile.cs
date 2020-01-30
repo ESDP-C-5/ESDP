@@ -18,12 +18,18 @@ namespace CRM
             EditStudentMapping();
             StudentPaymentViewModel();
             StudentViewModelMapping();
+            StudentDetailsViewModel();
         }
 
         private void StudentViewModelMapping()
         {
             CreateMap<StudentViewModel, Comment>();
             CreateMap<Comment, StudentViewModel>();
+        }
+        private void StudentDetailsViewModel()
+        {
+            CreateMap<StudentDetailsViewModel, Student>();
+            CreateMap<Student, StudentDetailsViewModel>();
         }
         private void CreateGroupsMapping()
         {
