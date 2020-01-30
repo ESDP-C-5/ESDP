@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,9 +8,13 @@ namespace CRM.Helpers
 {
     public enum StudentStatusEnum
     {
-            studying = 1,
-            archive,
-            interested,
-            trial 
+        [Display(Name = "Учится")]
+        studying = 1,
+        [Display(Name = "Архив")]
+        archive,
+        [Display(Name = "Интересуется")]
+        interested,
+        [Display(Name = "Пробный")]
+        trial 
     }
 }
