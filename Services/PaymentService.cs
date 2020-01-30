@@ -143,5 +143,14 @@ namespace CRM.Services
 
             return PaymentStudentsSort.Sort(studentPaymentViewModels, sortState);
         }
+        public void UpdatePayment(int editPaymentId, decimal editPaymentTotal, in DateTime editDatePayment, string editPaymentComment)
+        {
+            Payment payment = _unitOfWork.Payments.GetByIdAsync(editPaymentId).Result;
+            payment.Total = editPaymentTotal;
+            payment.DateTimePayment = editDatePayment;
+            payment.Comment = editPaymentComment;
+            _unitOfWork.Payments.UpdateAsync(payment);
+            _unitOfWork.CompleteAsync();
+        }
     }
 }

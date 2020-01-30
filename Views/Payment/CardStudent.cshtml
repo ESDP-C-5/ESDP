@@ -61,7 +61,7 @@
         @{ decimal raz = summ - AllTotal; }
         @raz
     </dd>
-    
+
 </div>
 <div class="col-8">
     <div class="row border border-dark">
@@ -87,13 +87,22 @@
                 @foreach (var payment in item.Payments)
                 {
                     <div class="col-4">
-                        @Html.DisplayFor(modelItem => payment.Total)
+                        <a style="text-decoration: none; color:black" data-toggle="modal" data-target="#editPayment"
+                           onclick="EditPayment('@payment.Id','@payment.DateTimePayment.ToString("O")','@payment.Total','@payment.Comment')">
+                            @Html.DisplayFor(modelItem => payment.Total)
+                        </a>
                     </div>
                     <div class="col-4">
-                        @Html.DisplayFor(modelItem => payment.DateTimePayment)
+                        <a style="text-decoration: none; color:black" data-toggle="modal" data-target="#editPayment"
+                           onclick="EditPayment('@payment.Id','@payment.DateTimePayment.ToString("O")','@payment.Total','@payment.Comment')">
+                            @Html.DisplayFor(modelItem => payment.DateTimePayment)
+                        </a>
                     </div>
                     <div class="col-4">
-                        @Html.DisplayFor(modelItem => payment.Comment)
+                        <a style="text-decoration: none; color:black" data-toggle="modal" data-target="#editPayment"
+                           onclick="EditPayment('@payment.Id','@payment.DateTimePayment.ToString("O")','@payment.Total','@payment.Comment')">
+                            @Html.DisplayFor(modelItem => payment.Comment)
+                        </a>
                     </div>
                 }
             </div>
@@ -176,32 +185,59 @@
         </div>
     }
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPeriod">Добавить период</button>
-        <div class="modal fade" id="addPeriod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label class="col-form-label">Дата начало:</label>
-                                <input type="date" class="form-control" id="dateStart">
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Дата конца:</label>
-                                <input type="date" class="form-control" id="dateEnd">
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Сумма оплаты:</label>
-                                <input type="number" class="form-control" id="mustTotal">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="AddPeriod(@Model.Id)">Отправить</button>
-                    </div>
+    <div class="modal fade" id="addPeriod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="col-form-label">Дата начало:</label>
+                            <input type="date" class="form-control" id="dateStart">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Дата конца:</label>
+                            <input type="date" class="form-control" id="dateEnd">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Сумма оплаты:</label>
+                            <input type="number" class="form-control" id="mustTotal">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="AddPeriod(@Model.Id)">Отправить</button>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="modal fade" id="editPayment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="col-form-label">Дата оплаты</label>
+                            <input type="date" class="form-control" id="editDatePayment">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Сумма:</label>
+                            <input type="number" class="form-control" id="editPaymentTotal">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Коментарии:</label>
+                            <textarea class="form-control" id="editPaymentComment"></textarea>
+                        </div>
+                        <input type="hidden" id="editPaymentId">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="UpdatePayment()">Отправить</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 
@@ -268,6 +304,31 @@
     function SendId(periodId) {
        $('#periodId').val(periodId);
     }
+    </script>
+    <script >
+    function EditPayment(editPaymentId,editDatePayment,editPaymentTotal,editPaymentComment) {
+        let editDate = new Date(editDatePayment);
+       $('#editPaymentId').val(editPaymentId);
+       document.getElementById("editDatePayment").valueAsDate = new Date(Date.UTC(editDate.getFullYear(), editDate.getMonth(), editDate.getDate()));
+       $('#editPaymentTotal').val(parseInt(editPaymentTotal));
+       $('#editPaymentComment').val(editPaymentComment);
+    }
+    </script>
+    <script >
+         function UpdatePayment() {
+                var editPaymentId = $('#editPaymentId').val();
+                var editDatePayment = $('#editDatePayment').val();
+                var editPaymentTotal = $('#editPaymentTotal').val();
+                var editPaymentComment = $('#editPaymentComment').val();
+                $.ajax({
+                    url: '@Url.Action("UpdatePayment", "Payment")',
+                    type: 'POST',
+                    data: { 'editPaymentId': editPaymentId, 'editDatePayment': editDatePayment,'editPaymentTotal':editPaymentTotal,'editPaymentComment':editPaymentComment },
+                    success: function (data) {
+                        location.reload();
+                     },
+                });
+             }
     </script>
     <script >
     $('#addPayment').on( function (event) {
