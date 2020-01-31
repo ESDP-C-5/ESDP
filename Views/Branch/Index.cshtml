@@ -1,4 +1,6 @@
-﻿@model IEnumerable<CRM.Models.Branch>
+﻿@inject SignInManager<ApplicationUser> SignInManager;
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<CRM.Models.Branch>
 
 @{
     ViewData["Title"] = "Филиалы";
@@ -7,14 +9,25 @@
 
     @foreach (var item in Model)
     {
-    <li>
-        <h4>
-            <a class="btn-lg btn-default border border-dark " onclick="selectGroupesByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
-        </h4>
-        <h4>
-            <a class=" btn btn-secondary " onclick="selectGroupesByBranchIdForAttendance(@item.Id)">@Html.DisplayFor(modelItem => item.Name) (attendance)</a>
-        </h4>
-    </li>
+        if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Manager")))
+        {
+            <li>
+                <h4>
+                    <a class="btn-lg btn-default border border-dark " onclick="selectGroupesByBranchId(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
+                </h4>
+                <h4>
+                    <a class=" btn btn-secondary " onclick="selectGroupesByBranchIdForAttendance(@item.Id)">@Html.DisplayFor(modelItem => item.Name) (attendance)</a>
+                </h4>
+            </li>
+        }
+        else if (SignInManager.IsSignedIn(User)&& User.IsInRole("Teacher"))
+        {
+            <li>
+                <h4>
+                    <a class="btn-lg btn-default border border-dark " onclick="selectGroupesByBranchIdForAttendance(@item.Id)">@Html.DisplayFor(modelItem => item.Name)</a>
+                </h4>
+            </li>
+        }
     }
 
 </ul>

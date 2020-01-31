@@ -77,5 +77,28 @@ namespace CRM.Services
             await _unitOfWork.CompleteAsync();
             return await _unitOfWork.TimeTables.GetIdTimeTable(timeTable);
         }
+
+        public void UpdateBranch(string nameBranch, string addressBranch, int idBranch)
+        {
+            Branch branch = new Branch()
+            {
+                Name = nameBranch,
+                Address = addressBranch,
+                Id = idBranch
+            };
+            _unitOfWork.Branchs.UpdateAsync(branch);
+            _unitOfWork.CompleteAsync();
+        }
+
+        public async void AddBranch(string nameBranch, string addressBranch)
+        {
+            Branch branch = new Branch()
+            {
+                Name = nameBranch,
+                Address = addressBranch
+            };
+            await _unitOfWork.Branchs.CreateAsync(branch);
+            _unitOfWork.CompleteAsync();
+        }
     }
 }

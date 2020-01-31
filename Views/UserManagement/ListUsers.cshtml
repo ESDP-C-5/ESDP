@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ApplicationUser>
+@{
+    ViewData["Title"] = "List users";
+}
+
+<div class="d-flex">
+    <h4>Список пользователей</h4>
+    <div class="ml-auto">
+        <a class="btn btn-primary" asp-action="Register">Добавить нового пользователя</a>
+    </div>
+</div>
+
+@{
+    if (Model.Any())
+    {
+        foreach (var user in Model)
+        {
+            var name = $"{user.Surname} {user.Name}";
+
+            <div class="card">
+                <div class="card-body">
+                    <a asp-action="EditUser" asp-route-Id="@user.Id" >@user.Email</a>
+                    <a asp-action="EditUser" asp-route-Id="@user.Id">@name</a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-header">
+                Нет ни одного пользователя
+            </div>
+        </div>
+    }
+}
+
+<div>
+    <a asp-action="Index" asp-controller="Admin">Назад</a>
+</div>
+

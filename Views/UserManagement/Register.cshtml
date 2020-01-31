@@ -1,0 +1,64 @@
+﻿@model CRM.ViewModels.CreateUserViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Surname"></label>
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="Password" class="form-control" id="passwordInput" />
+        <input type="checkbox" onclick="passwordSwitcher()" value="Отобразить">
+        <button onclick="generatePassword()">Создать пароль</button>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    
+
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>
+
+<div>
+    <a asp-action="ListUsers" class="btn btn-primary">Назад</a>
+</div>
+
+<script>
+    function passwordSwitcher() {
+        var x = document.getElementById("passwordInput");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
+
+<script>
+    function generatePassword() {
+        event.preventDefault();
+        $.get(
+            "/UserManagement/GeneratePassword",
+            function (data) {
+                document.getElementById("passwordInput").value = data;
+            }
+        );
+    }
+</script>

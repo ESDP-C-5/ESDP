@@ -24,5 +24,6 @@ namespace CRM.Data
             : base(options)
         {
         }
+        
     }
 }

@@ -1,0 +1,103 @@
+﻿@model IEnumerable<CRM.Models.Level>
+
+<div class="list-group">
+    <a class="list-group-item font-weight-bold">Название уровня</a>
+    @foreach (var level in Model)
+    {
+        <a href="#" class="list-group-item list-group-item-action" style="text-decoration: none; color: black" data-toggle="modal" data-target="#editLevel"
+           onclick="PastForm('@level.Id', '@level.Name')">
+            @Html.DisplayFor(modelItem => level.Name)
+        </a>
+    }
+</div>
+
+<div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addLevel">Добавить уровень</button>
+</div>
+<div class="modal fade" id="editLevel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="col-form-label">Название уровня:</label>
+                        <input type="text" class="form-control" id="nameLevel">
+                    </div>
+                    <div>
+                        <label id="editLevelError"></label>
+                    </div>
+                    <input type="hidden" id="idLevel">
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="submit" class="btn btn-secondary" onclick="UpdateLevel()">Обновить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addLevel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="col-form-label">Название уровня:</label>
+                        <input type="text" class="form-control" id="addNameLevel">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-secondary" onclick="AddLevel()">Добавить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script >
+    function PastForm(idLevel,nameLevel) {
+        $('#nameLevel').val(nameLevel);
+        $('#idLevel').val(idLevel);
+      
+    }
+</script>
+<script >
+    function UpdateLevel() {
+        var nameLevel = $('#nameLevel').val();
+        var idLevel = $('#idLevel').val();
+               
+        $.ajax({
+            url: '@Url.Action("UpdateLevel", "Admin")',
+            type: 'POST',
+            data: { 'nameLevel': nameLevel,'idLevel':idLevel},
+            success: function (data) {
+                GetAllLevels(); 
+                $('#editLevel').modal('hide')
+            },
+            error: function (error) {
+               /* $('#editLevel').modal('show');
+                $('#editLevelError').text('*' + error.responseJSON);*/
+            }
+        });
+        
+    }
+</script>
+<script >
+    function AddLevel() {
+        var addNameLevel = $('#addNameLevel').val();
+        $.ajax({
+            url: '@Url.Action("AddLevel", "Admin")',
+            type: 'POST',
+            data: { 'addNameLevel': addNameLevel},
+            success: function (data) {
+               GetAllLevels();
+                $('#addLevel').modal('hide');
+            },
+            error: function (error) {
+                $('#addLevel').modal('show');
+                $('#error').text('*' + error.responseJSON);
+            }
+        });
+    }
+</script>
