@@ -26,8 +26,12 @@ namespace CRM.Services
         {
             var student = await _unitOfWork.Student.GetByIdAsync(id);
             var model = Mapper.Map<StudentDetailsViewModel>(student);
-            model.GroupName = $"{student.Group.Branch.Name} {student.Group.TimeTable.Day1}-" +
-                                            $"{student.Group.TimeTable.Day2} {student.Group.TimeTable.Time}";
+            if (model.GroupId != null)
+            {
+                model.GroupName = $"{student.Group.Branch.Name} {student.Group.TimeTable.Day1}-" +
+                                  $"{student.Group.TimeTable.Day2} {student.Group.TimeTable.Time}"; 
+            }
+
             return model;
         }
         public async Task<int> CreateAsyncReturnId(Student student)
