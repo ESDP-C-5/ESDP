@@ -37,7 +37,8 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" placeholder="Введите Имя" class="form-control" id="name" name="name" requared>
+                        <input type="text" placeholder="Введите Имя" class="form-control" id="name" name="name" required="required">
+                        <label id="message" class="text-danger"></label>
                     </div>
                     <div class="form-group">
                         <input type="text" placeholder="Введите Фамилию" class="form-control" id="lastName">
@@ -66,9 +67,6 @@
                     <div class="form-group">
                         <input type="text" placeholder="Введите Номер Телефона" class="form-control" id="phoneNumber">
                         <label id="error" class="text-danger"></label>
-                    </div>
-                    <div class="form-group">
-
                     </div>
                     <div class="form-group">
                         <select id="status">
@@ -106,6 +104,7 @@
 </script>
 <script>
     function AddStudent(branchId) {
+        submit = true;
         var name = $('#name').val();
         var lastName = $('#lastName').val();
         var fatherName = $('#fatherName').val();
@@ -120,34 +119,41 @@
         var level = $('#mySelect').val();
         var text = $('#comment').val();
         groupId = $('#groupId').val();
-        $.ajax({
-            url: '@Url.Action("AddStudent", "Student")',
-            type: 'POST',
-            data: {
-                'name': name,
-                'lastName': lastName,
-                'fatherName': fatherName,
-                'dateOfBirth': dateOfBirth,
-                'trialDate': trialDate,
-                'startDate': startDate,
-                'parentName': parentName,
-                'parentLastName': parentLastName,
-                'parentFatherName': parentFatherName,
-                'phoneNumber': phoneNumber,
-                'status': status,
-                'levelId': level,
-                'text': text,
-                'groupId': groupId
-            },
-            success: function (data) {
-                selectGroupesByBranchId(branchId);
-                $('#addStudent').modal('hide');
-            },
-            error: function (error) {
-                $('#addStudent').modal('show');
-                $('#error').text('*' + error.responseJSON);
-            }
-        });
+        if (name === "") {
+            $("#message").html("*Заполните поле!");
+            submit = false;
+
+            return submit;
+        } else {
+            $.ajax({
+                url: '@Url.Action("AddStudent", "Student")',
+                type: 'POST',
+                data: {
+                    'name': name,
+                    'lastName': lastName,
+                    'fatherName': fatherName,
+                    'dateOfBirth': dateOfBirth,
+                    'trialDate': trialDate,
+                    'startDate': startDate,
+                    'parentName': parentName,
+                    'parentLastName': parentLastName,
+                    'parentFatherName': parentFatherName,
+                    'phoneNumber': phoneNumber,
+                    'status': status,
+                    'levelId': level,
+                    'text': text,
+                    'groupId': groupId
+                },
+                success: function(data) {
+                    selectGroupesByBranchId(branchId);
+                    $('#addStudent').modal('hide');
+                },
+                error: function(error) {
+                    $('#addStudent').modal('show');
+                    $('#error').text('*' + error.responseJSON);
+                }
+            });
+        }
     }
 </script>
 <script>
@@ -164,7 +170,6 @@
             data: {'id': 5},
             success: function (data) {
                 var $mySelect = $('#mySelect');
-                //
                 $.each(data, function(key, value) {
                     var $option = $("<option/>", {
                         value: key,
