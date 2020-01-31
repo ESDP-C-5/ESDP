@@ -25,7 +25,7 @@ namespace CRM.Controllers
         public async Task<JsonResult> Index()
         {
 
-            var levels = await _levelService.GetAllLevel();
+            var levels = await _levelService.GetAllLevelToDictionary();
 
             return new JsonResult(levels);
         }

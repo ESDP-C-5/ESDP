@@ -14,7 +14,12 @@ namespace CRM.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Dictionary<int, string>> GetAllLevel()
+        public async Task<List<Level>> GetAllLevel()
+        {
+            var levels =await _unitOfWork.Levels.GetAllAsync();
+            return levels;
+        }
+        public async Task<Dictionary<int, string>> GetAllLevelToDictionary()
         {
             var levelUoF = _unitOfWork.Levels;
             var levels = await levelUoF.GetAllAsync();
@@ -52,6 +57,27 @@ namespace CRM.Services
             var levelUoF = _unitOfWork.Levels;
             levelUoF.RemoveAsync(level);
             await _unitOfWork.CompleteAsync();
+        }
+
+        public void UpdateLevel(string nameLevel, int idLevel)
+        {
+            Level level = new Level()
+            {
+                Id = idLevel,
+                Name = nameLevel
+            };
+            _unitOfWork.Levels.UpdateAsync(level);
+            _unitOfWork.CompleteAsync();
+        }
+
+        public async void AddLevel(string nameLevel)
+        {
+            Level level = new Level()
+            {
+                Name = nameLevel
+            };
+            await _unitOfWork.Levels.CreateAsync(level);
+            _unitOfWork.CompleteAsync();
         }
     }
 }

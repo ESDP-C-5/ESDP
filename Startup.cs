@@ -60,6 +60,8 @@ namespace CRM
             services.AddTransient<PaymentPeriodService>();
             services.AddTransient<CommentService>();
 
+            services.AddTransient<AccountService>();
+
             Mapper.Initialize(config => config.AddProfile(new MappingProfile()));
         }
 
@@ -103,7 +105,6 @@ namespace CRM
             {
                 //create the roles and seed them to the database
                 roleResultAdmin = await RoleManager.CreateAsync(new IdentityRole("Admin"));
-
             }
             //Assign Admin role to the main User here we have given our newly registered 
             //login id for Admin management

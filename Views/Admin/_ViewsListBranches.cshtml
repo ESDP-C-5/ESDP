@@ -1,0 +1,115 @@
+﻿@model IEnumerable<CRM.Models.Branch>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Имя филиала</th>
+            <th scope="col">Адрес филиала</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var branch in Model)
+        {
+            <tr>
+                <td>
+                    <div style="cursor: pointer" data-toggle="modal" data-target="#editBranch" onclick="PastForm('@branch.Id','@branch.Name','@branch.Address')">
+                        @Html.DisplayFor(modelItem => branch.Name)
+                    </div>
+                </td>
+                <td>
+                    <div style="cursor: pointer" data-toggle="modal" data-target="#editBranch" onclick="PastForm('@branch.Id','@branch.Name','@branch.Address')">
+                        @Html.DisplayFor(modelItem => branch.Address)
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBranch">Добавить филиал</button>
+</div>
+<div class="modal fade" id="editBranch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="col-form-label">Имя филиала:</label>
+                        <input type="text" class="form-control" id="nameBranch">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Адрес:</label>
+                        <input type="text" class="form-control" id="addressBranch">
+                    </div>
+                    <input type="hidden" id="idBranch">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-secondary" onclick="UpdateBranch()">Обновить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addBranch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="col-form-label">Имя филиала:</label>
+                        <input type="text" class="form-control" id="addNameBranch">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Адрес:</label>
+                        <input type="text" class="form-control" id="addAddressBranch">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-secondary" onclick="AddBranch()">Добавить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script >
+    function PastForm(idBranch,nameBranch,addressBranch) {
+        $('#nameBranch').val(nameBranch);
+        $('#addressBranch').val(addressBranch);
+        $('#idBranch').val(idBranch);
+      
+    }
+</script>
+<script >
+    function UpdateBranch() {
+        var nameBranch = $('#nameBranch').val();
+        var addressBranch = $('#addressBranch').val();
+        var idBranch = $('#idBranch').val();
+        $.ajax({
+            url: '@Url.Action("UpdateBranch", "Admin")',
+            type: 'POST',
+            data: { 'nameBranch': nameBranch,'addressBranch':addressBranch, 'idBranch': idBranch},
+            success: function (data) {
+                location.reload();
+             },
+        });
+    }
+</script>
+<script >
+    function AddBranch() {
+        var addNameBranch = $('#addNameBranch').val();
+        var addAddressBranch = $('#addAddressBranch').val();
+        $.ajax({
+            url: '@Url.Action("AddBranch", "Admin")',
+            type: 'POST',
+            data: { 'nameBranch': addNameBranch,'addressBranch':addAddressBranch},
+            success: function (data) {
+                location.reload();
+             },
+        });
+    }
+</script>

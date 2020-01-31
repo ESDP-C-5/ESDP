@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -29,38 +32,54 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                 <partial name="_LoginPartial"/>
-                @if (User.Identity.IsAuthenticated)
+                @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Manager")))
                 {
-            <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <button class="icon" style="height: 30px; background-size: 80%;" onclick="location.href = '@Url.Action("Create", "Student")'">
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <form asp-action="List" asp-controller="Student" method="get">
-                        <input required type="text" id="studentName" name="value" placeholder="Поиск" style="font-weight: bolder; border-radius: 5px;" />
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Index">Филиалы</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Payment" asp-action="Index">Оплата</a>
-                </li>
-               <li>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Ученики
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" asp-area="" asp-controller="Student" asp-action="SelectStudyingStudents">Ученики</a>
-                            <a class="dropdown-item" asp-area="" asp-controller="Student" asp-action="SelectTrialStudents">Пробный</a>
-                            <a class="dropdown-item" asp-area="" asp-controller="Student" asp-action="SelectLeadStudents">Лиды</a>
-                            <a class="dropdown-item" asp-area="" asp-controller="Student" asp-action="Index">Архив</a>
-                         </div>
-                    </div>
-                </li>
-            </ul>
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <button class="icon" style="height: 30px; background-size: 80%;" onclick="location.href = '@Url.Action("Create", "Student")'">
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <form asp-action="List" asp-controller="Student" method="get">
+                                <input required type="text" id="studentName" name="value" placeholder="Поиск" style="font-weight: bolder; border-radius: 5px;"/>
+                            </form>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Index">Филиалы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Payment" asp-action="Index">Оплата</a>
+                        </li>
+                        <li>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Ученики
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Student" asp-action="SelectStudyingStudents">Ученики</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Student" asp-action="SelectTrialStudents">Пробники</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Student" asp-action="SelectLeadStudents">Лиды</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Student" asp-action="Index">Архив</a>
+                                </div>
+                            </div>
+                        </li>
+                        @{
+                            if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Manager")))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Админ панель</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                }
+                else if (SignInManager.IsSignedIn(User) && User.IsInRole("Teacher"))
+                {
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Index">Филиалы</a>
+                        </li>
+                    </ul>
                 }
 
             </div>

@@ -30,11 +30,11 @@
         }
     </script>
     <script>
-        window.onload = GetAllStudentsByPayment();
-        function GetAllStudentsByPayment() {
-            $('#selectedStudentsByBranchId').load('@Url.Action("GetAllStudentsByPayment", "Payment")');
-        }
-    </script>
+         window.onload = GetAllStudentsByPayment();
+         function GetAllStudentsByPayment() {
+             $('#selectedStudentsByBranchId').load('@Url.Action("GetAllStudentsByPayment", "Payment")');
+         }
+     </script>
     <script >
         function Search() {
           let searchParams = $('#searchValue').val();
