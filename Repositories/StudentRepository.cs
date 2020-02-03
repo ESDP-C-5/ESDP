@@ -93,7 +93,7 @@ namespace CRM.Repositories
         {
             return await DbSet
                 .Include(s => s.Group)
-                .Where(s => s.Group.BranchId == branchId && s.Status != StudentStatusEnum.interested).ToListAsync();
+                .Where(s => s.Group.BranchId == branchId && (s.Status != StudentStatusEnum.interested && s.Status !=StudentStatusEnum.trial)).ToListAsync();
         }
         public StudentStatusEnum GetStudentStatusByStudentId(int studentId)
         {

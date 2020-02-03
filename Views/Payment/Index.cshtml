@@ -3,9 +3,6 @@
 @{
     ViewData["Title"] = "Index";
 }
-<div class="pb-3">
-    <input type="text" id="searchValue" oninput="Search()">
-</div>
 <ul class="nav nav-tabs ">
 
     @foreach (var item in Model)
@@ -16,7 +13,9 @@
             </h4>
         </li>
     }
-
+    <div class="md-form mt-0 ml-auto pb-3 col-4">
+      <input class="form-control" type="text" placeholder="Поиск" aria-label="Search" id="searchValue" oninput="Search()">
+    </div>
 </ul>
 
 <div id="selectedStudentsByBranchId"></div>

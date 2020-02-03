@@ -45,14 +45,14 @@ namespace CRM.Controllers
             }
             return PartialView("_ListStudentByBranchIdPartialView", students);
         }
-        public async Task<IActionResult> SelectStudentsByBranchId(int Id,PaymentSortingEnum sortState = PaymentSortingEnum.BalanceAsc)
+        public async Task<IActionResult> SelectStudentsByBranchId(int Id,PaymentSortingEnum sortState = PaymentSortingEnum.BalanceDesc)
         {
             var students = await _paymentService.GetAllStudentsByBranchIdAsync(Id,sortState);
             ViewBag.BranchId = Id;
             return PartialView("_ListStudentByBranchIdPartialView", students);
         }
 
-        public async Task<IActionResult> GetAllStudentsByPayment(PaymentSortingEnum sortState = PaymentSortingEnum.BalanceAsc)
+        public async Task<IActionResult> GetAllStudentsByPayment(PaymentSortingEnum sortState = PaymentSortingEnum.BalanceDesc)
         {
             var students = await _paymentService.GetAllStudentsByPayment(sortState);
             if (sortState != PaymentSortingEnum.BalanceAsc)
