@@ -34,9 +34,9 @@ namespace CRM.UoW
         }
 
 
-        public Task<int> CompleteAsync()
+        public async Task<int> CompleteAsync()
         {
-            return _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
 
         public void Dispose()

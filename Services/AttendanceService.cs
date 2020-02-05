@@ -115,8 +115,8 @@ namespace CRM.Services
                 IsAttended = GetAttendanceRecord(isAttend),
                 Comment = comment
             };
-            _unitOfWork.Attendances.UpdateAsync(attendance);
-            _unitOfWork.CompleteAsync();
+             _unitOfWork.Attendances.UpdateAsync(attendance);
+             await _unitOfWork.CompleteAsync();
         }
 
         private Month GetMonth(string value)
