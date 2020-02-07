@@ -81,6 +81,8 @@ namespace CRM.Services
             {
                 int month = dateTime.Month;
 
+                int year = dateTime.Year;
+
                 List<int> days = SetDays(dateTime, group.TimeTable.Day1, group.TimeTable.Day2);
 
                 List<Attendance> dayAttendances = new List<Attendance>();
@@ -93,7 +95,8 @@ namespace CRM.Services
                             StudentId = students[j].Id,
                             Day = days[i],
                             IsAttended = 0,
-                            Month = (Month)month
+                            Month = (Month)month,
+                            Year = year
 
                         });
                     }
@@ -115,8 +118,8 @@ namespace CRM.Services
                 IsAttended = GetAttendanceRecord(isAttend),
                 Comment = comment
             };
-            _unitOfWork.Attendances.UpdateAsync(attendance);
-            _unitOfWork.CompleteAsync();
+             _unitOfWork.Attendances.UpdateAsync(attendance);
+             await _unitOfWork.CompleteAsync();
         }
 
         private Month GetMonth(string value)

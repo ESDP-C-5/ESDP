@@ -24,14 +24,14 @@
             </div>
         }
         <div>
-            <button onclick="ShowAddGroupForm(@branchId)">Add group</button>
+            <button onclick="ShowAddGroupForm(@branchId)">Добавить группуы</button>
             <div id="FormAddGroup"></div>
         </div>
     }
 </div>
 <div id="SelectedStudentsByGroupId"></div>
 
-<div class="modal fade" id="addStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addStudent" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form>
             <div class="modal-content">
@@ -84,7 +84,7 @@
                 </div>
                 <div class="modal-footer">
                     <submit type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</submit>
-                    <submit type="button" class="btn btn-primary" onclick="AddStudent(@branchId)">Сохранить</submit>
+                    <submit type="button" class="btn btn-primary" data-dismiss="modal" onclick="AddStudent(@branchId)">Сохранить</submit>
                 </div>
             </div>
         </form>

@@ -1,6 +1,6 @@
 ﻿@model List<CRM.ViewModels.StudentAttendanceViewModel>;
 
-<div class="card mt-3">
+<div class="card mt-3 test">
     <div class="card-header">
         <div class="row font-weight-bold">
             <div class="offset-2"></div>
@@ -52,7 +52,7 @@
     }
 </div>
 
-<div class="modal fade" id="attendance-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="attendance-modal" tabindex="-1" data-backdrop="false" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -108,7 +108,11 @@
                 'comment': comment,
             },
             success: function (data) {
-                location.reload();
+                console.log(data);
+                $('.modal-backdrop').modal('hide');
+                //$('.modal-backdrop fade show').modal('hide');
+               // $('#selectedGroupesByBranchId').load('@Url.Action("GetGroupesByBranchId", "Attendance")?id=' + 1);
+                $('#SelectedStudentsBuGroupId').load('@Url.Action("ViewStudentsAttendanceByGroupId", "Attendance")?id=' + 1);
             }
         });
 
@@ -140,7 +144,15 @@
 
     })
 </script>
-
+<script>
+    $('#attendance-modal').on('hidden.bs.modal', function (e) {
+        $(this)
+            .find("input,textarea")
+            .val('')
+            .end();
+        $('#error').text('');
+    })
+</script>
 <script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();

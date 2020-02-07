@@ -12,6 +12,7 @@ namespace CRM.Models
         public int StudentId { get; set; }
         public Student Student { get; set; }
         public int Day { get; set; }
+        public int Year { get; set; }
         public AttendanceRecord IsAttended { get; set; }
         public Month Month { get; set; }
 
